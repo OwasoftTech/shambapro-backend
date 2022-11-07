@@ -16,11 +16,12 @@ class CreateEnterpriseTable extends Migration
         Schema::create('enterprise', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            
+
             $table->string('enterprise_name');
             $table->string('enterprise_type');
             $table->string('livestock_type');
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP')); 
+            $table->integer('farm_id');
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }

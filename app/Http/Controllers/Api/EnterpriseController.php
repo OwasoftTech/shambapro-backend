@@ -6,48 +6,49 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Enterprise;
+use App\Models\Farm;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 
 class EnterpriseController extends Controller
 {
-    public function create(Request $request){
-       
-      $validator = Validator::make($request->all(), [
-        'user_id' => 'required',   
-        'enterprise_type' => 'required',     
-        'enterprise_name' => 'required',           
-      ]);
+  public function create(Request $request)
+  {
 
-      if ($validator->fails()) {
-         $errors = $validator->errors();
-         return response()->json(['error' => $errors->toJson()]);
-      }
+    $validator = Validator::make($request->all(), [
+      'user_id' => 'required',
+      'enterprise_type' => 'required',
+      'enterprise_name' => 'required',
+    ]);
 
-      Enterprise::insert([
-        'user_id'=>$request->user_id,
-        'enterprise_type'=>$request->enterprise_type,
-        'enterprise_name'=>$request->enterprise_name,   
-        'livestock_type'=>$request->livestock_type,        
-
-      ]);
-
-           return response()->json(['message' => 'Created successfully']);
-
-
+    if ($validator->fails()) {
+      $errors = $validator->errors();
+      return response()->json(['error' => $errors->toJson()]);
     }
 
-    public function enterpriseList(Request $request)
-    {
+    $user = User::find(Auth::user()->id);
+    $farm = Farm::where('name', $user->farm_name)->first();
 
-     $user_id = $request->query('user_id');
+    Enterprise::insert([
+      'user_id' => Auth::user()->id,
+      'enterprise_type' => $request->enterprise_type,
+      'enterprise_name' => $request->enterprise_name,
+      'livestock_type' => $request->livestock_type,
+      'farm_id' => $farm->id
+    ]);
 
-     $enterprise  = Enterprise::where('user_id',$user_id)->paginate(15);
+    return response()->json(['message' => 'Created successfully']);
+  }
 
-           return response()->json(['enterprise' => $enterprise]);
+  public function enterpriseList(Request $request)
+  {
 
-    }
+    $user = User::find(Auth::user()->id);
+    $farm = Farm::where('name', $user->farm_name)->first();
 
+    $enterprise  = Enterprise::where('farm_id', $farm->id)->paginate(15);
 
-
+    return response()->json(['enterprise' => $enterprise]);
+  }
 }

@@ -17,14 +17,15 @@ class CreateJobsTable extends Migration
             $table->id();
             $table->string('task');
             $table->integer('created_by');
+            $table->integer('farm_id');
             $table->string('reason');
             $table->string('completion_date');
-            $table->string('activity_date'); 
+            $table->string('activity_date');
             $table->integer('user_id')->nullable();
             $table->string('status')->default('Pending');
             $table->text('photo')->nullable();
 
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP')); 
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }

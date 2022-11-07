@@ -10,6 +10,7 @@ use App\Models\Farm;
 use Validator;
 use Carbon\Carbon;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -96,7 +97,8 @@ class AuthController extends Controller
          return response()->json(['error' => $errors->toJson()]);
       }
 
-      $user = Farm::find(Auth::user()->id);
+
+      $user = User::find(Auth::user()->id);
 
       $user_id = User::insertGetId([
          'phone_number' => $request->phone_number,
@@ -117,12 +119,11 @@ class AuthController extends Controller
 
    public function myTeam(Request $request)
    {
-
-
-      $my_team = FarmTeam::where('user_id', Auth::user()->id)
-         ->with('team')
+      $user = User::find(Auth::user()->id);
+      $my_team = DB::table('users')
+         ->select('*')
+         ->where('farm_name', $user->farm_name)
          ->get();
-
 
       return response()->json(['my_team' => $my_team]);
    }

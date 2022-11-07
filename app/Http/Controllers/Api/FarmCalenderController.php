@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\Jobs;
+use App\Models\User;
+use App\Models\Farm;
 use Auth;
 
 
@@ -28,13 +30,17 @@ class FarmCalenderController extends Controller
       return response()->json(['error' => $errors->toJson()]);
     }
 
+    $user = User::find(Auth::user()->id);
+    $farm = Farm::where('name', $user->farm_name)->first();
+
     Jobs::insert([
       'user_id' => $request->user_id,
+      'farm_id' => $farm->id,
       'task' => $request->task,
       'reason' => $request->reason,
       'completion_date' => $request->completion_date,
       'activity_date' => $request->activity_date,
-      'created_by' => Auth::user()->id,
+      'created_by' => $user->id,
     ]);
 
     return response()->json(['message' => 'Job/Task Assigned Successfully']);
