@@ -8,7 +8,7 @@ use Validator;
 use App\Models\Jobs;
 use App\Models\User;
 use App\Models\Farm;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 
 class FarmCalenderController extends Controller
@@ -91,6 +91,17 @@ class FarmCalenderController extends Controller
   {
 
     $myJobs = Jobs::where('user_id', Auth::user()->id)
+      ->get();
+
+    return response()->json(['assigned_jobs' => $myJobs]);
+  }
+
+  public function AllJobs(Request $request)
+  {
+    $user = User::find(Auth::user()->id);
+    $farm = Farm::where('name', '=', $user->farm_name)->first();
+
+    $myJobs = Jobs::where('farm_id', $farm->id)
       ->get();
 
     return response()->json(['assigned_jobs' => $myJobs]);
