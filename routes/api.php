@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/create-job', [FarmCalenderController::class, 'createJob']);
     Route::post('/update-job-status', [FarmCalenderController::class, 'completeJob']);
     Route::get('/my-jobs', [FarmCalenderController::class, 'myJobs']);
+    Route::get('/all-farm-jobs', [FarmCalenderController::class, 'AllJobs']);
     Route::get('/jobs-assigned-to-me', [FarmCalenderController::class, 'assignedJobs']);
     Route::post('/job-review', [FarmCalenderController::class, 'jobReview']);
 });
