@@ -51,27 +51,37 @@ class FarmCalenderController extends Controller
   public function completeJob(Request $request)
   {
 
-    $job_id = $request->query('job_id');
+    $job_id = $request->job_id;
 
 
     $job = Jobs::find($job_id);
 
-    if ($request->hasfile('photo')) {
-      $image = $request->photo;
-      $extension = $image->getClientOriginalExtension();
-      $destinationPath = base_path() . '/public/jobs/';
-      $fileName = Auth::user()->id . time() . rand() . '.' . $extension;
-      $image->move($destinationPath, $fileName);
+    if ($job->user_id == Auth::user()->id && strtolower($job->status) != 'completed') {
+
+      if ($request->hasfile('photo')) {
+        $image = $request->photo;
+        $extension = $image->getClientOriginalExtension();
+        $destinationPath = base_path() . '/public/jobs/';
+        $fileName = Auth::user()->id . time() . rand() . '.' . $extension;
+        $image->move($destinationPath, $fileName);
 
 
-      $request->photo = '/jobs/' . $fileName;
+        $request->photo = '/jobs/' . $fileName;
+      }
+
+      $job->status = $request->status;
+      $job->photo = $request->photo;
+      $job->save();
+
+      $response = ['message' => 'Updated Successfully'];
+    } else {
+      if (strtolower($job->status) == 'completed') {
+        $response = ['message' => 'job status is already completed'];
+      } else {
+        $response = ['message' => 'Job is not assigned to you'];
+      }
     }
-
-    $job->status = $request->status;
-    $job->photo = $request->photo;
-    $job->save();
-
-    return response()->json(['message' => 'Updated Successfully']);
+    return response()->json($response);
   }
 
 
@@ -113,7 +123,7 @@ class FarmCalenderController extends Controller
 
     $validator = Validator::make($request->all(), [
       'job_id' => 'required',
-      'job_completion' => 'required',
+      'comments' => 'required',
       'action' => 'required',
     ]);
 
@@ -123,14 +133,20 @@ class FarmCalenderController extends Controller
     }
 
     $job = Jobs::whereId($request->job_id)->first();
-    if (!$job) {
-      return response()->json(['error' => 'Invalid job_id ']);
+
+    if ($job->created_by == Auth::user()->id) {
+      if (!$job) {
+        return response()->json(['error' => 'Invalid job_id ']);
+      }
+
+      $job->comments = $request->comments;
+      $job->action = $request->action;
+      $job->save();
+      $response = ['message' => 'Job Review Added Successfully'];
+    } else {
+      $response = ['message' => 'Job is not created by you'];
     }
 
-    $job->job_completion = $request->job_completion;
-    $job->action = $request->action;
-    $job->save();
-
-    return response()->json(['message' => 'Job Review Added Successfully']);
+    return response()->json($response);
   }
 }
