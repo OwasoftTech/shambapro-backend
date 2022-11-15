@@ -17,7 +17,6 @@ class EnterpriseController extends Controller
   {
 
     $validator = Validator::make($request->all(), [
-      'user_id' => 'required',
       'enterprise_type' => 'required',
       'enterprise_name' => 'required',
     ]);
