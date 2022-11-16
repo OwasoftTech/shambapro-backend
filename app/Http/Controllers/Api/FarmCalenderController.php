@@ -111,8 +111,10 @@ class FarmCalenderController extends Controller
     $user = User::find(Auth::user()->id);
     $farm = Farm::where('name', '=', $user->farm_name)->first();
 
-    $myJobs = Jobs::where('farm_id', $farm->id)
+    $myJobs = Jobs::with('assigned_member')->where('farm_id', $farm->id)
       ->get();
+
+    $myJobs->user = $user;
 
     return response()->json(['assigned_jobs' => $myJobs]);
   }
