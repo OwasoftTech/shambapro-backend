@@ -50,6 +50,12 @@ class FarmCalenderController extends Controller
 
   public function completeJob(Request $request)
   {
+    $validator = Validator::make($request->all(), [
+      'job_id' => 'required',
+      'comments' => 'required',
+      'photo' => 'required',
+      'status' => 'required'
+    ]);
 
     $job_id = $request->job_id;
 
@@ -71,6 +77,7 @@ class FarmCalenderController extends Controller
 
       $job->status = $request->status;
       $job->photo = $request->photo;
+      $job->comments = $request->comments;
       $job->save();
 
       $response = ['message' => 'Updated Successfully'];
@@ -125,8 +132,8 @@ class FarmCalenderController extends Controller
 
     $validator = Validator::make($request->all(), [
       'job_id' => 'required',
-      'comments' => 'required',
       'action' => 'required',
+      'completion_level' => 'required'
     ]);
 
     if ($validator->fails()) {
@@ -141,8 +148,8 @@ class FarmCalenderController extends Controller
         return response()->json(['error' => 'Invalid job_id ']);
       }
 
-      $job->comments = $request->comments;
       $job->action = $request->action;
+      $job->completion_level = $request->completion_level;
       $job->save();
       $response = ['message' => 'Job Review Added Successfully'];
     } else {
