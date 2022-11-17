@@ -10,13 +10,11 @@ class Jobs extends Model
 {
     use HasFactory;
 
-    
-        protected $table = 'jobs';
 
-public function assigned_member()
+    protected $table = 'jobs';
+
+    public function assigned_member()
     {
-     return $this->belongsTo(User::class,'id');
-
-    }            
-
+        return $this->belongsTo(User::class, 'id', 'user_id');
+    }
 }
