@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\HeardController;
 use App\Http\Controllers\Api\AnimalController;
 use App\Http\Controllers\Api\FlockController;
 use App\Http\Controllers\Api\FarmCalenderController;
+use App\Http\Controllers\Api\TransactionController;
 
 
 
@@ -72,4 +73,17 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/all-farm-jobs', [FarmCalenderController::class, 'AllJobs']);
     Route::get('/jobs-assigned-to-me', [FarmCalenderController::class, 'assignedJobs']);
     Route::post('/job-review', [FarmCalenderController::class, 'jobReview']);
+
+
+
+    /////////Phase 3 ////////////////////////
+
+    Route::get('/get/transaction/type', [TransactionController::class, 'transaction_type']);
+    Route::get('/get/transaction/category/{id}', [TransactionController::class, 'transaction_category']);
+    Route::get('/get/payment/method', [TransactionController::class, 'payment']);
+    Route::post('/add/transaction', [TransactionController::class, 'create']); 
+    Route::get('/get/transaction', [TransactionController::class, 'index']);    
+
+
+
 });
