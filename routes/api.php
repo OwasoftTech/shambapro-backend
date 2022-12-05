@@ -82,7 +82,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/get/transaction/category/{id}', [TransactionController::class, 'transaction_category']);
     Route::get('/get/payment/method', [TransactionController::class, 'payment']);
     Route::post('/add/transaction', [TransactionController::class, 'create']); 
-    Route::get('/get/transaction', [TransactionController::class, 'index']);    
+    Route::get('/get/transaction', [TransactionController::class, 'index']);  
+    Route::get('/edit/transaction/{id}', [TransactionController::class, 'edit']);  
+    Route::post('/update/transaction', [TransactionController::class, 'update']);     
 
 
 

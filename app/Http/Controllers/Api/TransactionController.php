@@ -140,5 +140,86 @@ class TransactionController extends Controller
     }  
   }
 
+  public function edit($id)
+  {
+    try
+    {
+      $transaction = Transaction::where('id', $id)->first();
+      $t_cat =  TransactionCategory::where('type',$transaction->type)->get();
+      $payment =  PaymentMethod::get();
+      $data = [
+               'transaction' => $transaction,
+               't_cat' => $t_cat,
+               'payment' => $payment,
+            ];
+      return response()->json(['response' => ['status' => true, 'data' => $data]], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+  }
+
+
+  public function update(Request $request)
+  {
+
+    $validator = Validator::make($request->all(), [
+      'transaction_date' => 'required',
+      'category_id' => 'required',
+      'transaction_name' => 'required',
+      'item' => 'required',
+      'quantity' => 'required',
+      'unit_price' => 'required',
+      'amount' => 'required',
+      'payment_method' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+      $errors = $validator->errors();
+      return response()->json(['error' => $errors->toJson()]);
+    }
+
+    try 
+    {
+
+     $photo = '';
+
+        if ($request->hasfile('photo')) {
+           $image = $request->photo;
+           $extension = $image->getClientOriginalExtension();
+           $destinationPath = base_path() . '/public/transaction/';
+           $fileName = $request->user()->id . time() . rand() . $request->user()->id . '.' . $extension;
+           $image->move($destinationPath, $fileName);
+
+
+           $photo = '/transaction/' . $fileName;
+        }
+
+      Transaction::where('id',$request->transaction_id)
+      ->update([
+        'transaction_date' => $request->transaction_date,
+        'category_id' => $request->category_id,
+        'transaction_name' => $request->transaction_name,
+        'item' => $request->item,
+        'quantity' => $request->quantity,
+        'unit_price' => $request->unit_price,
+        'amount' => $request->amount,
+        'payment_method' => $request->payment_method,
+        'photo' => $photo,
+        'updatedby' => Auth::user()->id,
+        'updated_at' => Carbon::now(),
+      ]);
+      return response()->json(['response' => ['status' => true, 'message' => 'Record Updated successfully']], 
+        JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+      // return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+
+  }
+
   
 }
