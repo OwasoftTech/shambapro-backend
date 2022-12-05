@@ -131,12 +131,23 @@ class TransactionController extends Controller
   {
     try
     {
-      $transaction = Transaction::where('user_id', Auth::user()->id)->get();
+      $transaction = Transaction::from('transaction as t')
+                    ->join('transaction_category as tc', 't.category_id',  'tc.id') 
+                    ->join('transaction_type as tt', 't.type',  'tt.id')
+                    ->join('payment as pay', 't.payment_method',  'pay.id')
+                    ->where('user_id', Auth::user()->id)
+                    ->select(
+                    'tc.transaction_cat as categoryName',
+                    'tt.transaction_type as transactionType',
+                    'pay.method as paymentMethod',
+                    't.*'
+                    )  
+                    ->get();
       return response()->json(['response' => ['status' => true, 'data' => $transaction]], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
     {
-      return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }  
   }
 
@@ -144,7 +155,20 @@ class TransactionController extends Controller
   {
     try
     {
-      $transaction = Transaction::where('id', $id)->first();
+      $transaction = Transaction::from('transaction as t')
+                    ->join('transaction_category as tc', 't.category_id',  'tc.id') 
+                    ->join('transaction_type as tt', 't.type',  'tt.id')
+                    ->join('payment as pay', 't.payment_method',  'pay.id')
+                    ->where('id', $id)
+                    ->where('user_id', Auth::user()->id)
+                    ->select(
+                    'tc.transaction_cat as categoryName',
+                    'tt.transaction_type as transactionType',
+                    'pay.method as paymentMethod',
+                    't.*'
+                    )  
+                    ->first();
+      // $transaction = Transaction::where('id', $id)->first();
       $t_cat =  TransactionCategory::where('type',$transaction->type)->get();
       $payment =  PaymentMethod::get();
       $data = [
