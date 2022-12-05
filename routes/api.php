@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\AnimalController;
 use App\Http\Controllers\Api\FlockController;
 use App\Http\Controllers\Api\FarmCalenderController;
 use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Api\FarmStoreController;
 
 
 
@@ -84,7 +85,17 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/add/transaction', [TransactionController::class, 'create']); 
     Route::get('/get/transaction', [TransactionController::class, 'index']);  
     Route::get('/edit/transaction/{id}', [TransactionController::class, 'edit']);  
-    Route::post('/update/transaction', [TransactionController::class, 'update']);     
+    Route::post('/update/transaction', [TransactionController::class, 'update']);
+
+
+    /////////Phase 3////////////////////////
+
+    Route::get('/get/farm/store/type', [FarmStoreController::class, 'farm_store_type']);
+    Route::get('/get/farm/store/category/{id}', [FarmStoreController::class, 'farm_store_category']);
+    Route::post('/add/farm/store', [FarmStoreController::class, 'create']); 
+    Route::get('/get/farm/store', [FarmStoreController::class, 'index']);  
+    Route::get('/edit/farm/store/{id}', [FarmStoreController::class, 'edit']);  
+    Route::post('/update/farm/store', [FarmStoreController::class, 'update']);     
 
 
 
