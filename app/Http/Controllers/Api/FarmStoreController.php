@@ -94,6 +94,7 @@ class FarmStoreController extends Controller
           $obj->condition = $request->condition;
         }  
         $obj->type = $request->type_id;
+        $obj->status = 1; 
         $obj->user_id = Auth::user()->id;
         $obj->createdby = Auth::user()->id;
         $obj->created_at = Carbon::now();
@@ -110,23 +111,25 @@ class FarmStoreController extends Controller
 
   }
 
-  public function index()
+  public function index(Request $request)
   {
     try
     {
-      $transaction = Transaction::from('transaction as t')
-                    ->join('transaction_category as tc', 't.category_id',  'tc.id') 
-                    ->join('transaction_type as tt', 't.type',  'tt.id')
-                    ->join('payment as pay', 't.payment_method',  'pay.id')
-                    ->where('user_id', Auth::user()->id)
+      
+    $farmstore = FarmStore::from('farm_store as fs')
+                    ->join('farm_store_category as fsc', 'fs.category_id',  'fsc.id') 
+                    ->join('farm_store_type as fst', 'fsc.type',  'fst.id')
+                    ->where('fs.type', $request->type_id)
+                    ->where('fs.category_id', $request->category_id)
+                    ->where('fs.user_id', Auth::user()->id)
+                    ->where('fs.status', 1)
                     ->select(
-                    'tc.transaction_cat as categoryName',
-                    'tt.transaction_type as transactionType',
-                    'pay.method as paymentMethod',
-                    't.*'
+                    'fsc.farm_cat as categoryName',
+                    'fst.farm_type as farmType',
+                    'fs.*'
                     )  
-                    ->get();
-      return response()->json(['response' => ['status' => true, 'data' => $transaction]], JsonResponse::HTTP_OK);
+                    ->get();         
+      return response()->json(['response' => ['status' => true, 'data' => $farmstore]], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
     {
@@ -138,28 +141,20 @@ class FarmStoreController extends Controller
   {
     try
     {
-      $transaction = Transaction::from('transaction as t')
-                    ->join('transaction_category as tc', 't.category_id',  'tc.id') 
-                    ->join('transaction_type as tt', 't.type',  'tt.id')
-                    ->join('payment as pay', 't.payment_method',  'pay.id')
-                    ->where('id', $id)
-                    ->where('user_id', Auth::user()->id)
+      $farmstore = FarmStore::from('farm_store as fs')
+                    ->join('farm_store_category as fsc', 'fs.category_id',  'fsc.id') 
+                    ->join('farm_store_type as fst', 'fsc.type',  'fst.id')
+                    ->where('fs.id', $id)
+                    ->where('fs.user_id', Auth::user()->id)
+                    ->where('fs.status', 1)
                     ->select(
-                    'tc.transaction_cat as categoryName',
-                    'tt.transaction_type as transactionType',
-                    'pay.method as paymentMethod',
-                    't.*'
+                    'fsc.farm_cat as categoryName',
+                    'fst.farm_type as farmType',
+                    'fs.*'
                     )  
-                    ->first();
+                    ->get(); 
       // $transaction = Transaction::where('id', $id)->first();
-      $t_cat =  TransactionCategory::where('type',$transaction->type)->get();
-      $payment =  PaymentMethod::get();
-      $data = [
-               'transaction' => $transaction,
-               't_cat' => $t_cat,
-               'payment' => $payment,
-            ];
-      return response()->json(['response' => ['status' => true, 'data' => $data]], JsonResponse::HTTP_OK);
+       return response()->json(['response' => ['status' => true, 'data' => $farmstore]], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
     {
@@ -171,15 +166,12 @@ class FarmStoreController extends Controller
   public function update(Request $request)
   {
 
-    $validator = Validator::make($request->all(), [
-      'transaction_date' => 'required',
-      'category_id' => 'required',
-      'transaction_name' => 'required',
-      'item' => 'required',
-      'quantity' => 'required',
-      'unit_price' => 'required',
-      'amount' => 'required',
-      'payment_method' => 'required',
+     $validator = Validator::make($request->all(), [
+      'date' => 'required',
+      'name' => 'required',
+      'price' => 'required',
+      'source' => 'required'
+      
     ]);
 
     if ($validator->fails()) {
@@ -189,34 +181,32 @@ class FarmStoreController extends Controller
 
     try 
     {
+      $obj = FarmStore::where('id',$request->id)->first();
+      $type =  FarmStoreType::where('id',$obj->type)->first();
+          
+        $obj->date = $request->date;
+        $obj->name = $request->name;
+        $obj->price = $request->price;
+        $obj->source = $request->source;
+        if($type->id == 5)
+        {
+          $obj->size = $request->size;
+        }  
+        
+        if($type->id == 6)
+        {
+          $obj->description = $request->description;
+          $obj->quantity = $request->quantity;
+        } 
 
-     $photo = '';
+        if($type->id != 5)
+        {
+          $obj->condition = $request->condition;
+        }  
+        $obj->updatedby = Auth::user()->id;
+        $obj->updated_at = Carbon::now();
+        $obj->save();
 
-        if ($request->hasfile('photo')) {
-           $image = $request->photo;
-           $extension = $image->getClientOriginalExtension();
-           $destinationPath = base_path() . '/public/transaction/';
-           $fileName = $request->user()->id . time() . rand() . $request->user()->id . '.' . $extension;
-           $image->move($destinationPath, $fileName);
-
-
-           $photo = '/transaction/' . $fileName;
-        }
-
-      Transaction::where('id',$request->transaction_id)
-      ->update([
-        'transaction_date' => $request->transaction_date,
-        'category_id' => $request->category_id,
-        'transaction_name' => $request->transaction_name,
-        'item' => $request->item,
-        'quantity' => $request->quantity,
-        'unit_price' => $request->unit_price,
-        'amount' => $request->amount,
-        'payment_method' => $request->payment_method,
-        'photo' => $photo,
-        'updatedby' => Auth::user()->id,
-        'updated_at' => Carbon::now(),
-      ]);
       return response()->json(['response' => ['status' => true, 'message' => 'Record Updated successfully']], 
         JsonResponse::HTTP_OK);
     }  
@@ -225,7 +215,25 @@ class FarmStoreController extends Controller
       return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
       // return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }    
+  }
 
+  public function delete(Request $request)
+  {
+    try
+    {
+        $status = FarmStore::find($request->id); 
+        $status->purpose = $request->purpose;  
+        $status->status = 0;   
+        $status->updatedby = Auth::user()->id;
+        $status->updated_at = Carbon::now();
+        $status->save();
+      
+       return response()->json(['response' => ['status' => true, 'message' => 'Record Deleted!']], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
   }
 
   
