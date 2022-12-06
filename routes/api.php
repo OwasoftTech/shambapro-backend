@@ -86,6 +86,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/get/transaction', [TransactionController::class, 'index']);  
     Route::get('/edit/transaction/{id}', [TransactionController::class, 'edit']);  
     Route::post('/update/transaction', [TransactionController::class, 'update']);
+    Route::get('/get/transaction/pdf/{id}', [TransactionController::class, 'download_pdf']); 
 
 
     /////////Phase 3////////////////////////

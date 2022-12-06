@@ -135,7 +135,7 @@ class TransactionController extends Controller
                     ->join('transaction_category as tc', 't.category_id',  'tc.id') 
                     ->join('transaction_type as tt', 't.type',  'tt.id')
                     ->join('payment as pay', 't.payment_method',  'pay.id')
-                    ->where('user_id', Auth::user()->id)
+                    ->where('t.user_id', Auth::user()->id)
                     ->select(
                     'tc.transaction_cat as categoryName',
                     'tt.transaction_type as transactionType',
@@ -159,8 +159,8 @@ class TransactionController extends Controller
                     ->join('transaction_category as tc', 't.category_id',  'tc.id') 
                     ->join('transaction_type as tt', 't.type',  'tt.id')
                     ->join('payment as pay', 't.payment_method',  'pay.id')
-                    ->where('id', $id)
-                    ->where('user_id', Auth::user()->id)
+                    ->where('t.id', $id)
+                    ->where('t.user_id', Auth::user()->id)
                     ->select(
                     'tc.transaction_cat as categoryName',
                     'tt.transaction_type as transactionType',
@@ -243,6 +243,33 @@ class TransactionController extends Controller
       // return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }    
 
+  }
+
+
+  public function download_pdf($id)
+  {
+    try
+    {
+      $transaction = Transaction::from('transaction as t')
+                    ->join('transaction_category as tc', 't.category_id',  'tc.id') 
+                    ->join('transaction_type as tt', 't.type',  'tt.id')
+                    ->join('payment as pay', 't.payment_method',  'pay.id')
+                    ->where('t.id', $id)
+                    ->where('t.user_id', Auth::user()->id)
+                    ->select(
+                    'tc.transaction_cat as categoryName',
+                    'tt.transaction_type as transactionType',
+                    'pay.method as paymentMethod',
+                    't.*'
+                    )  
+                    ->first();
+      // $transaction = Transaction::where('id', $id)->first();
+      return response()->json(['response' => ['status' => true, 'data' => $transaction]], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
   }
 
   
