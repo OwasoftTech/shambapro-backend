@@ -93,6 +93,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/get/farm/store/type', [FarmStoreController::class, 'farm_store_type']);
     Route::get('/get/farm/store/category/{id}', [FarmStoreController::class, 'farm_store_category']);
+    Route::get('/get/farm/store/subcategory/{id}', [FarmStoreController::class, 'farm_store_subcategory']);
     Route::post('/add/farm/store', [FarmStoreController::class, 'create']); 
     Route::get('/get/farm/store', [FarmStoreController::class, 'index']);  
     Route::get('/edit/farm/store/{id}', [FarmStoreController::class, 'edit']);  

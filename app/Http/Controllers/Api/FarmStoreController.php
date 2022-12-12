@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\FarmStore;
 use App\Models\FarmStoreCategory;
+use App\Models\FarmStoreSubCategory;
 use App\Models\FarmStoreType;
 use App\Models\User;
 use Validator;
@@ -38,6 +39,20 @@ class FarmStoreController extends Controller
     {
       $t_cat =  FarmStoreCategory::where('type',$type)->get();
       return response()->json(['response' => ['status' => true, 'data' => $t_cat]], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+
+  }
+
+   public function farm_store_subcategory($category_id)
+  {
+    try 
+    {
+      $t_scat =  FarmStoreSubCategory::where('category_id',$category_id)->get();
+      return response()->json(['response' => ['status' => true, 'data' => $t_scat]], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
     {
@@ -83,11 +98,18 @@ class FarmStoreController extends Controller
           $obj->size = $request->size;
         }  
         
-        if($type->id == 6)
+        if($type->id == 6 || $type->id == 2)
         {
           $obj->description = $request->description;
           $obj->quantity = $request->quantity;
-        } 
+        }
+
+        if($type->id == 2)
+        {
+          $obj->expiry_date = $request->expiry_date;
+          $obj->subcategory_id = $request->subcategory_id;
+          $obj->enterprise_id = $request->enterprise_id;
+        }  
 
         if($type->id != 5)
         {
@@ -115,20 +137,44 @@ class FarmStoreController extends Controller
   {
     try
     {
-      
-    $farmstore = FarmStore::from('farm_store as fs')
-                    ->join('farm_store_category as fsc', 'fs.category_id',  'fsc.id') 
-                    ->join('farm_store_type as fst', 'fsc.type',  'fst.id')
-                    ->where('fs.type', $request->type_id)
-                    ->where('fs.category_id', $request->category_id)
-                    ->where('fs.user_id', Auth::user()->id)
-                    ->where('fs.status', 1)
-                    ->select(
-                    'fsc.farm_cat as categoryName',
-                    'fst.farm_type as farmType',
-                    'fs.*'
-                    )  
-                    ->get();         
+      if($request->type_id == 2) 
+      {
+        $farmstore = FarmStore::from('farm_store as fs')
+                      ->join('farm_store_category as fsc', 'fs.category_id',  'fsc.id') 
+                      ->join('farm_store_type as fst', 'fsc.type',  'fst.id')
+                      ->join('farm_store_subcategory as fss', 'fs.subcategory_id',  'fss.id')
+                      ->where('fs.type', $request->type_id)
+                      ->where('fs.category_id', $request->category_id)
+                      ->where('fs.subcategory_id', $request->subcategory_id)
+                      ->where('fs.enterprise_id', $request->enterprise_id)
+                      ->where('fs.user_id', Auth::user()->id)
+                      ->where('fs.status', 1)
+                      ->select(
+                      'fst.farm_type as farmType',
+                      'fsc.farm_cat as categoryName',
+                      'fss.farm_subcat as SubCategoryName',
+                      'fs.*'
+                      )  
+                      ->get(); 
+      }
+      else
+      {
+        $farmstore = FarmStore::from('farm_store as fs')
+                      ->join('farm_store_category as fsc', 'fs.category_id',  'fsc.id') 
+                      ->join('farm_store_type as fst', 'fsc.type',  'fst.id')
+                      ->where('fs.type', $request->type_id)
+                      ->where('fs.category_id', $request->category_id)
+                      ->where('fs.user_id', Auth::user()->id)
+                      ->where('fs.status', 1)
+                      ->select(
+                      'fsc.farm_cat as categoryName',
+                      'fst.farm_type as farmType',
+                      'fs.*'
+                      )  
+                      ->get(); 
+
+      }  
+            
       return response()->json(['response' => ['status' => true, 'data' => $farmstore]], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
