@@ -111,7 +111,7 @@ class FarmStoreController extends Controller
           $obj->enterprise_id = $request->enterprise_id;
         }  
 
-        if($type->id != 5)
+        if($type->id != 5 && $type->id != 2)
         {
           $obj->condition = $request->condition;
         }  
@@ -143,6 +143,7 @@ class FarmStoreController extends Controller
                       ->join('farm_store_category as fsc', 'fs.category_id',  'fsc.id') 
                       ->join('farm_store_type as fst', 'fsc.type',  'fst.id')
                       ->join('farm_store_subcategory as fss', 'fs.subcategory_id',  'fss.id')
+                      ->leftjoin('enterprise as et', 'fs.enterprise_id',  'et.id')
                       ->where('fs.type', $request->type_id)
                       ->where('fs.category_id', $request->category_id)
                       ->where('fs.subcategory_id', $request->subcategory_id)
@@ -150,9 +151,10 @@ class FarmStoreController extends Controller
                       ->where('fs.user_id', Auth::user()->id)
                       ->where('fs.status', 1)
                       ->select(
+                      'et.enterprise_name as enterpriseName',  
                       'fst.farm_type as farmType',
                       'fsc.farm_cat as categoryName',
-                      'fss.farm_subcat as SubCategoryName',
+                      'fss.farm_subcat as subCategoryName',
                       'fs.*'
                       )  
                       ->get(); 
@@ -187,18 +189,43 @@ class FarmStoreController extends Controller
   {
     try
     {
-      $farmstore = FarmStore::from('farm_store as fs')
+      $farm = FarmStore::where('id', $id)->first();
+      if($farm->type == 2)
+      {
+
+        $farmstore = FarmStore::from('farm_store as fs')
+                    ->join('farm_store_category as fsc', 'fs.category_id',  'fsc.id') 
+                    ->join('farm_store_type as fst', 'fsc.type',  'fst.id')
+                    ->leftjoin('farm_store_subcategory as fss', 'fs.subcategory_id',  'fss.id')
+                    ->leftjoin('enterprise as et', 'fs.enterprise_id',  'et.id')
+                    ->where('fs.id', $id)
+                    ->where('fs.user_id', Auth::user()->id)
+                    ->where('fs.status', 1)
+                    ->select(
+                    'et.enterprise_name as enterpriseName',  
+                    'fst.farm_type as farmType',
+                    'fsc.farm_cat as categoryName',
+                    'fss.farm_subcat as subCategoryName',
+                    'fs.*'
+                    )  
+                    ->get(); 
+      }
+      else
+      {
+       
+        $farmstore = FarmStore::from('farm_store as fs')
                     ->join('farm_store_category as fsc', 'fs.category_id',  'fsc.id') 
                     ->join('farm_store_type as fst', 'fsc.type',  'fst.id')
                     ->where('fs.id', $id)
                     ->where('fs.user_id', Auth::user()->id)
                     ->where('fs.status', 1)
                     ->select(
-                    'fsc.farm_cat as categoryName',
                     'fst.farm_type as farmType',
+                    'fsc.farm_cat as categoryName',
                     'fs.*'
                     )  
                     ->get(); 
+      }
       // $transaction = Transaction::where('id', $id)->first();
        return response()->json(['response' => ['status' => true, 'data' => $farmstore]], JsonResponse::HTTP_OK);
     } 
@@ -212,12 +239,11 @@ class FarmStoreController extends Controller
   public function update(Request $request)
   {
 
-     $validator = Validator::make($request->all(), [
+    $validator = Validator::make($request->all(), [
       'date' => 'required',
       'name' => 'required',
       'price' => 'required',
       'source' => 'required'
-      
     ]);
 
     if ($validator->fails()) {
@@ -239,13 +265,18 @@ class FarmStoreController extends Controller
           $obj->size = $request->size;
         }  
         
-        if($type->id == 6)
+        if($type->id == 6 || $type->id == 2)
         {
           $obj->description = $request->description;
           $obj->quantity = $request->quantity;
         } 
 
-        if($type->id != 5)
+        if($type->id == 2)
+        {
+          $obj->expiry_date = $request->expiry_date;
+        }  
+
+        if($type->id != 5 && $type->id != 2)
         {
           $obj->condition = $request->condition;
         }  
@@ -261,6 +292,53 @@ class FarmStoreController extends Controller
       return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
       // return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }    
+  }
+
+  public function detail($id)
+  {
+    try
+    {
+      $farmstore = FarmStore::from('farm_store as fs')
+                    ->join('farm_store_category as fsc', 'fs.category_id',  'fsc.id') 
+                    ->join('farm_store_type as fst', 'fsc.type',  'fst.id')
+                    ->leftjoin('farm_store_subcategory as fss', 'fs.subcategory_id',  'fss.id')
+                    ->leftjoin('enterprise as et', 'fs.enterprise_id',  'et.id')
+                    ->where('fs.id', $id)
+                    ->where('fs.user_id', Auth::user()->id)
+                    ->where('fs.status', 1)
+                    ->select(
+                    'et.enterprise_name as enterpriseName',  
+                    'fst.farm_type as farmType',
+                    'fsc.farm_cat as categoryName',
+                    'fss.farm_subcat as subCategoryName',
+                    'fs.*'
+                    )  
+                    ->get();  
+      // $transaction = Transaction::where('id', $id)->first();
+       return response()->json(['response' => ['status' => true, 'data' => $farmstore]], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+  }
+
+  public function add_quantity(Request $request)
+  {
+    try
+    {
+        $addqty = FarmStore::find($request->id); 
+        $addqty->quantity = $addqty->quantity + $request->quantity;  
+        $addqty->updatedby = Auth::user()->id;
+        $addqty->updated_at = Carbon::now();
+        $addqty->save();
+      
+       return response()->json(['response' => ['status' => true, 'message' => 'Quantity Added successfully!']], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
   }
 
   public function delete(Request $request)

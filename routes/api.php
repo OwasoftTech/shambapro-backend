@@ -98,7 +98,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/get/farm/store', [FarmStoreController::class, 'index']);  
     Route::get('/edit/farm/store/{id}', [FarmStoreController::class, 'edit']);  
     Route::post('/update/farm/store', [FarmStoreController::class, 'update']); 
-    Route::post('/delete/farm/store', [FarmStoreController::class, 'delete']);    
+    Route::post('/delete/farm/store', [FarmStoreController::class, 'delete']);
+    Route::get('/detail/farm/store/{id}', [FarmStoreController::class, 'detail']); 
+    Route::post('/add/quantity/farm/store', [FarmStoreController::class, 'add_quantity']);    
 
 
 
