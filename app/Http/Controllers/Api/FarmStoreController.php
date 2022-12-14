@@ -8,6 +8,7 @@ use App\Models\FarmStore;
 use App\Models\FarmStoreCategory;
 use App\Models\FarmStoreSubCategory;
 use App\Models\FarmStoreType;
+use App\Models\FarmStoreHistory;
 use App\Models\User;
 use Validator;
 use Exception;
@@ -121,6 +122,16 @@ class FarmStoreController extends Controller
         $obj->createdby = Auth::user()->id;
         $obj->created_at = Carbon::now();
         $obj->save();
+
+        if($type->id == 2)
+        {
+          $history = new FarmStoreHistory;
+          $history->farm_store_id = $obj->id;
+          $history->quantity = $request->quantity;
+          $history->created_by = Auth::user()->id;
+          $history->created_at = Carbon::now();
+          $history->save();
+        }  
         
       return response()->json(['response' => ['status' => true, 'message' => 'Record Added successfully']], 
         JsonResponse::HTTP_OK);
@@ -332,6 +343,16 @@ class FarmStoreController extends Controller
         $addqty->updatedby = Auth::user()->id;
         $addqty->updated_at = Carbon::now();
         $addqty->save();
+        if($addqty->type == 2)
+        {
+          $history = new FarmStoreHistory;
+          $history->farm_store_id = $addqty->id;
+          $history->quantity = $request->quantity;
+          $history->created_by = Auth::user()->id;
+          $history->created_at = Carbon::now();
+          $history->save();
+        }  
+        
       
        return response()->json(['response' => ['status' => true, 'message' => 'Quantity Added successfully!']], JsonResponse::HTTP_OK);
     } 
