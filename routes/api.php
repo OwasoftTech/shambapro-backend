@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\FlockController;
 use App\Http\Controllers\Api\FarmCalenderController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\FarmStoreController;
+use App\Http\Controllers\Api\LiveStockProductsController;
 
 
 
@@ -101,6 +102,18 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/delete/farm/store', [FarmStoreController::class, 'delete']);
     Route::get('/detail/farm/store/{id}', [FarmStoreController::class, 'detail']); 
     Route::post('/add/quantity/farm/store', [FarmStoreController::class, 'add_quantity']);    
+
+
+
+    Route::get('/get/livestock/products/category', [LiveStockProductsController::class, 'livestock_category']);
+    Route::post('/add/livestock/products', [LiveStockProductsController::class, 'create']); 
+    Route::get('/get/livestock/products', [LiveStockProductsController::class, 'index']);  
+    Route::get('/edit/livestock/products/{id}', [LiveStockProductsController::class, 'edit']);  
+    Route::post('/update/livestock/products', [LiveStockProductsController::class, 'update']); 
+    Route::post('/delete/livestock/products', [LiveStockProductsController::class, 'delete']);
+    Route::get('/detail/livestock/products/{id}', [LiveStockProductsController::class, 'detail']); 
+    Route::post('/add/quantity/livestock/products', [LiveStockProductsController::class, 'add_quantity']); 
+    Route::post('/sell/quantity/livestock/products', [LiveStockProductsController::class, 'remove_quantity']);    
 
 
 
