@@ -279,11 +279,41 @@ class LiveStockProductsController extends Controller
          
         
       
-       return response()->json(['response' => ['status' => true, 'message' => 'Quantity Added successfully!']], JsonResponse::HTTP_OK);
+       return response()->json(['response' => ['status' => true, 'message' => 'Quantity Remove successfully!']], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
     {
       return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+  }
+
+   public function sell_purchase_detail($id)
+  {
+    try
+    {
+      $detail = LiveStockProducts::from('livestock_products as fs')
+                    ->join('farm_store_subcategory as fsc', 'fs.category_id',  'fsc.id')
+                    ->where('fs.id', $id)
+                    ->where('fs.user_id', Auth::user()->id)
+                    ->where('fs.status', 1)
+                    ->select(
+                    'fsc.farm_subcat as categoryName',
+                    'fsc.id as categoryId',
+                    'fs.*'
+                    )  
+                    ->first();
+      $history = LiveStockProductsHistory::where('liveStockProductId',$detail->id)->get();
+
+      $data = [
+              'detail' => $detail,
+              'history' => $history
+            ];
+
+      return response()->json(['response' => ['status' => true, 'data' => $data]], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
     }  
   }
 

@@ -62,6 +62,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/cropfield-list', [CropFieldController::class, 'cropfieldList']);
     Route::get('/enterprise-list', [EnterpriseController::class, 'enterpriseList']);
 
+    Route::get('/detail/flock/{id}', [FlockController::class, 'detail']); 
+    Route::post('/add/quantity/flock', [FlockController::class, 'add_quantity']); 
+    Route::post('/remove/quantity/flock', [FlockController::class, 'remove_quantity']); 
+    Route::get('/flock/history/{id}', [FlockController::class, 'history']); 
+
 
     ////////////// Phase 2 /////////////////
 
@@ -113,7 +118,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/delete/livestock/products', [LiveStockProductsController::class, 'delete']);
     Route::get('/detail/livestock/products/{id}', [LiveStockProductsController::class, 'detail']); 
     Route::post('/add/quantity/livestock/products', [LiveStockProductsController::class, 'add_quantity']); 
-    Route::post('/sell/quantity/livestock/products', [LiveStockProductsController::class, 'remove_quantity']);    
+    Route::post('/sell/quantity/livestock/products', [LiveStockProductsController::class, 'remove_quantity']);
+    Route::get('sell/purchase/detail/livestock/products/{id}', [LiveStockProductsController::class, 'sell_purchase_detail']);    
 
 
 
