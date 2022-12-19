@@ -5,7 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CropField;
+use App\Models\CropFieldHistory;
 use Validator;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class CropFieldController extends Controller
 {
@@ -35,24 +40,31 @@ class CropFieldController extends Controller
         }
 
 
-        CropField::insert([
-          'enterprise_id'=> $request->enterprise_id,
-          'field_name'=> $request->field_name,
-          'field_size'=> $request->field_size,
-          'date_of_planting'=> $request->date_of_planting,
-          'no_of_plants'=> $request->no_of_plants,
-          'plants_type'=> $request->plants_type,
-          'variety'=> $request->variety,
-          'croping_system'=> $request->croping_system,
-          'watering_system'=> $request->watering_system,
-          'crop_type'=> $request->crop_type,
-          'season_length'=> $request->season_length,
-          'cultivation_system'=> $request->cultivation_system,
- 
-        ]);
+      $obj = new CropField;
+      $obj->enterprise_id= $request->enterprise_id;
+      $obj->field_name= $request->field_name;
+      $obj->field_size= $request->field_size;
+      $obj->date_of_planting= $request->date_of_planting;
+      $obj->no_of_plants= $request->no_of_plants;
+      $obj->plants_type= $request->plants_type;
+      $obj->variety= $request->variety;
+      $obj->croping_system= $request->croping_system;
+      $obj->watering_system= $request->watering_system;
+      $obj->crop_type= $request->crop_type;
+      $obj->season_length= $request->season_length;
+      $obj->cultivation_system= $request->cultivation_system;
+      $obj->user_id = Auth::user()->id;
+      $obj->save();  
+        
 
-                   return response()->json(['message' => 'Created successfully']);
+        $history = new CropFieldHistory;
+        $history->cropFieldId = $obj->id;
+        $history->no_of_plants = $request->no_of_plants;
+        $history->createdby = Auth::user()->id;
+        $history->created_at = Carbon::now();
+        $history->save();
 
+        return response()->json(['message' => 'Created successfully']);
     }
 
 
@@ -64,7 +76,110 @@ class CropFieldController extends Controller
        $cropfieldList = CropField::where('enterprise_id',$enterprise_id)->paginate(15);
 
         return response()->json(['cropfieldList' => $cropfieldList]);
-
-
     }
+
+    public function detail($id)
+    {
+        try
+        {
+          $crop_detail = CropField::from('crop_field as fs')
+                        ->where('fs.id', $id)
+                        ->where('fs.user_id', Auth::user()->id)
+                        ->select(
+                        'fs.*'
+                        )  
+                        ->get();
+           return response()->json(['response' => ['status' => true, 'data' => $crop_detail]], JsonResponse::HTTP_OK);
+        } 
+        catch (Exception $e) 
+        {
+          return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+        }  
+    }
+
+    public function add_quantity(Request $request)
+    {
+        try
+        {
+            $addqty = CropField::find($request->id);
+
+            $new_quantity = $addqty->no_of_plants + $request->no_of_plants;
+            $addqty->no_of_plants = $new_quantity;  
+            /*$addqty->updatedby = Auth::user()->id;*/
+            $addqty->updated_at = Carbon::now();
+            $addqty->save();
+            
+              $history = new CropFieldHistory;
+              $history->cropFieldId = $addqty->id;
+              $history->no_of_plants = $request->no_of_plants;
+              $history->createdby = Auth::user()->id;
+              $history->created_at = Carbon::now();
+              $history->save();
+             
+            
+          
+           return response()->json(['response' => ['status' => true, 'message' => 'Quantity Added successfully!']], JsonResponse::HTTP_OK);
+        } 
+        catch (Exception $e) 
+        {
+          return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+        }  
+    }
+
+    public function remove_quantity(Request $request)
+    {
+        try
+        {
+            $addqty = CropField::find($request->id);
+
+            $new_quantity = $addqty->no_of_plants - $request->no_of_plants;
+            $addqty->no_of_plants = $new_quantity;  
+            /*$addqty->updatedby = Auth::user()->id;*/
+            $addqty->updated_at = Carbon::now();
+            $addqty->save();
+            
+              $history = new CropFieldHistory;
+              $history->cropFieldId = $addqty->id;
+              $history->no_of_plants = $request->no_of_plants;
+              $history->createdby = Auth::user()->id;
+              $history->created_at = Carbon::now();
+              $history->save();
+             
+            
+          
+           return response()->json(['response' => ['status' => true, 'message' => 'Quantity Remove successfully!']], JsonResponse::HTTP_OK);
+        } 
+        catch (Exception $e) 
+        {
+          return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+        }  
+    }
+
+    public function history($id)
+    {
+        try
+        {
+          $detail = CropField::from('crop_field as fs')
+                        ->where('fs.id', $id)
+                        ->where('fs.user_id', Auth::user()->id)
+                        ->select(
+                        'fs.*'
+                        )  
+                        ->first();
+            $history = CropFieldHistory::where('cropFieldId',$detail->id)->get();
+
+            $data = [
+                    'detail' => $detail,
+                    'history' => $history
+                  ];            
+
+           return response()->json(['response' => ['status' => true, 'data' => $data]], JsonResponse::HTTP_OK);
+        } 
+        catch (Exception $e) 
+        {
+          return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+        }  
+    }
+
+
 }

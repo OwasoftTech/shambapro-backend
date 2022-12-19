@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\LiveStockProductsController;
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -49,6 +50,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard']);
 
     Route::post('/add-cropfield', [CropFieldController::class, 'create']);
+
+    Route::get('/detail/crop/field/{id}', [CropFieldController::class, 'detail']); 
+    Route::post('/add/quantity/crop/field', [CropFieldController::class, 'add_quantity']); 
+    Route::post('/remove/quantity/crop/field', [CropFieldController::class, 'remove_quantity']); 
+    Route::get('/crop/field/history/{id}', [CropFieldController::class, 'history']); 
 
     Route::post('/add-heard', [HeardController::class, 'create']);
     Route::post('/add-animal', [AnimalController::class, 'create']);
