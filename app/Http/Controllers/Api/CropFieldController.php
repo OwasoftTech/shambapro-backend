@@ -130,11 +130,31 @@ class CropFieldController extends Controller
     {
         try
         {
+            $crop = CropField::where('id', $request->crop_id)->first();
+            $new_quantity = $crop->no_of_plants - $request->no_of_plants;
+            $crop->remove_date = $request->remove_date;
+            $crop->no_of_plants = $new_quantity;
+            $crop->purpose = $request->purpose; 
+            $crop->updated_at = Carbon::now();
+            $crop->save();
+          
+          return response()->json(['response' => ['status' => true, 'message' => 'Quantity Remove successfully!']], JsonResponse::HTTP_OK);
+        } 
+        catch (Exception $e) 
+        {
+          return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+        }  
+    }
+
+   /*  public function remove_quantity(Request $request)
+    {
+        try
+        {
             $addqty = CropField::find($request->id);
 
             $new_quantity = $addqty->no_of_plants - $request->no_of_plants;
             $addqty->no_of_plants = $new_quantity;  
-            /*$addqty->updatedby = Auth::user()->id;*/
+           
             $addqty->updated_at = Carbon::now();
             $addqty->save();
             
@@ -153,7 +173,7 @@ class CropFieldController extends Controller
         {
           return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
         }  
-    }
+    }*/
 
     public function history($id)
     {

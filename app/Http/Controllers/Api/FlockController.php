@@ -117,11 +117,31 @@ class FlockController extends Controller
   {
     try
     {
+        $flock = Flock::where('id', $request->flock_id)->first();
+        $new_quantity = $flock->number_of_birds - $request->number_of_birds;
+        $flock->remove_date = $request->remove_date;
+        $flock->number_of_birds = $new_quantity;
+        $flock->purpose = $request->purpose; 
+        $flock->updated_at = Carbon::now();
+        $flock->save();
+        
+      return response()->json(['response' => ['status' => true, 'message' => 'Quantity Remove successfully!']], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+  }
+
+ /* public function remove_quantity(Request $request)
+  {
+    try
+    {
         $addqty = Flock::find($request->id);
 
         $new_quantity = $addqty->number_of_birds - $request->number_of_birds;
         $addqty->number_of_birds = $new_quantity;  
-        /*$addqty->updatedby = Auth::user()->id;*/
+        
         $addqty->updated_at = Carbon::now();
         $addqty->save();
         
@@ -140,7 +160,7 @@ class FlockController extends Controller
     {
       return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }  
-  }
+  }*/
 
   public function history($id)
   {

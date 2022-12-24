@@ -53,11 +53,13 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/detail/crop/field/{id}', [CropFieldController::class, 'detail']); 
     Route::post('/add/quantity/crop/field', [CropFieldController::class, 'add_quantity']); 
-    Route::post('/remove/quantity/crop/field', [CropFieldController::class, 'remove_quantity']); 
+    Route::post('/remove-crop', [CropFieldController::class, 'remove_quantity']); 
     Route::get('/crop/field/history/{id}', [CropFieldController::class, 'history']); 
 
     Route::post('/add-heard', [HeardController::class, 'create']);
     Route::post('/add-animal', [AnimalController::class, 'create']);
+    Route::post('/remove-animal', [AnimalController::class, 'remove_animal']);
+
     Route::post('/add-flock', [FlockController::class, 'create']);
 
     Route::get('/animal-list', [AnimalController::class, 'animalList']);
@@ -70,7 +72,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/detail/flock/{id}', [FlockController::class, 'detail']); 
     Route::post('/add/quantity/flock', [FlockController::class, 'add_quantity']); 
-    Route::post('/remove/quantity/flock', [FlockController::class, 'remove_quantity']); 
+    Route::post('/remove-flock', [FlockController::class, 'remove_quantity']); 
     Route::get('/flock/history/{id}', [FlockController::class, 'history']); 
 
 
