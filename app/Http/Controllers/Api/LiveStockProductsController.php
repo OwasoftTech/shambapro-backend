@@ -58,7 +58,6 @@ class LiveStockProductsController extends Controller
         $obj->name = $request->name;
         $obj->description = $request->description;
         $obj->quantity = $request->quantity;
-        $obj->price = $request->price;
         $obj->source = $request->source;
         $obj->status = 1; 
         $obj->category_id = $request->category_id;
@@ -68,14 +67,13 @@ class LiveStockProductsController extends Controller
         $obj->created_at = Carbon::now();
         $obj->save();
 
-          $history = new LiveStockProductsHistory;
+          /*$history = new LiveStockProductsHistory;
           $history->LiveStockProductId = $obj->id;
           $history->quantity = $request->quantity;
-          $history->price = $request->price;
           $history->enterprise_id = $request->enterprise_id;
           $history->createdby = Auth::user()->id;
           $history->created_at = Carbon::now();
-          $history->save();
+          $history->save();*/
          
         
       return response()->json(['response' => ['status' => true, 'message' => 'Record Added successfully']], 
@@ -223,28 +221,47 @@ class LiveStockProductsController extends Controller
   {
     try
     {
-        $addqty = LiveStockProducts::find($request->id);
+      $update = LiveStockProducts::where('user_id',auth()->user()->id)->first();
+        if(!empty($update))
+        {
+          $new_quantity = $update->quantity + $request->quantity;
+          $update->date = $request->date;
+          $update->name = $request->name;
+          $update->description = $request->description;
+          $update->quantity = $new_quantity;
+          $update->source = $request->source;
+          $update->updatedby = Auth::user()->id;
+          $update->updated_at = Carbon::now();
+          $update->save();
 
-        $new_quantity = $addqty->quantity + $request->quantity;
-
-        $new_price = ($addqty->price/$addqty->quantity) * $new_quantity;
-
-        $addqty->price = $new_price;
-        $addqty->quantity = $new_quantity;  
-        $addqty->updatedby = Auth::user()->id;
-        $addqty->updated_at = Carbon::now();
-        $addqty->save();
-        
           $history = new LiveStockProductsHistory;
-          $history->price = $new_price;
-          $history->LiveStockProductId = $addqty->id;
+          $history->LiveStockProductId = $update->id;
+          $history->date = $request->date;
+          $history->price = $request->price;
           $history->quantity = $request->quantity;
+          $history->purpose = $request->purpose;
           $history->createdby = Auth::user()->id;
           $history->created_at = Carbon::now();
           $history->save();
-         
+
+        }
+        else
+        {
+          $obj = new LiveStockProducts;
+          $obj->date = $request->date;
+          $obj->name = $request->name;
+          $obj->description = $request->description;
+          $obj->quantity = $request->quantity;
+          $obj->source = $request->source;
+          $obj->status = 1; 
+          $obj->category_id = $request->category_id;
+          $obj->enterprise_id = $request->enterprise_id;
+          $obj->user_id = Auth::user()->id;
+          $obj->createdby = Auth::user()->id;
+          $obj->created_at = Carbon::now();
+          $obj->save();
+        }  
         
-      
        return response()->json(['response' => ['status' => true, 'message' => 'Quantity Added successfully!']], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
@@ -257,22 +274,20 @@ class LiveStockProductsController extends Controller
   {
     try
     {
-        $addqty = LiveStockProducts::find($request->id);
+        $addqty = LiveStockProducts::where('user_id',auth()->user()->id)->first();
 
         $new_quantity = $addqty->quantity - $request->quantity;
-
-        $new_price = ($addqty->price/$addqty->quantity) * $new_quantity;
-
-        $addqty->price = $new_price;
         $addqty->quantity = $new_quantity;  
         $addqty->updatedby = Auth::user()->id;
         $addqty->updated_at = Carbon::now();
         $addqty->save();
         
           $history = new LiveStockProductsHistory;
-          $history->price = $new_price;
           $history->LiveStockProductId = $addqty->id;
+          $history->date = $request->date;
+          $history->price = $request->price;
           $history->quantity = $request->quantity;
+          $history->purpose = $request->purpose;
           $history->createdby = Auth::user()->id;
           $history->created_at = Carbon::now();
           $history->save();
@@ -287,7 +302,7 @@ class LiveStockProductsController extends Controller
     }  
   }
 
-   public function sell_purchase_detail($id)
+   public function livestock_history($id)
   {
     try
     {
