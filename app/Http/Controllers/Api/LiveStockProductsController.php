@@ -328,7 +328,7 @@ class LiveStockProductsController extends Controller
     } 
     catch (Exception $e) 
     {
-      return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }  
   }
 
