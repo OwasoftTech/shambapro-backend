@@ -49,6 +49,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/add-enerprise', [EnterpriseController::class, 'create']);
     Route::get('/dashboard', [DashboardController::class, 'dashboard']);
 
+
+    Route::get('/crop/field/category', [CropFieldController::class, 'crop_category']);
     Route::post('/add-cropfield', [CropFieldController::class, 'create']);
 
     Route::get('/detail/crop/field/{id}', [CropFieldController::class, 'detail']); 
@@ -125,8 +127,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/update/livestock/products', [LiveStockProductsController::class, 'update']); 
     Route::post('/delete/livestock/products', [LiveStockProductsController::class, 'delete']);
     Route::get('/detail/livestock/products/{id}', [LiveStockProductsController::class, 'detail']); 
-    Route::post('/add/quantity/livestock', [LiveStockProductsController::class, 'add_quantity']); 
-    Route::post('/remove/quantity/livestock', [LiveStockProductsController::class, 'remove_quantity']);
+    Route::post('/add/quantity/livestock/products', [LiveStockProductsController::class, 'add_quantity']); 
+    Route::post('/sell/quantity/livestock/products', [LiveStockProductsController::class, 'remove_quantity']);
     Route::get('/livestock/history/detail/{id}', [LiveStockProductsController::class, 'livestock_history']);    
 
 

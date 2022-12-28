@@ -11,14 +11,28 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\FarmStoreSubCategory;
 
 class CropFieldController extends Controller
 {
+
+    public function crop_category()
+    {
+        try 
+        {
+          $cat =  FarmStoreSubCategory::where('id', '>=', '18')->where('id', '<=', '19')->get();
+          return response()->json(['response' => ['status' => true, 'data' => $cat]], JsonResponse::HTTP_OK);
+        } 
+        catch (Exception $e) 
+        {
+          return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+        }    
+
+    }
+
     public function create(Request $request)
     {
         
-
-
         $validator = Validator::make($request->all(), [
         'enterprise_id' => 'required',   
         'field_name' => 'required',     
@@ -42,6 +56,7 @@ class CropFieldController extends Controller
 
       $obj = new CropField;
       $obj->enterprise_id= $request->enterprise_id;
+      $obj->category_id= $request->category_id;
       $obj->field_name= $request->field_name;
       $obj->field_size= $request->field_size;
       $obj->date_of_planting= $request->date_of_planting;
@@ -72,8 +87,11 @@ class CropFieldController extends Controller
     {
 
         $enterprise_id = $request->query('enterprise_id');
+        $category_id = $request->query('category_id');
 
-       $cropfieldList = CropField::where('enterprise_id',$enterprise_id)->paginate(15);
+        $cropfieldList = CropField::where('enterprise_id',$enterprise_id)
+                        ->where('category_id',$category_id)
+                        ->get();
 
         return response()->json(['cropfieldList' => $cropfieldList]);
     }

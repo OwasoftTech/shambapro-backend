@@ -22,7 +22,7 @@ class LiveStockProductsController extends Controller
   {
     try 
     {
-      $cat =  FarmStoreSubCategory::where('id', '>=', '14')->get();
+      $cat =  FarmStoreSubCategory::where('id', '>=', '14')->where('id', '<=', '17')->get();
       return response()->json(['response' => ['status' => true, 'data' => $cat]], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
@@ -328,7 +328,7 @@ class LiveStockProductsController extends Controller
     } 
     catch (Exception $e) 
     {
-      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+      return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
     }  
   }
 
