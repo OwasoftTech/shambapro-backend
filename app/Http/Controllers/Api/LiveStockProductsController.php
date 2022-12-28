@@ -221,7 +221,8 @@ class LiveStockProductsController extends Controller
   {
     try
     {
-      $update = LiveStockProducts::where('user_id',auth()->user()->id)->first();
+      $update = LiveStockProducts::where('user_id',auth()->user()->id)
+                ->where('category_id',$request->category_id)->first();
         if(!empty($update))
         {
           $new_quantity = $update->quantity + $request->quantity;
@@ -236,6 +237,7 @@ class LiveStockProductsController extends Controller
 
           $history = new LiveStockProductsHistory;
           $history->LiveStockProductId = $update->id;
+          $history->category_id = $update->category_id;
           $history->date = $request->date;
           $history->price = $request->price;
           $history->quantity = $request->quantity;
@@ -274,7 +276,9 @@ class LiveStockProductsController extends Controller
   {
     try
     {
-        $addqty = LiveStockProducts::where('user_id',auth()->user()->id)->first();
+        $addqty = LiveStockProducts::where('user_id',auth()->user()->id)
+                  ->where('category_id',$request->category_id)
+                  ->first();
 
         $new_quantity = $addqty->quantity - $request->quantity;
         $addqty->quantity = $new_quantity;  
@@ -284,6 +288,7 @@ class LiveStockProductsController extends Controller
         
           $history = new LiveStockProductsHistory;
           $history->LiveStockProductId = $addqty->id;
+          $history->category_id = $request->category_id;
           $history->date = $request->date;
           $history->price = $request->price;
           $history->quantity = $request->quantity;
@@ -302,13 +307,13 @@ class LiveStockProductsController extends Controller
     }  
   }
 
-   public function livestock_history($id)
+   public function livestock_history(Request $request)
   {
     try
     {
       $detail = LiveStockProducts::from('livestock_products as fs')
                     ->join('farm_store_subcategory as fsc', 'fs.category_id',  'fsc.id')
-                    ->where('fs.id', $id)
+                    ->where('fs.category_id', $request->category_id)
                     ->where('fs.user_id', Auth::user()->id)
                     ->where('fs.status', 1)
                     ->select(
@@ -317,6 +322,7 @@ class LiveStockProductsController extends Controller
                     'fs.*'
                     )  
                     ->first();
+                    
       $history = LiveStockProductsHistory::where('liveStockProductId',$detail->id)->get();
 
       $data = [
@@ -328,11 +334,29 @@ class LiveStockProductsController extends Controller
     } 
     catch (Exception $e) 
     {
-      return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }  
   }
 
-  
+   public function livestock_quantity(Request $request)
+  {
+    try
+    {
+      $data = LiveStockProducts::from('livestock_products as fs')
+                    ->where('fs.category_id', $request->category_id)
+                    ->where('fs.user_id', $request->user_id)
+                    ->where('fs.status', 1)
+                    ->select(
+                    'fs.quantity'
+                    )  
+                    ->first();
+      return response()->json(['response' => ['status' => true, 'data' => $data]], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+  }
 
   
 }
