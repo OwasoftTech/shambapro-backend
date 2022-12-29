@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\FarmCalenderController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\FarmStoreController;
 use App\Http\Controllers\Api\LiveStockProductsController;
+use App\Http\Controllers\Api\FeedingRecordController;
 
 
 
@@ -130,7 +131,14 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/add/quantity/livestock', [LiveStockProductsController::class, 'add_quantity']); 
     Route::post('/remove/quantity/livestock', [LiveStockProductsController::class, 'remove_quantity']);
     Route::get('/livestock/history/detail', [LiveStockProductsController::class, 'livestock_history']); 
-    Route::get('/get/livestock/qunatity', [LiveStockProductsController::class, 'livestock_quantity']);    
+    Route::get('/get/livestock/qunatity', [LiveStockProductsController::class, 'livestock_quantity']); 
+
+
+    Route::post('/add/feeding/record', [FeedingRecordController::class, 'create_feeding_record']);  
+    Route::post('/add/grazing/record', [FeedingRecordController::class, 'create_grazing_record']); 
+    Route::post('/add/weaning/record', [FeedingRecordController::class, 'create_weaning_record']);
+    Route::post('/add/feeding/consumption', [FeedingRecordController::class, 'create_feeding_consumption']);
+    Route::post('/add/water/consumption', [FeedingRecordController::class, 'create_water_consumption']);   
 
 
 
