@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\FarmStoreController;
 use App\Http\Controllers\Api\LiveStockProductsController;
 use App\Http\Controllers\Api\FeedingRecordController;
+use App\Http\Controllers\Api\MilkRecordController;
 
 
 
@@ -139,6 +140,10 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/add/weaning/record', [FeedingRecordController::class, 'create_weaning_record']);
     Route::post('/add/feeding/consumption', [FeedingRecordController::class, 'create_feeding_consumption']);
     Route::post('/add/water/consumption', [FeedingRecordController::class, 'create_water_consumption']);   
+
+
+    Route::post('/add/animal/milk/record', [MilkRecordController::class, 'create_milk_record']);  
+    Route::post('/add/milk/used/record', [MilkRecordController::class, 'create_milk_used']); 
 
 
 
