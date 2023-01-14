@@ -336,25 +336,112 @@ class FarmStoreController extends Controller
 
   public function add_quantity(Request $request)
   {
+              
     try
     {
-        $addqty = FarmStore::find($request->id); 
-        $addqty->quantity = $addqty->quantity + $request->quantity;  
-        $addqty->updatedby = Auth::user()->id;
-        $addqty->updated_at = Carbon::now();
-        $addqty->save();
-        if($addqty->type == 2)
-        {
+      $update = FarmStore::where('user_id',$request->user_id)
+              ->where('type', $request->type_id)
+              ->where('category_id', $request->category_id)
+              ->where('subcategory_id', $request->subcategory_id)
+              ->first();
+    
+        
+        $update->quantity = $update->quantity + $request->quantity;  
+        $update->updatedby = Auth::user()->id;
+        $update->updated_at = Carbon::now();
+        $update->save();
+        
           $history = new FarmStoreHistory;
-          $history->farm_store_id = $addqty->id;
+          $history->farm_store_id = $update->id;
+          $history->date = $request->date;
+          $history->name = $request->name;
           $history->quantity = $request->quantity;
+          $history->price = $request->price;
+          $history->value = $request->value;
+          $history->forage_name = $request->forage_name;
           $history->created_by = Auth::user()->id;
           $history->created_at = Carbon::now();
           $history->save();
-        }  
-        
+         
+     
       
        return response()->json(['response' => ['status' => true, 'message' => 'Quantity Added successfully!']], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+  }
+
+  public function remove_quantity(Request $request)
+  {
+              
+    try
+    {
+      $update = FarmStore::where('user_id',$request->user_id)
+              ->where('type', $request->type_id)
+              ->where('category_id', $request->category_id)
+              ->where('subcategory_id', $request->subcategory_id)
+              ->first();
+    
+        
+        $update->quantity = $update->quantity - $request->quantity;  
+        $update->updatedby = Auth::user()->id;
+        $update->updated_at = Carbon::now();
+        $update->save();
+        
+          $history = new FarmStoreHistory;
+          $history->farm_store_id = $update->id;
+          $history->date = $request->date;
+          $history->name = $request->name;
+          $history->quantity = $request->quantity;
+          $history->price = $request->price;
+          $history->value = $request->value;
+          $history->purpose = $request->purpose;
+          $history->created_by = Auth::user()->id;
+          $history->created_at = Carbon::now();
+          $history->save();
+         
+     
+      
+       return response()->json(['response' => ['status' => true, 'message' => 'Quantity Remove successfully!']], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+  }
+
+   public function farmstore_history(Request $request)
+  {
+    try
+    {
+      $detail = FarmStore::from('farm_store as fs')
+                    ->join('farm_store_type as fst', 'fs.type',  'fst.id')
+                    ->join('farm_store_category as fsc', 'fs.category_id',  'fsc.id')
+                    ->join('farm_store_subcategory as fssc', 'fs.subcategory_id',  'fssc.id')
+                    ->where('fs.type', $request->type_id)
+                    ->where('fs.category_id', $request->category_id)
+                    ->where('fs.subcategory_id', $request->subcategory_id)
+                    ->where('fs.user_id', $request->user_id)
+                    ->where('fs.status', 1)
+                    ->select(
+                    'fst.farm_type as farmtype',
+                    'fsc.farm_cat as categoryName',  
+                    'fssc.farm_subcat as subcategoryName',
+                    'fs.*'
+                    )  
+                    ->first();
+
+                    
+      $history = FarmStoreHistory::where('farm_store_id',$detail->id)->get();
+
+      $data = [
+              'detail' => $detail,
+              'history' => $history
+            ];
+
+      return response()->json(['response' => ['status' => true, 'data' => $data]], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
     {
@@ -374,6 +461,28 @@ class FarmStoreController extends Controller
         $status->save();
       
        return response()->json(['response' => ['status' => true, 'message' => 'Record Deleted!']], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+  }
+
+  public function form_store_quantity(Request $request)
+  {
+    try
+    {
+      $data = FarmStore::from('farm_store as fs')
+                    ->where('fs.type', $request->type_id)
+                    ->where('fs.category_id', $request->category_id)
+                    ->where('fs.subcategory_id', $request->subcategory_id)
+                    ->where('fs.user_id', $request->user_id)
+                    ->where('fs.status', 1)
+                    ->select(
+                    'fs.quantity'
+                    )  
+                    ->first();
+      return response()->json(['response' => ['status' => true, 'data' => $data]], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
     {

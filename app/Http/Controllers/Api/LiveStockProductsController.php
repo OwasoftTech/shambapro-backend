@@ -338,7 +338,7 @@ class LiveStockProductsController extends Controller
     }  
   }
 
-   public function livestock_quantity(Request $request)
+  public function livestock_quantity(Request $request)
   {
     try
     {
