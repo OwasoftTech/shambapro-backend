@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\LiveStockProductsController;
 use App\Http\Controllers\Api\FeedingRecordController;
 use App\Http\Controllers\Api\MilkRecordController;
 use App\Http\Controllers\Api\GrowthDeathRecordController;
+use App\Http\Controllers\Api\HealthRecordController;
 
 
 
@@ -153,6 +154,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/add/weekly/growth/register', [GrowthDeathRecordController::class, 'create_growth_register']); 
     Route::post('/add/death/register', [GrowthDeathRecordController::class, 'create_death_register']); 
     Route::post('/add/slaughter/record', [GrowthDeathRecordController::class, 'create_slaughter_record']); 
+
+    Route::post('/add/vaccination/record', [HealthRecordController::class, 'create_vaccination_record']); 
+    Route::post('/add/disease/pests/record', [HealthRecordController::class, 'create_disease_pests_record']); 
+    Route::post('/add/treatment/record', [HealthRecordController::class, 'create_treatment_record']); 
+    Route::post('/add/veterinary/record', [HealthRecordController::class, 'create_veterinary_record']); 
 
 
 });
