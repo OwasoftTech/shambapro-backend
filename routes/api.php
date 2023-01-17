@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\FeedingRecordController;
 use App\Http\Controllers\Api\MilkRecordController;
 use App\Http\Controllers\Api\GrowthDeathRecordController;
 use App\Http\Controllers\Api\HealthRecordController;
+use App\Http\Controllers\Api\BreedingRecordController;
+use App\Http\Controllers\Api\EggRecordController;
 
 
 
@@ -159,6 +161,16 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/add/disease/pests/record', [HealthRecordController::class, 'create_disease_pests_record']); 
     Route::post('/add/treatment/record', [HealthRecordController::class, 'create_treatment_record']); 
     Route::post('/add/veterinary/record', [HealthRecordController::class, 'create_veterinary_record']); 
+
+
+    Route::post('/add/service/register', [BreedingRecordController::class, 'create_service_register']);
+    Route::post('/add/calf/birth/register', [BreedingRecordController::class, 'create_calf_birth_register']);
+    Route::post('/add/piglet/birth/register', [BreedingRecordController::class, 'create_piglet_birth_register']);
+    Route::post('/add/kid/birth/register', [BreedingRecordController::class, 'create_kid_birth_register']);
+
+
+
+    Route::post('/add/egg/production', [EggRecordController::class, 'create_egg_production']);
 
 
 });
