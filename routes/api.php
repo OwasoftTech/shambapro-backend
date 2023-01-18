@@ -19,6 +19,8 @@ use App\Http\Controllers\Api\GrowthDeathRecordController;
 use App\Http\Controllers\Api\HealthRecordController;
 use App\Http\Controllers\Api\BreedingRecordController;
 use App\Http\Controllers\Api\EggRecordController;
+use App\Http\Controllers\Api\MeatRecordController;
+use App\Http\Controllers\Api\FieldPreparationController;
 
 
 
@@ -171,6 +173,17 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 
     Route::post('/add/egg/production', [EggRecordController::class, 'create_egg_production']);
+
+
+    Route::post('/add/daily/bird/record', [MeatRecordController::class, 'create_daily_bird_record']);
+    Route::post('/add/daily/production/record', [MeatRecordController::class, 'create_daily_production_record']);
+    Route::post('/add/slaughter/record', [MeatRecordController::class, 'create_slaughter_record']);
+    Route::post('/add/wool/production/record', [MeatRecordController::class, 'create_wool_production_record']);
+
+
+    Route::post('/add/soil/test/record', [FieldPreparationController::class, 'create_soil_test']);
+    Route::post('/add/land/preparation/record', [FieldPreparationController::class, 'create_land_preparation']);
+    Route::post('/add/soil/amendment/record', [FieldPreparationController::class, 'create_soil_amendment']);
 
 
 });
