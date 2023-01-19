@@ -15,7 +15,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-
+use DB;
 
 class FarmStoreController extends Controller
 {
@@ -343,7 +343,9 @@ class FarmStoreController extends Controller
               ->where('type', $request->type_id)
               ->where('category_id', $request->category_id)
               ->where('subcategory_id', $request->subcategory_id)
+              ->where('id', $request->farm_store_id)
               ->first();
+
     
         
         $update->quantity = $update->quantity + $request->quantity;  
@@ -352,7 +354,7 @@ class FarmStoreController extends Controller
         $update->save();
         
           $history = new FarmStoreHistory;
-          $history->farm_store_id = $update->id;
+          $history->farm_store_id = $request->farm_store_id;
           $history->date = $request->date;
           $history->name = $request->name;
           $history->quantity = $request->quantity;
@@ -382,6 +384,7 @@ class FarmStoreController extends Controller
               ->where('type', $request->type_id)
               ->where('category_id', $request->category_id)
               ->where('subcategory_id', $request->subcategory_id)
+              ->where('id', $request->farm_store_id)
               ->first();
     
         
@@ -391,7 +394,7 @@ class FarmStoreController extends Controller
         $update->save();
         
           $history = new FarmStoreHistory;
-          $history->farm_store_id = $update->id;
+          $history->farm_store_id = $request->farm_store_id;
           $history->date = $request->date;
           $history->name = $request->name;
           $history->quantity = $request->quantity;
@@ -416,10 +419,12 @@ class FarmStoreController extends Controller
   {
     try
     {
-      $detail = FarmStore::from('farm_store as fs')
-                    ->join('farm_store_type as fst', 'fs.type',  'fst.id')
-                    ->join('farm_store_category as fsc', 'fs.category_id',  'fsc.id')
-                    ->join('farm_store_subcategory as fssc', 'fs.subcategory_id',  'fssc.id')
+      $history=[];
+      $details = FarmStore::from('farm_store as fs')
+                    //->join('farm_store_history as fsh', 'fs.id',  'fsh.farm_store_id')
+                    ->leftjoin('farm_store_type as fst', 'fs.type',  'fst.id')
+                    ->leftjoin('farm_store_category as fsc', 'fs.category_id',  'fsc.id')
+                    ->leftjoin('farm_store_subcategory as fssc', 'fs.subcategory_id',  'fssc.id')
                     ->where('fs.type', $request->type_id)
                     ->where('fs.category_id', $request->category_id)
                     ->where('fs.subcategory_id', $request->subcategory_id)
@@ -431,13 +436,17 @@ class FarmStoreController extends Controller
                     'fssc.farm_subcat as subcategoryName',
                     'fs.*'
                     )  
-                    ->first();
-
+                    ->get();
+                  foreach ($details as $key => $value) 
+                  {
+                    $hist = FarmStoreHistory::where('farm_store_id',$value->id)->get(); 
+                    array_push($history, $hist);
+                  }              
                     
-      $history = FarmStoreHistory::where('farm_store_id',$detail->id)->get();
+      
 
       $data = [
-              'detail' => $detail,
+              'details' => $details,
               'history' => $history
             ];
 
@@ -478,10 +487,8 @@ class FarmStoreController extends Controller
                     ->where('fs.subcategory_id', $request->subcategory_id)
                     ->where('fs.user_id', $request->user_id)
                     ->where('fs.status', 1)
-                    ->select(
-                    'fs.quantity'
-                    )  
-                    ->first();
+                    ->select(DB::raw('SUM(fs.quantity) as qunatity'))
+                    ->get();
       return response()->json(['response' => ['status' => true, 'data' => $data]], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
