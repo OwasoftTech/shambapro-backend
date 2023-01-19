@@ -134,5 +134,42 @@ class FieldPreparationController extends Controller
     }    
   }
 
+   public function create_planting_record(Request $request)
+  {
+
+    $validator = Validator::make($request->all(), [
+      'date' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+      $errors = $validator->errors();
+      return response()->json(['error' => $errors->toJson()]);
+    }
+
+    try 
+    {
+        $obj = new FieldPreparation;
+        $obj->date = $request->date;
+        $obj->type = $request->type;
+        $obj->quantity = $request->quantity;
+        $obj->done_by = $request->done_by;
+        $obj->enterprise_id = $request->enterprise_id;
+        $obj->planting_record  = 1;
+        $obj->status = 1;
+        $obj->user_id = Auth::user()->id;
+        $obj->created_by = Auth::user()->id;
+        $obj->created_at = Carbon::now();
+        $obj->save();
+
+      return response()->json(['response' => ['status' => true, 'message' => 'Record Added successfully']], 
+        JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+      // return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
 
 }

@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\BreedingRecordController;
 use App\Http\Controllers\Api\EggRecordController;
 use App\Http\Controllers\Api\MeatRecordController;
 use App\Http\Controllers\Api\FieldPreparationController;
+use App\Http\Controllers\Api\CropManagementRecordController;
 
 
 
@@ -184,6 +185,20 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/add/soil/test/record', [FieldPreparationController::class, 'create_soil_test']);
     Route::post('/add/land/preparation/record', [FieldPreparationController::class, 'create_land_preparation']);
     Route::post('/add/soil/amendment/record', [FieldPreparationController::class, 'create_soil_amendment']);
+    Route::post('/add/planting/record', [FieldPreparationController::class, 'create_planting_record']);
+
+
+    Route::post('/add/create/routine/scouting', [CropManagementRecordController::class, 'create_routine_scouting']);
+    Route::post('/add/weed/management', [CropManagementRecordController::class, 'create_weed_management']);
+    Route::post('/add/pesticide/application', [CropManagementRecordController::class, 'create_pesticide_application']);
+    Route::post('/add/fertilizer/application', [CropManagementRecordController::class, 'create_fertilizer_application']);
+    Route::post('/add/manure/application', [CropManagementRecordController::class, 'create_manure_application']);
+    Route::post('/add/irrigation/record', [CropManagementRecordController::class, 'create_irrigation']);
+    Route::post('/add/other/farm/activities', [CropManagementRecordController::class, 'create_other_farm_activities']);
+    Route::post('/add/agronomist/inspection', [CropManagementRecordController::class, 'create_agronomist_inspection']);
+    Route::post('/add/crop/produce/harvested', [CropManagementRecordController::class, 'create_crop_produce_harvested']);
+    Route::post('/add/harvest/consumed/workers', [CropManagementRecordController::class, 'create_harvest_consumed_workers']);
+
 
 
 });
