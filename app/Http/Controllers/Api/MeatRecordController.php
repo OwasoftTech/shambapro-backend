@@ -94,7 +94,7 @@ class MeatRecordController extends Controller
     }    
   }
 
-  public function create_slaughter_record(Request $request)
+  public function create_meat_slaughter_record(Request $request)
   {
 
     $validator = Validator::make($request->all(), [

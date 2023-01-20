@@ -204,5 +204,99 @@ class FeedingRecordController extends Controller
     }    
   }
 
+
+  public function get_feeding_record(Request $request)
+  {
+    try 
+    {
+      $feed_record =  FeedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('daily_feeding_record',1)
+                      ->select('id','date','heard_id','time','feed_type','quantity','left_over','spoilage','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $feed_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_grazing_record(Request $request)
+  {
+    try 
+    {
+      $grazing_record =  FeedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('daily_grazing_record',1)
+                      ->select('id','date','heard_id','grazing_from','grazing_to','paddock_id','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $grazing_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_weaning_record(Request $request)
+  {
+    try 
+    {
+      $feed_record =  FeedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('daily_weaning_record',1)
+                      ->select('id','date','animal_id','weaning_weight','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $feed_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_feeding_consumption(Request $request)
+  {
+    try 
+    {
+      $feeding_consumption_record =  FeedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('daily_feed_consumption',1)
+                      ->select('id','date','time','feed_type','quantity','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $feeding_consumption_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_water_consumption(Request $request)
+  {
+    try 
+    {
+      $water_consumption_record =  FeedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('daily_water_consumption',1)
+                      ->select('id','date','time','quantity','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $water_consumption_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+
+ 
+
   
 }

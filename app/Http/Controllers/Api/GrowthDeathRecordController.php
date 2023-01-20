@@ -142,6 +142,60 @@ class GrowthDeathRecordController extends Controller
     }    
   }
 
+  public function get_growth_register(Request $request)
+  {
+    try 
+    {
+      $growth_register =  GrowthDeathRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('weekly_growth_register',1)
+                      ->select('id','date','animal_id','weight','photo','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $growth_register]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_death_register(Request $request)
+  {
+    try 
+    {
+      $death_register =  GrowthDeathRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('death_register',1)
+                      ->select('id','date','animal_id','cause_of_death','disposal_method','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $death_register]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_slaughter_record(Request $request)
+  {
+    try 
+    {
+      $slaughter_record =  GrowthDeathRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('slaughter_record',1)
+                      ->select('id','date','animal_id','kill_weight','dressed_weight','meat_quality','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $slaughter_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
   
   
 }

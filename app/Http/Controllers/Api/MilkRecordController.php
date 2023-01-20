@@ -92,6 +92,40 @@ class MilkRecordController extends Controller
     }    
   }
 
-  
+  public function get_milk_record(Request $request)
+  {
+    try 
+    {
+      $feed_record =  MilkRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('daily_milk_record',1)
+                      ->select('id','date','animal_id','time','milk_produced','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $feed_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_milk_used(Request $request)
+  {
+    try 
+    {
+      $feed_record =  MilkRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('daily_milk_used',1)
+                      ->select('id','date','heard_id','milk_fed','milk_consumed','milk_loss','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $feed_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
   
 }

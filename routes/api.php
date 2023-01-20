@@ -178,7 +178,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('/add/daily/bird/record', [MeatRecordController::class, 'create_daily_bird_record']);
     Route::post('/add/daily/production/record', [MeatRecordController::class, 'create_daily_production_record']);
-    Route::post('/add/slaughter/record', [MeatRecordController::class, 'create_slaughter_record']);
+    Route::post('/add/meat/slaughter/record', [MeatRecordController::class, 'create_meat_slaughter_record']);
     Route::post('/add/wool/production/record', [MeatRecordController::class, 'create_wool_production_record']);
 
 
@@ -198,6 +198,62 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/add/agronomist/inspection', [CropManagementRecordController::class, 'create_agronomist_inspection']);
     Route::post('/add/crop/produce/harvested', [CropManagementRecordController::class, 'create_crop_produce_harvested']);
     Route::post('/add/harvest/consumed/workers', [CropManagementRecordController::class, 'create_harvest_consumed_workers']);
+
+
+
+     Route::get('/get/detail/feeding/record', [FeedingRecordController::class, 'get_feeding_record']);  
+    Route::get('/get/detail/grazing/record', [FeedingRecordController::class, 'get_grazing_record']); 
+    Route::get('/get/detail/weaning/record', [FeedingRecordController::class, 'get_weaning_record']);
+    Route::get('/get/detail/feeding/consumption', [FeedingRecordController::class, 'get_feeding_consumption']);
+    Route::get('/get/detail/water/consumption', [FeedingRecordController::class, 'get_water_consumption']);   
+
+
+    Route::get('/get/detail/animal/milk/record', [MilkRecordController::class, 'get_milk_record']);  
+    Route::get('/get/detail/milk/used/record', [MilkRecordController::class, 'get_milk_used']); 
+
+
+    Route::get('/get/detail/weekly/growth/register', [GrowthDeathRecordController::class, 'get_growth_register']); 
+    Route::get('/get/detail/death/register', [GrowthDeathRecordController::class, 'get_death_register']); 
+    Route::get('/get/detail/slaughter/record', [GrowthDeathRecordController::class, 'get_slaughter_record']); 
+
+    Route::get('/get/detail/vaccination/record', [HealthRecordController::class, 'get_vaccination_record']); 
+    Route::get('/get/detail/disease/pests/record', [HealthRecordController::class, 'get_disease_pests_record']); 
+    Route::get('/get/detail/treatment/record', [HealthRecordController::class, 'get_treatment_record']); 
+    Route::get('/get/detail/veterinary/record', [HealthRecordController::class, 'get_veterinary_record']); 
+
+
+    Route::get('/get/detail/service/register', [BreedingRecordController::class, 'get_service_register']);
+    Route::get('/get/detail/calf/birth/register', [BreedingRecordController::class, 'get_calf_birth_register']);
+    Route::get('/get/detail/piglet/birth/register', [BreedingRecordController::class, 'get_piglet_birth_register']);
+    Route::get('/get/detail/kid/birth/register', [BreedingRecordController::class, 'get_kid_birth_register']);
+
+
+
+    Route::get('/get/detail/egg/production', [EggRecordController::class, 'get_egg_production']);
+
+
+    Route::get('/get/detail/daily/bird/record', [MeatRecordController::class, 'get_daily_bird_record']);
+    Route::get('/get/detail/daily/production/record', [MeatRecordController::class, 'get_daily_production_record']);
+    Route::get('/get/detail/meat/slaughter/record', [MeatRecordController::class, 'get_meat_slaughter_record']);
+    Route::get('/get/detail/wool/production/record', [MeatRecordController::class, 'get_wool_production_record']);
+
+
+    Route::get('/get/detail/soil/test/record', [FieldPreparationController::class, 'get_soil_test']);
+    Route::get('/get/detail/land/preparation/record', [FieldPreparationController::class, 'get_land_preparation']);
+    Route::get('/get/detail/soil/amendment/record', [FieldPreparationController::class, 'get_soil_amendment']);
+    Route::get('/get/detail/planting/record', [FieldPreparationController::class, 'get_planting_record']);
+
+
+    Route::get('/get/detail/create/routine/scouting', [CropManagementRecordController::class, 'get_routine_scouting']);
+    Route::get('/get/detail/weed/management', [CropManagementRecordController::class, 'get_weed_management']);
+    Route::get('/get/detail/pesticide/application', [CropManagementRecordController::class, 'get_pesticide_application']);
+    Route::get('/get/detail/fertilizer/application', [CropManagementRecordController::class, 'get_fertilizer_application']);
+    Route::get('/get/detail/manure/application', [CropManagementRecordController::class, 'get_manure_application']);
+    Route::get('/get/detail/irrigation/record', [CropManagementRecordController::class, 'get_irrigation']);
+    Route::get('/get/detail/other/farm/activities', [CropManagementRecordController::class, 'get_other_farm_activities']);
+    Route::get('/get/detail/agronomist/inspection', [CropManagementRecordController::class, 'get_agronomist_inspection']);
+    Route::get('/get/detail/crop/produce/harvested', [CropManagementRecordController::class, 'get_crop_produce_harvested']);
+    Route::get('/get/detail/harvest/consumed/workers', [CropManagementRecordController::class, 'get_harvest_consumed_workers']);
 
 
 

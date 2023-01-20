@@ -190,6 +190,79 @@ class HealthRecordController extends Controller
     }    
   }
 
+  public function get_vaccination_record(Request $request)
+  {
+    try 
+    {
+      $vaccination_record =  HealthRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('vaccination_record',1)
+                      ->select('id','date','animal_id','name','dosage','batch_number','manufacture_date','expiry_date','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $vaccination_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_disease_pests_record(Request $request)
+  {
+    try 
+    {
+      $disease_pests_record =  HealthRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('disease_pests_record',1)
+                      ->select('id','date','animal_id','signs_symptoms','photo','diagnosis','recommendations','dosage','treatment_duration',
+                        'status','enterprise_id','user_id','created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $disease_pests_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_treatment_record(Request $request)
+  {
+    try 
+    {
+      $treatment_record =  HealthRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('treatment_record',1)
+                      ->select('id','date','animal_id','type','name','batch_number','dosage','treatment_duration','withholding_days',
+                        'date_safe_slaughter','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $treatment_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_veterinary_record(Request $request)
+  {
+    try 
+    {
+      $veterinary_record =  HealthRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('veterinary_record',1)
+                      ->select('id','date','animal_id','observations','recommendations','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $veterinary_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
   
   
 }
