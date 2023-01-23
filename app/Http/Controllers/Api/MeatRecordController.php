@@ -168,6 +168,77 @@ class MeatRecordController extends Controller
       // return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }    
   }
+
+  public function get_daily_bird_record(Request $request)
+  {
+    try 
+    {
+      $bird_record =  MeatRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('bird_record',1)
+                      ->select('id','date','dead','removed','sold','farm_consumption','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $bird_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_daily_production_record(Request $request)
+  {
+    try 
+    {
+      $production_record =  MeatRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                    ->where('production_record',1)
+                      ->select('id','date','dead','removed','sold','remarks','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $production_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_meat_slaughter_record(Request $request)
+  {
+    try 
+    {
+      $slaughter_record =  MeatRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('slaughter_record',1)
+                      ->select('id','date','animal_id','no_of_birds','kill_weight','dressed_weight','quality','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $slaughter_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_wool_production_record(Request $request)
+  {
+    try 
+    {
+      $wool_record =  WoolProductionRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->select('id','date','animal_id','weight','quality','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $wool_record]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
   
   
 }

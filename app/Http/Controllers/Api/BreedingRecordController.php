@@ -181,6 +181,78 @@ class BreedingRecordController extends Controller
     }    
   }
 
+  public function get_service_register(Request $request)
+  {
+    try 
+    {
+      $service_register =  BreedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('service_register',1)
+                      ->select('id','date','animal_id','date_last','date_service','time_service','date_dying_off','father_id','mother_id','sex',
+                        'weight','no_new_born','birth_date','status','enterprise_id','user_id','created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $service_register]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_calf_birth_register(Request $request)
+  {
+    try 
+    {
+      $calf_birth_register =  BreedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('calf_birth_register',1)
+                      ->select('id','date','animal_id','sex','weight','father_id','mother_id','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $calf_birth_register]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_piglet_birth_register(Request $request)
+  {
+    try 
+    {
+      $piglet_birth_register =  BreedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('piglet_birth_register',1)
+                      ->select('id','date','animal_id','sex','weight','father_id','mother_id','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $piglet_birth_register]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
+  public function get_kid_birth_register(Request $request)
+  {
+    try 
+    {
+      $kid_birth_register =  BreedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                      ->where('kid_birth_register',1)
+                      ->select('id','date','animal_id','sex','weight','father_id','mother_id','no_new_born','status','enterprise_id','user_id',
+                      'created_by','updated_by','created_at','updated_at')
+                      ->get();
+
+      return response()->json(['response' => ['status' => true,'data' => $kid_birth_register]],JsonResponse::HTTP_OK);
+    }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  }
+
   
   
   
