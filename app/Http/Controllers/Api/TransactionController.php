@@ -16,6 +16,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use DB;
 
 
 class TransactionController extends Controller
@@ -270,6 +271,97 @@ class TransactionController extends Controller
     {
       return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }  
+  }
+
+
+  public function income_statement(Request $request)
+  {
+    try 
+    {
+      $product_sale = Transaction::where('user_id',$request->user_id)->where('type',1)->whereBetween('category_id', [1, 4])
+                        ->select(DB::raw('SUM(unit_price) as product_sale'))->first();
+
+      $costs_goods_sold = Transaction::where('user_id',$request->user_id)->whereBetween('type', [2, 3])
+                        ->select(DB::raw('SUM(unit_price) as costs_goods_sold'))->first(); 
+
+      $gross_profit_income = floatval(floatval($product_sale->product_sale) - floatval($costs_goods_sold->costs_goods_sold)); 
+      //dd($gross_profit_income);
+      
+      $operating_expenses = Transaction::where('user_id',$request->user_id)->where('type', 4)->where('category_id', '!=', 40)
+                        ->select(DB::raw('SUM(unit_price) as operating_expenses'))->first();
+
+      $operating_profit_income = floatval(floatval($gross_profit_income) - floatval($operating_expenses->operating_expenses));
+      //dd($operating_profit_income);
+      $non_operating_income = Transaction::where('user_id',$request->user_id)->where('type',1)->whereBetween('category_id', [5, 8])
+                        ->select(DB::raw('SUM(unit_price) as non_operating_income'))->first();
+
+      $non_operating_expenses = Transaction::where('user_id',$request->user_id)->where('type',4)->where('category_id', 40)
+                        ->select(DB::raw('SUM(unit_price) as non_operating_expenses'))->first(); 
+
+      $net_profit_income_before_taxes = 
+      floatval(floatval($operating_profit_income) + floatval($non_operating_income->non_operating_income) - floatval($non_operating_expenses->non_operating_expenses)); 
+      //dd($net_profit_income_before_taxes);
+      $data = [
+               'gross_profit_income' => $gross_profit_income,
+               'operating_profit_income' => $operating_profit_income,
+               'net_profit_income_before_taxes' => $net_profit_income_before_taxes,
+            ];
+      return response()->json(['response' => ['status' => true, 'data' => $data]], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+
+  }
+
+  public function balance_sheet(Request $request)
+  {
+    try 
+    {
+      $current_assets = Transaction::where('user_id',$request->user_id)->where('type',1)->whereBetween('category_id', [1, 4])
+                              ->select(DB::raw('SUM(unit_price) as current_assets'))->first();
+      //dd($regular_income_sales->regular_income_sales);
+
+      $asset_purchases = Transaction::where('user_id',$request->user_id)->where('type',6)->whereBetween('category_id', [48, 52])
+                         ->where('payment_method', '!=', 5)->select(DB::raw('SUM(unit_price) as asset_purchases'))->first();
+      //dd($asset_purchases->asset_purchases);  
+                  
+      $asset_sales = Transaction::where('user_id',$request->user_id)->where('type',7)->whereBetween('category_id', [53, 57])
+                    ->select(DB::raw('SUM(unit_price) as asset_sales'))->first(); 
+      //dd($asset_sales->asset_sales);
+      $long_term_assets  =  floatval(floatval($asset_purchases->asset_purchases) + floatval($asset_sales->asset_sales)); 
+
+      $total_assets =  floatval(floatval($current_assets->current_assets) + floatval($long_term_assets));
+
+      $farm_input_service = Transaction::where('user_id',$request->user_id)->whereBetween('type',[2,3])->whereBetween('category_id', [9, 31])
+                    ->select(DB::raw('SUM(unit_price) as farm_input_service'))->first(); 
+      
+      $monthly_payment = Transaction::where('user_id',$request->user_id)->where('type',4)->where('category_id', '!=', 40)
+                    ->select(DB::raw('SUM(unit_price) as monthly_payment'))->first();
+
+      $current_liabilities = floatval(floatval($farm_input_service->farm_input_service) + floatval($monthly_payment->monthly_payment));
+
+      $long_term_liabilities = Transaction::where('user_id',$request->user_id)->where('type',6)->whereBetween('category_id', [48, 52])
+                         ->where('payment_method',5)->select(DB::raw('SUM(unit_price) as long_term_liabilities'))->first();
+
+      $total_liabilities =  floatval(floatval($current_liabilities) + floatval($long_term_liabilities->long_term_liabilities));    
+      
+      $equity  =  floatval(floatval($total_assets) - floatval($total_liabilities));                               
+
+      //dd($total_assets);  
+            $data = [
+               'total_assets' => $total_assets,
+               'total_liabilities' => $total_liabilities,
+               'equity' => $equity,
+            ];
+      return response()->json(['response' => ['status' => true, 'data' => $data]], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+
   }
 
   
