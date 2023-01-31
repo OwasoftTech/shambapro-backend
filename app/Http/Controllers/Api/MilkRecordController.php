@@ -96,10 +96,14 @@ class MilkRecordController extends Controller
   {
     try 
     {
-      $feed_record =  MilkRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('daily_milk_record',1)
-                      ->select('id','date','animal_id','time','milk_produced','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $feed_record =  MilkRecord::from('milk_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.daily_milk_record',1)
+                      ->select('f.id','f.date','f.animal_id','a.animal_name','f.time','f.milk_produced','f.status','e.enterprise_name','u.name as username',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $feed_record]],JsonResponse::HTTP_OK);
@@ -114,10 +118,13 @@ class MilkRecordController extends Controller
   {
     try 
     {
-      $feed_record =  MilkRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('daily_milk_used',1)
-                      ->select('id','date','heard_id','milk_fed','milk_consumed','milk_loss','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $feed_record =  MilkRecord::from('milk_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                      ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.daily_milk_used',1)
+                      ->select('f.id','f.date','f.milk_fed','f.milk_consumed','f.milk_loss','f.status','e.enterprise_name','u.name as username',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $feed_record]],JsonResponse::HTTP_OK);
