@@ -49,6 +49,10 @@ class GrowthDeathRecordController extends Controller
         $obj->animal_id = $request->animal_id;
         $obj->weight = $request->weight;
         $obj->photo = $request->photo;
+        $obj->cause_of_death = $request->cause_of_death;
+        $obj->dressed_weight = $request->dressed_weight;
+        $obj->meat_quality = $request->meat_quality;
+        $obj->no_of_birds = $request->no_of_birds;
         $obj->enterprise_id = $request->enterprise_id;
         $obj->weekly_growth_register  = 1;
         $obj->status = 1;
@@ -86,6 +90,8 @@ class GrowthDeathRecordController extends Controller
         $obj->animal_id = $request->animal_id;
         $obj->cause_of_death = $request->cause_of_death;
         $obj->disposal_method = $request->disposal_method;
+        $obj->remarks = $request->remarks;
+        $obj->no_of_birds = $request->no_of_birds;
         $obj->death_register  = 1;
         $obj->user_id = Auth::user()->id;
         $obj->enterprise_id = $request->enterprise_id;
@@ -124,6 +130,8 @@ class GrowthDeathRecordController extends Controller
         $obj->kill_weight = $request->kill_weight;
         $obj->dressed_weight = $request->dressed_weight;
         $obj->meat_quality = $request->meat_quality;
+        $obj->no_of_birds = $request->no_of_birds;
+        $obj->weight = $request->weight;
         $obj->slaughter_record  = 1;
         $obj->user_id = Auth::user()->id;
         $obj->enterprise_id = $request->enterprise_id;
@@ -152,7 +160,7 @@ class GrowthDeathRecordController extends Controller
                         ->leftjoin('animals as a', 'a.id', 'f.animal_id')  
                       ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
                       ->where('f.weekly_growth_register',1)
-                      ->select('f.id','f.date','f.animal_id','f.weight','f.photo','f.status','e.enterprise_name','u.name as username','a.animal_name',
+                      ->select('f.id','f.date','f.animal_id','f.weight','f.photo','f.cause_of_death','f.dressed_weight','f.meat_quality','f.no_of_birds','f.status','e.enterprise_name','u.name as username','a.animal_name',
                       'f.created_at','f.updated_at')
                       ->get();
 
@@ -174,7 +182,7 @@ class GrowthDeathRecordController extends Controller
                         ->leftjoin('animals as a', 'a.id', 'f.animal_id') 
                       ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
                       ->where('f.death_register',1)
-                      ->select('f.id','f.date','f.animal_id','f.cause_of_death','f.disposal_method','f.status','e.enterprise_name','u.name as username','a.animal_name',
+                      ->select('f.id','f.date','f.animal_id','f.cause_of_death','f.disposal_method','f.remarks','f.no_of_birds','f.status','e.enterprise_name','u.name as username','a.animal_name',
                       'f.created_at','f.updated_at')
                       ->get();
 
@@ -196,7 +204,8 @@ class GrowthDeathRecordController extends Controller
                         ->leftjoin('animals as a', 'a.id', 'f.animal_id')
                       ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
                       ->where('f.slaughter_record',1)
-                      ->select('f.id','f.date','f.animal_id','f.kill_weight','f.dressed_weight','f.meat_quality','f.status','e.enterprise_name','u.name as username','a.animal_name',
+                      ->select('f.id','f.date','f.animal_id','f.kill_weight','f.dressed_weight','f.meat_quality',
+                       'f.no_of_birds','f.weight','f.status','e.enterprise_name','u.name as username','a.animal_name',
                       'f.created_at','f.updated_at')
                       ->get();
 
