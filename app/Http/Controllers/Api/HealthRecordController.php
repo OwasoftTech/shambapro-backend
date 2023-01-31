@@ -194,10 +194,13 @@ class HealthRecordController extends Controller
   {
     try 
     {
-      $vaccination_record =  HealthRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('vaccination_record',1)
-                      ->select('id','date','animal_id','name','dosage','batch_number','manufacture_date','expiry_date','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $vaccination_record =  HealthRecord::from('health_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.vaccination_record',1)
+                      ->select('f.id','f.date','f.animal_id','f.name','f.dosage','f.batch_number','f.manufacture_date','f.expiry_date','f.status','e.enterprise_name','u.name as username','a.animal_name','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $vaccination_record]],JsonResponse::HTTP_OK);
@@ -212,10 +215,14 @@ class HealthRecordController extends Controller
   {
     try 
     {
-      $disease_pests_record =  HealthRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('disease_pests_record',1)
-                      ->select('id','date','animal_id','signs_symptoms','photo','diagnosis','recommendations','dosage','treatment_duration',
-                        'status','enterprise_id','user_id','created_by','updated_by','created_at','updated_at')
+      $disease_pests_record =  HealthRecord::from('health_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.disease_pests_record',1)
+                      ->select('f.id','f.date','f.animal_id','f.signs_symptoms','f.photo','f.diagnosis','f.recommendations','f.dosage','f.treatment_duration',
+                        'f.status','e.enterprise_name','u.name as username','a.animal_name','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $disease_pests_record]],JsonResponse::HTTP_OK);
@@ -230,11 +237,15 @@ class HealthRecordController extends Controller
   {
     try 
     {
-      $treatment_record =  HealthRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('treatment_record',1)
-                      ->select('id','date','animal_id','type','name','batch_number','dosage','treatment_duration','withholding_days',
-                        'date_safe_slaughter','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $treatment_record =  HealthRecord::from('health_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.treatment_record',1)
+                      ->select('f.id','f.date','f.animal_id','f.type','f.name','f.batch_number','f.dosage','f.treatment_duration','f.withholding_days',
+                        'f.date_safe_slaughter','f.status','e.enterprise_name','u.name as username','a.animal_name',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $treatment_record]],JsonResponse::HTTP_OK);
@@ -249,10 +260,14 @@ class HealthRecordController extends Controller
   {
     try 
     {
-      $veterinary_record =  HealthRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('veterinary_record',1)
-                      ->select('id','date','animal_id','observations','recommendations','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $veterinary_record =  HealthRecord::from('health_records as f')
+                       ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.veterinary_record',1)
+                      ->select('f.id','f.date','f.animal_id','f.observations','f.recommendations','f.status','e.enterprise_name','u.name as username','a.animal_name',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $veterinary_record]],JsonResponse::HTTP_OK);

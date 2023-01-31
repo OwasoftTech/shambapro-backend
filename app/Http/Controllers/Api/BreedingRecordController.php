@@ -185,10 +185,14 @@ class BreedingRecordController extends Controller
   {
     try 
     {
-      $service_register =  BreedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('service_register',1)
-                      ->select('id','date','animal_id','date_last','date_service','time_service','date_dying_off','father_id','mother_id','sex',
-                        'weight','no_new_born','birth_date','status','enterprise_id','user_id','created_by','updated_by','created_at','updated_at')
+      $service_register =  BreedingRecord::from('breeding_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.service_register',1)
+                      ->select('f.id','f.date','f.animal_id','f.date_last','f.date_service','f.time_service','f.date_dying_off','a.father_id','a.mother_id','f.sex',
+                        'f.weight','f.no_new_born','f.birth_date','f.status','e.enterprise_name','u.name as username','a.animal_name','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $service_register]],JsonResponse::HTTP_OK);
@@ -203,10 +207,13 @@ class BreedingRecordController extends Controller
   {
     try 
     {
-      $calf_birth_register =  BreedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('calf_birth_register',1)
-                      ->select('id','date','animal_id','sex','weight','father_id','mother_id','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $calf_birth_register =  BreedingRecord::from('breeding_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.calf_birth_register',1)
+                      ->select('f.id','f.date','f.animal_id','f.sex','f.weight','a.father_id','a.mother_id','f.status','e.enterprise_name','u.name as username','a.animal_name','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $calf_birth_register]],JsonResponse::HTTP_OK);
@@ -221,10 +228,14 @@ class BreedingRecordController extends Controller
   {
     try 
     {
-      $piglet_birth_register =  BreedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('piglet_birth_register',1)
-                      ->select('id','date','animal_id','sex','weight','father_id','mother_id','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $piglet_birth_register =  BreedingRecord::from('breeding_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.piglet_birth_register',1)
+                      ->select('f.id','f.date','f.animal_id','f.sex','f.weight','a.father_id','a.mother_id','f.status','e.enterprise_name','u.name as username','a.animal_name',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $piglet_birth_register]],JsonResponse::HTTP_OK);
@@ -239,10 +250,14 @@ class BreedingRecordController extends Controller
   {
     try 
     {
-      $kid_birth_register =  BreedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('kid_birth_register',1)
-                      ->select('id','date','animal_id','sex','weight','father_id','mother_id','no_new_born','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $kid_birth_register =  BreedingRecord::from('breeding_records as f')
+                        ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.kid_birth_register',1)
+                      ->select('f.id','f.date','f.animal_id','f.sex','f.weight','a.father_id','a.mother_id','f.no_new_born','f.status','e.enterprise_name','u.name as username','a.animal_name',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $kid_birth_register]],JsonResponse::HTTP_OK);

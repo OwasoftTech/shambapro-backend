@@ -209,10 +209,13 @@ class FeedingRecordController extends Controller
   {
     try 
     {
-      $feed_record =  FeedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('daily_feeding_record',1)
-                      ->select('id','date','heard_id','time','feed_type','quantity','left_over','spoilage','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $feed_record =  FeedingRecord::from('feeding_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                      ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.daily_feeding_record',1)
+                      ->select('f.id','f.date','f.time','f.feed_type','f.quantity','f.left_over','f.spoilage','f.status','u.name as username',
+                      'e.enterprise_name','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $feed_record]],JsonResponse::HTTP_OK);
@@ -227,10 +230,13 @@ class FeedingRecordController extends Controller
   {
     try 
     {
-      $grazing_record =  FeedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('daily_grazing_record',1)
-                      ->select('id','date','heard_id','grazing_from','grazing_to','paddock_id','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $grazing_record =  FeedingRecord::from('feeding_records as f')
+                        ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.daily_grazing_record',1)
+                      ->select('f.id','f.date','f.grazing_from','f.grazing_to','f.status','u.name as username',
+                      'e.enterprise_name','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $grazing_record]],JsonResponse::HTTP_OK);
@@ -245,10 +251,14 @@ class FeedingRecordController extends Controller
   {
     try 
     {
-      $feed_record =  FeedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('daily_weaning_record',1)
-                      ->select('id','date','animal_id','weaning_weight','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $feed_record =  FeedingRecord::from('feeding_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.daily_weaning_record',1)
+                      ->select('f.id','f.date','f.animal_id','f.weaning_weight','f.status','e.enterprise_name','u.name as username',
+                      'a.animal_name','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $feed_record]],JsonResponse::HTTP_OK);
@@ -263,10 +273,13 @@ class FeedingRecordController extends Controller
   {
     try 
     {
-      $feeding_consumption_record =  FeedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('daily_feed_consumption',1)
-                      ->select('id','date','time','feed_type','quantity','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $feeding_consumption_record =  FeedingRecord::from('feeding_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.daily_feed_consumption',1)
+                      ->select('f.id','f.date','f.time','f.feed_type','f.quantity','f.status','e.enterprise_name','u.name as username',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $feeding_consumption_record]],JsonResponse::HTTP_OK);
@@ -281,10 +294,13 @@ class FeedingRecordController extends Controller
   {
     try 
     {
-      $water_consumption_record =  FeedingRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+      $water_consumption_record =  FeedingRecord::from('feeding_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
                       ->where('daily_water_consumption',1)
-                      ->select('id','date','time','quantity','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+                      ->select('f.id','f.date','f.time','f.quantity','f.status','e.enterprise_name','u.name as username',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $water_consumption_record]],JsonResponse::HTTP_OK);

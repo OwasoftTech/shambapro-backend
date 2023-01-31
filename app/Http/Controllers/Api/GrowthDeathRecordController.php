@@ -146,10 +146,14 @@ class GrowthDeathRecordController extends Controller
   {
     try 
     {
-      $growth_register =  GrowthDeathRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('weekly_growth_register',1)
-                      ->select('id','date','animal_id','weight','photo','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $growth_register =  GrowthDeathRecord::from('growth_death_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')  
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.weekly_growth_register',1)
+                      ->select('f.id','f.date','f.animal_id','f.weight','f.photo','f.status','e.enterprise_name','u.name as username','a.animal_name',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $growth_register]],JsonResponse::HTTP_OK);
@@ -164,10 +168,14 @@ class GrowthDeathRecordController extends Controller
   {
     try 
     {
-      $death_register =  GrowthDeathRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('death_register',1)
-                      ->select('id','date','animal_id','cause_of_death','disposal_method','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $death_register =  GrowthDeathRecord::from('growth_death_records as f')
+                    ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id') 
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.death_register',1)
+                      ->select('f.id','f.date','f.animal_id','f.cause_of_death','f.disposal_method','f.status','e.enterprise_name','u.name as username','a.animal_name',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $death_register]],JsonResponse::HTTP_OK);
@@ -182,10 +190,14 @@ class GrowthDeathRecordController extends Controller
   {
     try 
     {
-      $slaughter_record =  GrowthDeathRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('slaughter_record',1)
-                      ->select('id','date','animal_id','kill_weight','dressed_weight','meat_quality','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $slaughter_record =  GrowthDeathRecord::from('growth_death_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.slaughter_record',1)
+                      ->select('f.id','f.date','f.animal_id','f.kill_weight','f.dressed_weight','f.meat_quality','f.status','e.enterprise_name','u.name as username','a.animal_name',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $slaughter_record]],JsonResponse::HTTP_OK);
