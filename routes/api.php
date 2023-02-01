@@ -200,8 +200,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/add/harvest/consumed/workers', [CropManagementRecordController::class, 'create_harvest_consumed_workers']);
 
 
-
-     Route::get('/get/detail/feeding/record', [FeedingRecordController::class, 'get_feeding_record']);  
+    Route::get('/get/detail/feed/type', [FeedingRecordController::class, 'get_feed_type']);
+    Route::get('/get/detail/feeding/record', [FeedingRecordController::class, 'get_feeding_record']);  
     Route::get('/get/detail/grazing/record', [FeedingRecordController::class, 'get_grazing_record']); 
     Route::get('/get/detail/weaning/record', [FeedingRecordController::class, 'get_weaning_record']);
     Route::get('/get/detail/feeding/consumption', [FeedingRecordController::class, 'get_feeding_consumption']);

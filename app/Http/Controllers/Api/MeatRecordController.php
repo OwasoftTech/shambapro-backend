@@ -173,10 +173,13 @@ class MeatRecordController extends Controller
   {
     try 
     {
-      $bird_record =  MeatRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('bird_record',1)
-                      ->select('id','date','dead','removed','sold','farm_consumption','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $bird_record =  MeatRecord::from('meat_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.bird_record',1)
+                      ->select('f.id','f.date','f.dead','f.removed','f.sold','f.farm_consumption','f.status','e.enterprise_name','u.name as username',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $bird_record]],JsonResponse::HTTP_OK);
@@ -191,10 +194,13 @@ class MeatRecordController extends Controller
   {
     try 
     {
-      $production_record =  MeatRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                    ->where('production_record',1)
-                      ->select('id','date','dead','removed','sold','remarks','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $production_record =  MeatRecord::from('meat_records as f')
+                    ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                    ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                    ->where('f.production_record',1)
+                      ->select('f.id','f.date','f.dead','f.removed','f.sold','f.remarks','f.status','e.enterprise_name','u.name as username',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $production_record]],JsonResponse::HTTP_OK);
@@ -209,10 +215,13 @@ class MeatRecordController extends Controller
   {
     try 
     {
-      $slaughter_record =  MeatRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('slaughter_record',1)
-                      ->select('id','date','animal_id','no_of_birds','kill_weight','dressed_weight','quality','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $slaughter_record =  MeatRecord::from('meat_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.slaughter_record',1)
+                      ->select('f.id','f.date','f.animal_id','f.no_of_birds','f.kill_weight','f.dressed_weight','f.quality','f.status','e.enterprise_name','u.name as username', 'a.animal_name','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $slaughter_record]],JsonResponse::HTTP_OK);
@@ -227,9 +236,13 @@ class MeatRecordController extends Controller
   {
     try 
     {
-      $wool_record =  WoolProductionRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->select('id','date','animal_id','weight','quality','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $wool_record =  WoolProductionRecord::from('meat_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->leftjoin('animals as a', 'a.id', 'f.animal_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->select('f.id','f.date','f.animal_id','f.weight','f.quality','f.status','e.enterprise_name','u.name as username', 'a.animal_name',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $wool_record]],JsonResponse::HTTP_OK);

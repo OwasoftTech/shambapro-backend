@@ -175,10 +175,13 @@ class FieldPreparationController extends Controller
   {
     try 
     {
-      $soil_test =  FieldPreparation::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('soil_test',1)
-                      ->select('id','date','service_provider','type','result','recommendation','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $soil_test =  FieldPreparation::from('field_preparation as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.soil_test',1)
+                      ->select('f.id','f.date','f.service_provider','f.type','f.result','f.recommendation','f.status','e.enterprise_name','u.name as username',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $soil_test]],JsonResponse::HTTP_OK);
@@ -193,10 +196,13 @@ class FieldPreparationController extends Controller
   {
     try 
     {
-      $land_preparation =  FieldPreparation::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('land_preparation',1)
-                      ->select('id','date','type','acreage','done_by','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $land_preparation =  FieldPreparation::from('field_preparation as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.land_preparation',1)
+                      ->select('f.id','f.date','f.type','f.acreage','f.done_by','f.status','e.enterprise_name','u.name as username',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $land_preparation]],JsonResponse::HTTP_OK);
@@ -211,10 +217,12 @@ class FieldPreparationController extends Controller
   {
     try 
     {
-      $soil_amendment =  FieldPreparation::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('soil_amendment',1)
-                      ->select('id','date','name','type','quantity','ingredient','batch_no','dosage','supplier_name','expiry_date','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $soil_amendment =  FieldPreparation::from('field_preparation as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.soil_amendment',1)
+                      ->select('f.id','f.date','f.name','f.type','f.quantity','f.ingredient','f.batch_no','f.dosage','f.supplier_name','f.expiry_date','f.status','e.enterprise_name','u.name as username','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $soil_amendment]],JsonResponse::HTTP_OK);
@@ -229,10 +237,13 @@ class FieldPreparationController extends Controller
   {
     try 
     {
-      $planting_record =  FieldPreparation::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('planting_record',1)
-                      ->select('id','date','type','quantity','done_by','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $planting_record =  FieldPreparation::from('field_preparation as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')  
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.planting_record',1)
+                      ->select('f.id','f.date','f.type','f.quantity','f.done_by','f.status','e.enterprise_name','u.name as username',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $planting_record]],JsonResponse::HTTP_OK);

@@ -408,10 +408,12 @@ class CropManagementRecordController extends Controller
   {
     try 
     {
-      $routine_scouting =  CropManagementRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('routine_scouting',1)
-                      ->select('id','date','sign_symptoms','diagnosis','recommended','batch_no','dosage','supplier_name','expiry_date','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $routine_scouting =  CropManagementRecord::from('crop_management_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.routine_scouting',1)
+                      ->select('f.id','f.date','f.sign_symptoms','f.diagnosis','f.recommended','f.batch_no','f.dosage','f.supplier_name','f.expiry_date','f.status','e.enterprise_name','u.name as username','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $routine_scouting]],JsonResponse::HTTP_OK);
@@ -426,10 +428,13 @@ class CropManagementRecordController extends Controller
   {
     try 
     {
-      $weed_management =  CropManagementRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('weed_management',1)
-                      ->select('id','date','type','name','ingredient','batch_no','dosage','amount','supplier_name','expiry_date','status',
-                        'enterprise_id','user_id','created_by','updated_by','created_at','updated_at')
+      $weed_management =  CropManagementRecord::from('crop_management_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')    
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.weed_management',1)
+                      ->select('f.id','f.date','f.type','f.name','f.ingredient','f.batch_no','f.dosage','f.amount','f.supplier_name','f.expiry_date','f.status',
+                        'e.enterprise_name','u.name as username','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $weed_management]],JsonResponse::HTTP_OK);
@@ -444,10 +449,13 @@ class CropManagementRecordController extends Controller
   {
     try 
     {
-      $pesticide_application =  CropManagementRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('pesticide_application',1)
-                      ->select('id','date','method','type','name','ingredient','batch_no','dosage','amount','supplier_name','expiry_date','withholding_days',
-                        'status','enterprise_id','user_id','created_by','updated_by','created_at','updated_at')
+      $pesticide_application =  CropManagementRecord::from('crop_management_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id') 
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.pesticide_application',1)
+                      ->select('f.id','f.date','f.method','f.type','f.name','f.ingredient','f.batch_no','f.dosage','f.amount','f.supplier_name','f.expiry_date',
+                        'f.withholding_days','f.status','e.enterprise_name','u.name as username','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $pesticide_application]],JsonResponse::HTTP_OK);
@@ -462,10 +470,13 @@ class CropManagementRecordController extends Controller
   {
     try 
     {
-      $fertilizer_application =  CropManagementRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('fertilizer_application',1)
-                      ->select('id','date','method','type','name','ingredient','batch_no','dosage','amount','supplier_name','expiry_date',
-                        'status','enterprise_id','user_id','created_by','updated_by','created_at','updated_at')
+      $fertilizer_application =  CropManagementRecord::from('crop_management_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id') 
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.fertilizer_application',1)
+                      ->select('f.id','f.date','f.method','f.type','f.name','f.ingredient','f.batch_no','f.dosage','f.amount','f.supplier_name','f.expiry_date',
+                        'f.status','e.enterprise_name','u.name as username','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $fertilizer_application]],JsonResponse::HTTP_OK);
@@ -480,10 +491,13 @@ class CropManagementRecordController extends Controller
   {
     try 
     {
-      $manure_application =  CropManagementRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('manure_application',1)
-                      ->select('id','date','method','type','dosage','amount','supplier_name',
-                        'status','enterprise_id','user_id','created_by','updated_by','created_at','updated_at')
+      $manure_application =  CropManagementRecord::from('crop_management_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.manure_application',1)
+                      ->select('f.id','f.date','f.method','f.type','f.dosage','f.amount','f.supplier_name',
+                        'f.status','e.enterprise_name','u.name as username','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $manure_application]],JsonResponse::HTTP_OK);
@@ -498,9 +512,12 @@ class CropManagementRecordController extends Controller
   {
     try 
     {
-      $irrigation =  CropManagementRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('irrigation',1)
-                      ->select('id','date','type','recommended','status','enterprise_id','user_id','created_by','updated_by','created_at','updated_at')
+      $irrigation =  CropManagementRecord::from('crop_management_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.irrigation',1)
+                      ->select('f.id','f.date','f.type','f.recommended','f.status','e.enterprise_name','u.name as username','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $irrigation]],JsonResponse::HTTP_OK);
@@ -515,9 +532,12 @@ class CropManagementRecordController extends Controller
   {
     try 
     {
-      $other_farm_activities =  CropManagementRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('other_farm_activities',1)
-                      ->select('id','date','purpose','observation','status','enterprise_id','user_id','created_by','updated_by','created_at','updated_at')
+      $other_farm_activities =  CropManagementRecord::from('crop_management_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.other_farm_activities',1)
+                      ->select('f.id','f.date','f.purpose','f.observation','f.status','e.enterprise_name','u.name as username','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $other_farm_activities]],JsonResponse::HTTP_OK);
@@ -532,9 +552,12 @@ class CropManagementRecordController extends Controller
   {
     try 
     {
-      $agronomist_inspection =  CropManagementRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('agronomist_inspection',1)
-                      ->select('id','date','purpose','observation','status','enterprise_id','user_id','created_by','updated_by','created_at','updated_at')
+      $agronomist_inspection =  CropManagementRecord::from('crop_management_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.agronomist_inspection',1)
+                      ->select('f.id','f.date','f.purpose','f.observation','f.status','e.enterprise_name','u.name as username','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $agronomist_inspection]],JsonResponse::HTTP_OK);
@@ -549,9 +572,12 @@ class CropManagementRecordController extends Controller
   {
     try 
     {
-      $crop_produce_harvested =  CropManagementRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('crop_produce_harvested',1)
-                      ->select('id','date','quantity','status','enterprise_id','user_id','created_by','updated_by','created_at','updated_at')
+      $crop_produce_harvested =  CropManagementRecord::from('crop_management_records as f')
+                        ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                        ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.crop_produce_harvested',1)
+                      ->select('f.id','f.date','f.quantity','f.status','e.enterprise_name','u.name as username','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $crop_produce_harvested]],JsonResponse::HTTP_OK);
@@ -566,9 +592,12 @@ class CropManagementRecordController extends Controller
   {
     try 
     {
-      $harvest_consumed_workers =  CropManagementRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->where('harvest_consumed_workers',1)
-                      ->select('id','date','quantity','status','enterprise_id','user_id','created_by','updated_by','created_at','updated_at')
+      $harvest_consumed_workers =  CropManagementRecord::from('crop_management_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->where('f.harvest_consumed_workers',1)
+                      ->select('f.id','f.date','f.quantity','f.status','e.enterprise_name','u.name as username','f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $harvest_consumed_workers]],JsonResponse::HTTP_OK);
