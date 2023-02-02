@@ -17,7 +17,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use DB;
-
+use PDF;
 
 class TransactionController extends Controller
 {
@@ -278,9 +278,13 @@ class TransactionController extends Controller
   {
     try 
     {
+      $current_year = Carbon::today()->format('Y');
+      $current_start_date = Carbon::parse('first day of January '. $current_year)->startOfDay();
+      $current_end_date = Carbon::parse('last day of December '. $current_year)->endOfDay();
+
       $product_sale = Transaction::where('user_id',$request->user_id)->where('type',1)->whereBetween('category_id', [1, 4])
                         ->select(DB::raw('SUM(unit_price) as product_sale'))->first();
-
+      //dd($product_sale->product_sale);
       $costs_goods_sold = Transaction::where('user_id',$request->user_id)->whereBetween('type', [2, 3])
                         ->select(DB::raw('SUM(unit_price) as costs_goods_sold'))->first(); 
 
@@ -297,20 +301,27 @@ class TransactionController extends Controller
 
       $non_operating_expenses = Transaction::where('user_id',$request->user_id)->where('type',4)->where('category_id', 40)
                         ->select(DB::raw('SUM(unit_price) as non_operating_expenses'))->first(); 
-
       $net_profit_income_before_taxes = 
       floatval(floatval($operating_profit_income) + floatval($non_operating_income->non_operating_income) - floatval($non_operating_expenses->non_operating_expenses)); 
+      $income_tax = 0; 
+      $net_profit_income = floatval(floatval($net_profit_income_before_taxes) - floatval($income_tax));              
+
       //dd($net_profit_income_before_taxes);
-      $data = [
-               'gross_profit_income' => $gross_profit_income,
-               'operating_profit_income' => $operating_profit_income,
-               'net_profit_income_before_taxes' => $net_profit_income_before_taxes,
-            ];
-      return response()->json(['response' => ['status' => true, 'data' => $data]], JsonResponse::HTTP_OK);
+      
+      $pdf = PDF::loadView('reports.income_statement', compact('product_sale','costs_goods_sold','operating_expenses','non_operating_income','non_operating_expenses',
+        'gross_profit_income','operating_profit_income','net_profit_income_before_taxes','income_tax','net_profit_income'));
+
+          return $pdf->setPaper('A4')
+          ->setOrientation('Portrait')
+          ->download('INCOME.pdf');
+          //return $pdf->stream('income.pdf');
+      /*return View('reports.income_statement', compact('product_sale','costs_goods_sold','operating_expenses','non_operating_income','non_operating_expenses',
+        'gross_profit_income','operating_profit_income','net_profit_income_before_taxes','income_tax','net_profit_income'));*/      
+      
     } 
     catch (Exception $e) 
     {
-      return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }  
 
   }

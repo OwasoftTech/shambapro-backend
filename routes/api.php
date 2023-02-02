@@ -256,9 +256,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/get/detail/harvest/consumed/workers', [CropManagementRecordController::class, 'get_harvest_consumed_workers']);
 
 
-    Route::get('/get/income/statement/details', [TransactionController::class, 'income_statement']); 
-    Route::get('/get/balance/sheet/details', [TransactionController::class, 'balance_sheet']); 
+   
 
 
 
 });
+
+    Route::get('/get/income/statement/details', [TransactionController::class, 'income_statement']); 
+    Route::get('/get/balance/sheet/details', [TransactionController::class, 'balance_sheet']); 

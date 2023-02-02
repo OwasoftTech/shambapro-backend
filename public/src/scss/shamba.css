@@ -1,0 +1,133 @@
+@font-face {
+  font-family: Volkswagen-DemiBold;
+  src: url("../fonts/Volkswagen-DemiBold Regular.ttf");
+}
+@font-face {
+  font-family: Volkswagen-Medium;
+  src: url("../fonts/Volkswagen-Medium Regular.ttf");
+}
+@font-face {
+  font-family: Volkswagen-Regular;
+  src: url("../fonts/Volkswagen-Regular Regular.ttf");
+}
+.sunfarm h1 {
+  font-size: 28px;
+  font-family: Volkswagen-DemiBold;
+  color: #3a8b38 !important;
+}
+.sunfarm h2 {
+  font-size: 16px;
+  font-family: Volkswagen-Medium;
+  color: #3a8b38 !important;
+}
+.sunfarm h3 {
+  font-size: 16px;
+  font-family: Volkswagen-Regular;
+  color: #273133 !important;
+}
+.sunfarm p {
+  font-size: 14px;
+  font-family: Volkswagen-Regular;
+  color: #61797d;
+}
+
+.invoice2 th {
+  font-size: 14px;
+  font-family: Volkswagen-Regular;
+}
+.invoice2 td {
+  font-size: 14px;
+  font-family: Volkswagen-Regular;
+}
+
+.table-group-divider {
+  border-top: 2px solid #3a8b38 !important;
+}
+
+.dashed-border {
+  background-image: linear-gradient(to right, #61797d 44%, transparent 0%);
+  background-position: bottom;
+  background-size: 8px 0.5px;
+  background-repeat: repeat-x;
+}
+
+.TableHeading {
+  line-height: 2 !important;
+}
+
+.transparentcolor {
+  color: rgba(255, 255, 255, 0);
+}
+
+.footer-border {
+  border-bottom: solid 3px #3a8b38;
+}
+
+.table-borderless th {
+  font-size: 14px;
+  font-family: Volkswagen-Regular;
+}
+.table-borderless td {
+  color: #61797d;
+  font-size: 12px;
+  font-family: Volkswagen-Regular;
+}
+.table-borderless .color-dark {
+  color: #273133;
+}
+.table-borderless .font-dark {
+  color: #273133;
+  font-family: Volkswagen-Medium;
+}
+
+.table-responsive p {
+  font-family: Volkswagen-Regular;
+  font-size: 12px;
+  color: #61797d;
+}
+.table-responsive .farmstock {
+  font-family: Volkswagen-DemiBold;
+  font-size: 18px;
+  border-bottom: none;
+  line-height: 2.5;
+}
+
+.TableHeader {
+  line-height: 2;
+}
+.TableHeader tr {
+  background-color: #f8f8f8;
+}
+
+.TableBody {
+  border-bottom: 1px solid black;
+}
+.TableBody tr {
+  border-bottom: none !important;
+  border-top: none !important;
+  color: #61797d;
+}
+.TableBody .dashed-border {
+  background-image: linear-gradient(to right, #61797d 44%, transparent 0%);
+  background-position: bottom;
+  background-size: 8px 1px;
+  background-repeat: repeat-x;
+}
+
+.paragraph {
+  font-family: Volkswagen-Regular;
+  font-size: 14px;
+  color: #61797d;
+  text-align: justify;
+}
+
+.report-details {
+  font-family: Volkswagen-Regular;
+  font-size: 14px;
+}
+.report-details p {
+  color: #61797d;
+}
+.report-details span {
+  color: #273133;
+}/*# sourceMappingURL=shamba.css.map */
