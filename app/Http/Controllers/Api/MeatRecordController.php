@@ -236,7 +236,7 @@ class MeatRecordController extends Controller
   {
     try 
     {
-      $wool_record =  WoolProductionRecord::from('meat_records as f')
+      $wool_record =  WoolProductionRecord::from('wool_production_records as f')
                       ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
                         ->leftjoin('users as u', 'u.id', 'f.user_id')
                         ->leftjoin('animals as a', 'a.id', 'f.animal_id')
