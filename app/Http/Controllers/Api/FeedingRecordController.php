@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\FeedingRecord;
 use App\Models\Enterprise;
 use App\Models\User;
+use App\Models\FarmStore;
 use Validator;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -16,6 +17,20 @@ use Carbon\Carbon;
 
 class FeedingRecordController extends Controller
 {
+
+  public function get_feed_type()
+  {
+    try 
+    {
+      $t_type =  FarmStore::where('category_id',17)->where('subcategory_id',1)->get();
+      return response()->json(['response' => ['status' => true, 'data' => $t_type]], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+
+  }
   
   public function create_feeding_record(Request $request)
   {
@@ -212,9 +227,10 @@ class FeedingRecordController extends Controller
       $feed_record =  FeedingRecord::from('feeding_records as f')
                       ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
                       ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->leftjoin('farm_store as fs', 'fs.id', 'f.feed_type')
                       ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
                       ->where('f.daily_feeding_record',1)
-                      ->select('f.id','f.date','f.time','f.feed_type','f.quantity','f.left_over','f.spoilage','f.status','u.name as username',
+                      ->select('f.id','f.date','f.time','fs.name as feed_name','f.quantity','f.left_over','f.spoilage','f.status','u.name as username',
                       'e.enterprise_name','f.created_at','f.updated_at')
                       ->get();
 
@@ -276,9 +292,10 @@ class FeedingRecordController extends Controller
       $feeding_consumption_record =  FeedingRecord::from('feeding_records as f')
                       ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
                         ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->leftjoin('farm_store as fs', 'fs.id', 'f.feed_type')  
                       ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
                       ->where('f.daily_feed_consumption',1)
-                      ->select('f.id','f.date','f.time','f.feed_type','f.quantity','f.status','e.enterprise_name','u.name as username',
+                      ->select('f.id','f.date','f.time','fs.name as feed_name','f.quantity','f.status','e.enterprise_name','u.name as username',
                       'f.created_at','f.updated_at')
                       ->get();
 

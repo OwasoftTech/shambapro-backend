@@ -59,9 +59,12 @@ class EggRecordController extends Controller
   {
     try 
     {
-      $egg_record =  EggRecord::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
-                      ->select('id','date','egg_produced','egg_sold','egg_broken','egg_consumed','egg_poor_quality','status','enterprise_id','user_id',
-                      'created_by','updated_by','created_at','updated_at')
+      $egg_record =  EggRecord::from('egg_records as f')
+                      ->leftjoin('enterprise as e', 'e.id', 'f.enterprise_id')
+                        ->leftjoin('users as u', 'u.id', 'f.user_id')
+                      ->where('f.user_id',$request->user_id)->where('f.enterprise_id',$request->enterprise_id)
+                      ->select('f.id','f.date','f.egg_produced','f.egg_sold','f.egg_broken','f.egg_consumed','f.egg_poor_quality','f.status','e.enterprise_name','u.name as username',
+                      'f.created_at','f.updated_at')
                       ->get();
 
       return response()->json(['response' => ['status' => true,'data' => $egg_record]],JsonResponse::HTTP_OK);

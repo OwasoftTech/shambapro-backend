@@ -27,7 +27,7 @@ class AnimalController extends Controller
          'date_of_purchase' => 'required',
          'father_id' => 'required',
          'mother_id' => 'required',
-         'quantity' => 'required',
+         /*'quantity' => 'required',*/
          /*'photo' => 'required',*/
 
       ]);
@@ -62,7 +62,7 @@ class AnimalController extends Controller
          'father_id' => $request->father_id,
          'mother_id' => $request->mother_id,
          'photo' => $photo,
-         'quantity' => $quantity,
+         'quantity' => $request->quantity,
          'user_id' => Auth::user()->id,
          'created_at' => Carbon::now(),
       ]);
