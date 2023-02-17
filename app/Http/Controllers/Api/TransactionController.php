@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use DB;
 use PDF;
+use File;
 
 class TransactionController extends Controller
 {
@@ -112,6 +113,7 @@ class TransactionController extends Controller
         'payment_method' => $request->payment_method,
         'type' => $t_cat->type,
         'photo' => $photo,
+        'enterprise_id' => $request->enterprise_id,
         'user_id' => Auth::user()->id,
         'createdby' => Auth::user()->id,
         'created_at' => Carbon::now(),
@@ -306,17 +308,14 @@ class TransactionController extends Controller
       $income_tax = 0; 
       $net_profit_income = floatval(floatval($net_profit_income_before_taxes) - floatval($income_tax));              
 
-      //dd($net_profit_income_before_taxes);
-      
+     
       $pdf = PDF::loadView('reports.income_statement', compact('product_sale','costs_goods_sold','operating_expenses','non_operating_income','non_operating_expenses',
         'gross_profit_income','operating_profit_income','net_profit_income_before_taxes','income_tax','net_profit_income'));
 
-          return $pdf->setPaper('A4')
-          ->setOrientation('Portrait')
-          ->download('INCOME.pdf');
-          //return $pdf->stream('income.pdf');
+      return $pdf->setPaper('A4')->download('INCOME.pdf');
+         
       /*return View('reports.income_statement', compact('product_sale','costs_goods_sold','operating_expenses','non_operating_income','non_operating_expenses',
-        'gross_profit_income','operating_profit_income','net_profit_income_before_taxes','income_tax','net_profit_income'));*/      
+        'gross_profit_income','operating_profit_income','net_profit_income_before_taxes','income_tax','net_profit_income'));    */  
       
     } 
     catch (Exception $e) 
@@ -361,16 +360,50 @@ class TransactionController extends Controller
       $equity  =  floatval(floatval($total_assets) - floatval($total_liabilities));                               
 
       //dd($total_assets);  
-            $data = [
+            /*$data = [
                'total_assets' => $total_assets,
                'total_liabilities' => $total_liabilities,
                'equity' => $equity,
-            ];
-      return response()->json(['response' => ['status' => true, 'data' => $data]], JsonResponse::HTTP_OK);
+            ];*/
+      $pdf = PDF::loadView('reports.balance_sheet', compact('current_assets','asset_purchases','asset_sales','long_term_assets','total_assets',
+       'farm_input_service','monthly_payment','current_liabilities','long_term_liabilities','total_liabilities','equity'));
+
+      return $pdf->setPaper('A4')->download('INCOME.pdf');
+         
+      /*return View('reports.balance_sheet', compact('current_assets','asset_purchases','asset_sales','long_term_assets','total_assets',
+       'farm_input_service','monthly_payment','current_liabilities','long_term_liabilities','total_liabilities','equity'));*/           
     } 
     catch (Exception $e) 
     {
-      return response()->json(['response' => ['status' => false, 'message' => 'Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+
+  }
+
+  public function enterprise_report(Request $request)
+  {
+    try 
+    {
+      
+      $direct_income = Transaction::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+                                  ->where('type',1)->whereBetween('category_id', [5, 8])->select(DB::raw('SUM(unit_price) as direct_income'))->first();
+
+      $direct_expenses = Transaction::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)->whereBetween('type', [2, 3])
+                        ->select(DB::raw('SUM(unit_price) as direct_expenses'))->first();
+    
+      $entreprise_profit_loss  =  floatval(floatval($direct_income->direct_income) - floatval($direct_expenses->direct_expenses)); 
+
+      //dd($entreprise_profit_loss);
+      
+      $pdf = PDF::loadView('reports.enterprise_report', compact('direct_income','direct_expenses','entreprise_profit_loss'));
+
+      return $pdf->setPaper('A4')->download('Enterprise.pdf');
+         
+      //return View('reports.enterprise_report', compact('direct_income','direct_expenses','entreprise_profit_loss'));           
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }  
 
   }
