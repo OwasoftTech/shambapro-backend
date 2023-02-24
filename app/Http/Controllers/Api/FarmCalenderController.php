@@ -171,7 +171,7 @@ class FarmCalenderController extends Controller
       $current_start_date = Carbon::parse('first day of January '. $current_year)->startOfDay();
       $current_end_date = Carbon::parse('last day of December '. $current_year)->endOfDay();
 
-      $user = User::find(1);
+      $user = User::find($request->user_id);
       $farm = Farm::where('name', '=', $user->farm_name)->first();
 
       $alljobs = Jobs::with('assigned_member')->where('farm_id', $farm->id)
