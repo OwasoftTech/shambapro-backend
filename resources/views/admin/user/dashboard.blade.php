@@ -8,7 +8,7 @@
     <link href="https://shambapro.lynked.com.ng/assets/css/app.min.css" rel="stylesheet" type="text/css" />
 
 @section('body')
-<div class="row">
+<!-- <div class="row">
 
                         <div class="col-xl-3 col-md-6">
                             <div class="card-box">
@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- end col -->
+                      
 
                          <div class="col-xl-3 col-md-6">
                             <div class="card-box">
@@ -69,7 +69,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- end col -->
+                       
 
                         <div class="col-xl-3 col-md-6">
                             <div class="card-box">
@@ -82,13 +82,137 @@
                                 </div>
                             </div>
                         </div>
-                        
-                    </div>
+                    </div> -->
+<div class="row">
+
+    <h2>Users</h2>                    
+
+    <table class="table table-bordered">
+    <thead>
+    <tr>
+    <th scope="col">#</th>
+    <th scope="col">Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <th>Users</th>
+    <td>{{$users}}</td>
+    </tr>
+    <tr>
+    <th>Farm Owners</th>
+    <td>{{$farm_owners}}</td>
+    </tr>
+    <tr>
+    <th>Farm Managers </th>
+    <td>{{$farm_managers}}</td>
+    </tr>
+    <tr>
+    <th>Farm Workers </th>
+    <td>{{$farm_workers}}</td>
+    </tr>
+    <tr>
+    <th>Farm Experts </th>
+    <td>{{$farm_experts}}</td>
+    </tr>
+    <tr>
+    <th>Store Managers </th>
+    <td>{{$store_managers}}</td>
+    </tr>
+    <tr>
+    <th>Farm Observers </th>
+    <td>{{$farm_observers}}</td>
+    </tr>
+    </tbody>
+    </table>
+
+</div>                    
+
+                     <div class="row">
+
+             <h2>Crop Enterprises</h2>                    
+
+                        <table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Crop Enterprises</th>
+      <td>{{$cropenterprise}}</td>
+    </tr>
+    <!-- <tr>
+      <th>Cropping System</th>
+      <td>{{$cropenterprise}}</td>
+    </tr>
+    <tr>
+      <th>Cultivation System</th>
+      <td>{{$cropenterprise}}</td>
+    </tr>
+    <tr>
+      <th>Watering Type</th>
+      <td>{{$cropenterprise}}</td>
+    </tr>
+    <tr>
+      <th>Number of Crops</th>
+      <td>{{$cropenterprise}}</td>
+    </tr> -->
+    <tr>
+      <th>Number of Plants</th>
+      <td>{{$totalplants}}</td>
+    </tr>
+    <tr>
+      <th>Number of Trees</th>
+      <td>{{$totaltrees}}</td>
+    </tr>
+    
+  </tbody>
+</table>
+            
+        </div>
+
+<div class="row">
+
+    <h2>Livestock Enterprises</h2>                    
+
+    <table class="table table-bordered">
+    <thead>
+    <tr>
+    <th scope="col">#</th>
+    <th scope="col">Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <th>Livestock Enterprises</th>
+    <td>{{$livestockenterprise}}</td>
+    </tr>
+    <tr>
+    <th>Number of Herds</th>
+    <td>{{$heards}}</td>
+    </tr>
+    <tr>
+    <th>Number of Animals </th>
+    <td>{{$animals}}</td>
+    </tr>
+    <tr>
+    <th>Number of Flocks </th>
+    <td>{{$flocks}}</td>
+    </tr>
+    </tbody>
+    </table>
+
+</div>        
 
                        <user-listing
         :data="{{ $data->toJson() }}"
         :url="'{{ url('admin/users') }}'"
         inline-template>
+
+
 
         <div class="row">
             <div class="col">

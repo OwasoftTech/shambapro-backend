@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Animals;
 use App\Models\Enterprise;
 use App\Models\Heard;
+use App\Models\Flock;
 use Illuminate\Support\Facades\Schema;
 
 use App\Models\CropField;
@@ -61,7 +62,18 @@ class UsersController extends Controller
        ->count(); 
        $cropenterprise = Enterprise::where('enterprise_type','Crop')
        ->count();  
-
+       $totalplants = CropField::where('plants_type','Plants')
+       ->count(); 
+       $totaltrees = CropField::where('plants_type','Trees')
+       ->count(); 
+       $flocks = Flock::count(); 
+       $heards = Heard::count(); 
+       $farm_owners = User::where('role','Farm Owners')->count(); 
+       $farm_managers = User::where('role','Farm Managers')->count(); 
+       $farm_workers = User::where('role','Farm Workers')->count(); 
+       $farm_experts = User::where('role','Farm Experts')->count(); 
+       $store_managers = User::where('role','Store Managers')->count(); 
+       $farm_observers = User::where('role','Farm Observers')->count(); 
 
  
 
@@ -74,7 +86,8 @@ class UsersController extends Controller
             return ['data' => $data];
         }  
 
-     return view('admin.user.dashboard',['data' => $data,'animals'=>$animals,'enterprise'=>$enterprise,'users'=>$users,'cropfield'=>$cropfield,'livestockenterprise'=>$livestockenterprise,'cropenterprise'=>$cropenterprise]);
+     return view('admin.user.dashboard',['data' => $data,'animals'=>$animals,'enterprise'=>$enterprise,'users'=>$users,'cropfield'=>$cropfield,'livestockenterprise'=>$livestockenterprise,'cropenterprise'=>$cropenterprise,'totalplants'=>$totalplants,'totaltrees'=>$totaltrees,
+        'flocks'=>$flocks,'heards'=>$heards,'farm_owners'=>$farm_owners,'farm_managers'=>$farm_managers,'farm_workers'=>$farm_workers,'farm_experts'=>$farm_experts,'store_managers'=>$store_managers,'farm_observers'=>$farm_observers]);
 
     }
 
