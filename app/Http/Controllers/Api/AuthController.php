@@ -60,15 +60,6 @@ class AuthController extends Controller
       $user_id = User::insertGetId([
          'phone_number' => $request->phone_number,
          'name' => $request->name,
-         'gender' => $request->gender,
-         'address' => $request->address,
-         'district' => $request->district,
-         'country' => $request->country,
-         'currency' => $request->currency,
-         'depreciation_rate' => $request->depreciation_rate,
-         'income_tax_rate' => $request->income_tax_rate,
-         'partner_code' => $request->partner_code,
-         'agent_code' => $request->agent_code,
          'farm_name' => $request->farm_name,
          'role' => $request->role,
          'email' => $request->email,
@@ -136,4 +127,6 @@ class AuthController extends Controller
 
       return response()->json(['my_team' => $my_team]);
    }
+
+   
 }

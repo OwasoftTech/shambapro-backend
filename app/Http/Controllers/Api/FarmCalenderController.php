@@ -206,4 +206,36 @@ class FarmCalenderController extends Controller
 
   }
 
+
+  public function farmsetting(Request $request)
+   {
+      $validator = Validator::make($request->all(), [
+         'gender' => 'required',
+         'country' => 'required',
+         'currency' => 'required',
+      ]);
+
+      if ($validator->fails()) {
+         $errors = $validator->errors();
+         return response()->json(['error' => $errors->toJson()]);
+      }
+
+      $update = Farm::find($request->farm_id);
+      //dd($update);
+         $update->gender = $request->gender;
+         $update->address = $request->address;
+         $update->district = $request->district;
+         $update->country = $request->country;
+         $update->currency = $request->currency;
+         $update->depreciation_rate = $request->depreciation_rate;
+         $update->income_tax_rate = $request->income_tax_rate;
+         $update->partner_code = $request->partner_code;
+         $update->updated_at = Carbon::now();
+         $update->save();    
+     
+
+      return response()->json(['message' => 'Farm Setting Saved successfully']);
+      
+   }
+
 }
