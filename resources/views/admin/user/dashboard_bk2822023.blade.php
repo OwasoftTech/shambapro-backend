@@ -91,8 +91,7 @@
                             </div>
                         </div>
                     </div>
-                   
-<div class="card" style="margin-top: 40px;">
+<div class="card">
               <div class="card-header">
                 <h3 class="card-title">Users List</h3>
               </div>
@@ -138,29 +137,39 @@
     <div class="card-body">  
     <table id="example3" class="table table-bordered table-striped">
         <thead>
-        <!-- <tr>
-        <th scope="col">User Type</th>
+        <tr>
+        <th scope="col">#</th>
         <th scope="col">Total</th>
-        </tr> -->
+        </tr>
         </thead>
         <tbody>
         <tr>
-        <th style="text-align: center;">Users</th>
-        <th style="text-align: center;">Farm Owners</th>
-        <th style="text-align: center;">Farm Managers </th>
-        <th style="text-align: center;">Farm Workers </th>
-        <th style="text-align: center;">Farm Experts </th>
-        <th style="text-align: center;">Store Managers </th>
-        <th style="text-align: center;">Farm Observers </th>
+        <th>Users</th>
+        <td>{{$users}}</td>
         </tr>
         <tr>
-        <td style="color: green;text-align: center;">{{$users}}</td>
-        <td style="color: green;text-align: center;">{{$farm_owners}}</td>
-        <td style="color: green;text-align: center;">{{$farm_managers}}</td>
-        <td style="color: green;text-align: center;">{{$farm_workers}}</td>
-        <td style="color: green;text-align: center;">{{$farm_experts}}</td>
-        <td style="color: green;text-align: center;">{{$store_managers}}</td>
-        <td style="color: green;text-align: center;">{{$farm_observers}}</td>
+        <th>Farm Owners</th>
+        <td>{{$farm_owners}}</td>
+        </tr>
+        <tr>
+        <th>Farm Managers </th>
+        <td>{{$farm_managers}}</td>
+        </tr>
+        <tr>
+        <th>Farm Workers </th>
+        <td>{{$farm_workers}}</td>
+        </tr>
+        <tr>
+        <th>Farm Experts </th>
+        <td>{{$farm_experts}}</td>
+        </tr>
+        <tr>
+        <th>Store Managers </th>
+        <td>{{$store_managers}}</td>
+        </tr>
+        <tr>
+        <th>Farm Observers </th>
+        <td>{{$farm_observers}}</td>
         </tr>
         </tbody>
     </table>
@@ -176,25 +185,25 @@
 <div class="card-body"> 
     <table id="example4" class="table table-bordered table-striped">
       <thead>
-        <!-- <tr>
+        <tr>
           <th scope="col">#</th>
           <th scope="col">Total</th>
-        </tr> -->
+        </tr>
       </thead>
       <tbody>
         <tr>
-          <th style="text-align: center;">Crop Enterprises</th>
-          <th style="text-align: center;">Number of Plants</th>
-          <th style="text-align: center;">Number of Trees</th>
-          
+          <th>Crop Enterprises</th>
+          <td>{{$cropenterprise}}</td>
         </tr>
         
         <tr>
-          <td style="color: green;text-align: center;">{{$cropenterprise}}</td>
-          <td style="color: green;text-align: center;">{{$totalplants}}</td>
-          <td style="color: green;text-align: center;">{{$totaltrees}}</td>
+          <th>Number of Plants</th>
+          <td>{{$totalplants}}</td>
         </tr>
-        
+        <tr>
+          <th>Number of Trees</th>
+          <td>{{$totaltrees}}</td>
+        </tr>
         
       </tbody>
     </table>
@@ -209,23 +218,27 @@
 <div class="card-body"> 
     <table id="example5" class="table table-bordered table-striped">
     <thead>
-    <!-- <tr>
+    <tr>
     <th scope="col">#</th>
     <th scope="col">Total</th>
-    </tr> -->
+    </tr>
     </thead>
     <tbody>
     <tr>
-        <th style="text-align: center;">Livestock Enterprises</th>
-        <th style="text-align: center;">Number of Herds</th>
-        <th style="text-align: center;">Number of Animals </th>
-        <th style="text-align: center;">Number of Flocks </th>
+    <th>Livestock Enterprises</th>
+    <td>{{$livestockenterprise}}</td>
     </tr>
     <tr>
-        <td style="color: green;text-align: center;">{{$livestockenterprise}}</td>
-        <td style="color: green;text-align: center;">{{$heards}}</td>
-        <td style="color: green;text-align: center;">{{$animals}}</td>
-        <td style="color: green;text-align: center;">{{$flocks}}</td>
+    <th>Number of Herds</th>
+    <td>{{$heards}}</td>
+    </tr>
+    <tr>
+    <th>Number of Animals </th>
+    <td>{{$animals}}</td>
+    </tr>
+    <tr>
+    <th>Number of Flocks </th>
+    <td>{{$flocks}}</td>
     </tr>
     </tbody>
     </table>

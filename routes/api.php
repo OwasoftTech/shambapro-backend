@@ -257,12 +257,15 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 });
 
-Route::get('/get/income/statement/details', [TransactionController::class, 'income_statement']); 
+    Route::get('/get/income/statement/details', [TransactionController::class, 'income_statement']); 
     Route::get('/get/staff/report/details', [FarmCalenderController::class, 'staff_report']);
     Route::get('/get/balance/sheet/details', [TransactionController::class, 'balance_sheet']); 
     Route::get('/get/enterprise/report/details', [TransactionController::class, 'enterprise_report']);
     Route::get('/get/inventory/store/details', [FarmStoreController::class, 'farmstore_report']); 
     Route::get('/get/production/report/details', [FeedingRecordController::class, 'production_report']);
+
+    Route::get('/inactive/enetrprise/user', [TransactionController::class, 'inactive_enterpise']);
+
 
     
     
