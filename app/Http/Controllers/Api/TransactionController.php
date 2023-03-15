@@ -408,5 +408,20 @@ class TransactionController extends Controller
 
   }
 
+  public function inactive_enterpise(Request $request)
+  {
+    try
+    {
+      $enterprise  = Enterprise::where('user_id', $request->user_id)->whereNotIn('id', [$request->enterprise_id])->delete();
+      
+
+      return response()->json(['response' => ['status' => true, 'message' => 'Record deleted successfully']], JsonResponse::HTTP_OK);
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }    
+  } 
+
   
 }
