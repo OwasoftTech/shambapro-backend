@@ -421,7 +421,64 @@ class TransactionController extends Controller
     {
       return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }    
-  } 
+  }
+
+  public function cash_flow(Request $request)
+  {
+    try 
+    {
+      $current_year = Carbon::today()->format('Y');
+      $current_start_date = Carbon::parse('first day of January '. $current_year)->startOfDay();
+      $current_end_date = Carbon::parse('last day of December '. $current_year)->endOfDay();
+
+      $cash_received_operation = Transaction::where('user_id',$request->user_id)->where('type',1)->whereBetween('category_id', [1, 8])
+                        ->select(DB::raw('SUM(unit_price) as product_sale'))->first();
+
+      $cash_paidout_operation = Transaction::where('user_id',$request->user_id)->whereBetween('type', [2, 3,4])->whereNotIn('category_id', [41])
+                        ->select(DB::raw('SUM(unit_price) as product_sale'))->first();                  
+
+      $operating_activities = floatval(floatval($cash_received_operation->product_sale) - floatval($cash_paidout_operation->product_sale)); 
+
+      //dd($operating_activities);
+
+      
+      $cash_received_financing = Transaction::where('user_id',$request->user_id)->where('type',5)->whereBetween('category_id', [44, 47])
+                        ->select(DB::raw('SUM(unit_price) as product_sale'))->first();
+
+      $cash_paidout_financing = Transaction::where('user_id',$request->user_id)->where('type',4)->where('category_id', 41)
+                        ->select(DB::raw('SUM(unit_price) as product_sale'))->first();                  
+
+      $financing_activities = floatval(floatval($cash_received_financing->product_sale) - floatval($cash_paidout_financing->product_sale)); 
+
+
+      $cash_received_investment = Transaction::where('user_id',$request->user_id)->where('type',6)->whereNotIn('category_id', [49,50])
+                          ->select(DB::raw('SUM(unit_price) as product_sale'))->first();
+      //dd($cash_received_investment->product_sale);                    
+                        
+      $cash_paidout_investment = Transaction::where('user_id',$request->user_id)->where('type',7)->whereNotIn('category_id', [55])
+                        ->select(DB::raw('SUM(unit_price) as product_sale'))->first();                  
+
+      $investment_activities = floatval(floatval($cash_received_investment->product_sale) - floatval($cash_paidout_investment->product_sale)); 
+      //dd($investment_activities);
+
+      $net_cash_flow = floatval(floatval($operating_activities) - floatval($investment_activities));            
+
+     
+      $pdf = PDF::loadView('reports.cash_flow', compact('cash_received_operation','cash_paidout_operation','operating_activities','cash_received_financing',
+                  'cash_paidout_financing','financing_activities','cash_received_investment','cash_paidout_investment','investment_activities','net_cash_flow'));
+
+      return $pdf->setPaper('A4')->download('CashFlow.pdf');
+         
+     /* return View('reports.cash_flow', compact('cash_received_operation','cash_paidout_operation','operating_activities','cash_received_financing',
+                  'cash_paidout_financing','financing_activities','cash_received_investment','cash_paidout_investment','investment_activities','net_cash_flow'));*/      
+      
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+
+  }  
 
   
 }
