@@ -1517,9 +1517,7 @@
         </table>
     @endif     
 </div>
-<p class="py-3 paragraph">The data presented in this report is the sole property of the farm 
-    owner and is not to be shared or distributed to third parties without 
-    their written permission. For inquiries please write to hello@shambapro.com</p>
+<p class="py-3">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
     </div>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </body>

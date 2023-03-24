@@ -353,10 +353,7 @@
           </tbody>
         </table>
       </div>
-      <p class="py-3 paragraph mb-0">
-        The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to
-         third parties without their written permission. For inquiries please write to hello@shambapro.com
-      </p>
+      <p class="py-3">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
     </div>
   </body>
 </html>

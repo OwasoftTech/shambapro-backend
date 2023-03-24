@@ -264,6 +264,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/get/enterprise/report/details', [TransactionController::class, 'enterprise_report']);
     Route::get('/get/inventory/store/details', [FarmStoreController::class, 'farmstore_report']); 
     Route::get('/get/production/report/details', [FeedingRecordController::class, 'production_report']);
+    Route::get('/get/herd/report/details', [AnimalController::class, 'herd_report']);
 
     Route::get('/inactive/enetrprise/user', [TransactionController::class, 'inactive_enterpise']);
 
