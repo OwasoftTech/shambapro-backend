@@ -249,111 +249,36 @@
         <div class="row-1">
             <div class="col-1">
         <h1>SUNSHINE FARM LTD</h1>
-        <h2 class="mb-1" style="font-size: 22px !important;">Staff Performance Report</h2>
+        <h2 class="mb-1" style="font-size: 22px !important;">Herd Register</h2>
         <p class="mb-1" style="font-size: 14px !important;">For the year ended 31st December {{Carbon\Carbon::now()->format('Y')}}</p>
     </div>
     <div class="col-2">
+        <p class=" text-dark mb-2">Generated On {{Carbon\Carbon::now()->format('d M Y')}}</p>
         
-    <p class=" text-dark mb-0">Generated On {{Carbon\Carbon::now()->format('d M Y')}}</p>
     </div>
     </div>
     </div>
       <div class="table-responsive">
-        <div class="text-center farmstock">
-            Tasks/Jobs
-        </div>
+        <!-- <div class="text-center farmstock">
+            Herd Register
+        </div> -->
         <table class="table table-bordered border-dark invoice2 mb-0">
           <thead class="TableHeader">
-            <tr>
-              <th scope="col">Date</th>
-              <th scope="col">Jobs Name</th>
-              <th scope="col">Team Member</th>
-              <th scope="col">Approval Level</th>
-              <th scope="col">Actions to be Taken</th>
-              <th scope="col">Comments</th>
-            </tr>
+            <th>Herd Type</th>
+            <th>Quantity</th>
           </thead>
           <tbody class="TableBody">
-            @foreach($alljobs as $alljob)
+            @foreach($herd_report as $hr)
             <tr class="dashed-border">
-              <td>{{date('d M Y', strtotime($alljob->created_at))}}</td>
-              <td>{{ $alljob->task }}</td>
-              <td>{{$user->name}}</td>
-              <td>{{$alljob->job_completion}}</td>
-              <td>{{ $alljob->action  }}</td>
-              <td>{{ $alljob->comments  }}</td>
+              <td>{{ $hr->purpose }}</td>
+              <td>{{ $hr->quantity }}</td>
             </tr>
             @endforeach
           </tbody>
         </table>
       </div>
-      <div class="table-responsive">
-        <div class="text-center farmstock">
-            Tasks Summery
-        </div>
-        <table class="table table-bordered border-dark invoice2 mb-0">
-          <thead class="TableHeader">
-            <tr>
-              <th scope="col">Team member</th>
-              <th scope="col">Total Tasks</th>
-              <th scope="col">Very Satisfied</th>
-              <th scope="col">Fairly Satisfied</th>
-              <th scope="col">To Be Repeated</th>
-              <th scope="col">To Be Reallocated</th>
-            </tr>
-          </thead>
-          <tbody class="TableBody">
-            @foreach($members_total as $mt)
-            <tr class="dashed-border">
-              <td>{{ $mt->get_user($mt->user_id)->name }}</td>
-              <td>
-                @if($mt->total > 0)
-                {{ $mt->total }}
-                @endif
-              </td>
-              <td>
-                @php
-                    $temp = clone $members_verysatisfied;
-                    $temp = $temp->where('user_id', $mt->user_id);
-                @endphp
-                  @if(!empty($temp) && count($temp) > 0)
-                      {{ $temp->first()->total }}
-                  @endif
-              </td>
-              <td>
-                @php
-                    $temp = clone $members_fairlysatisfied;
-                    $temp = $temp->where('user_id', $mt->user_id);
-                @endphp
-                  @if(!empty($temp) && count($temp) > 0)
-                      {{ $temp->first()->total }}
-                  @endif
-              </td>
-              <td>
-                @php
-                    $temp = clone $members_toberepeated;
-                    $temp = $temp->where('user_id', $mt->user_id);
-                @endphp
-                  @if(!empty($temp) && count($temp) > 0)
-                      {{ $temp->first()->total }}
-                  @endif
-              </td>
-              <td>
-                @php
-                    $temp = clone $members_tobereallocated;
-                    $temp = $temp->where('user_id', $mt->user_id);
-                @endphp
-                  @if(!empty($temp) && count($temp) > 0)
-                      {{ $temp->first()->total }}
-                  @endif
-              </td>
-            </tr>
-          @endforeach
-            
-          </tbody>
-        </table>
-      </div>
-     <table class="table table-bordered border-dark invoice2 mb-0">
+      
+      <table class="table table-bordered border-dark invoice2 mb-0">
         <tbody class="footer-logo">  
           <tr>
             <td>

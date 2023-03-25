@@ -398,6 +398,7 @@ class FarmStoreController extends Controller
         
           $history = new FarmStoreHistory;
           $history->farm_store_id = $request->farm_store_id;
+          $history->subcategory_id = $request->subcategory_id;
           $history->date = $request->date;
           $history->name = $request->name;
           $history->quantity = $request->quantity;
@@ -548,6 +549,51 @@ class FarmStoreController extends Controller
       return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }  
 
+  }
+
+  public function herd_report(Request $request)
+  {
+              
+    try
+    {
+      $sql_heard_report = "SELECT purpose,SUM(quantity) as quantity FROM `farm_store_history` WHERE created_by =".$request->user_id."
+       AND subcategory_id =12 GROUP by purpose;";
+      $herd_report = DB::select($sql_heard_report); 
+      
+      //dd($herd_report);  
+
+     $pdf = PDF::loadView('reports.herd_report', compact('herd_report'));
+
+      return $pdf->setPaper('A4')->download('Herd Register.pdf');
+         
+      //return View('reports.herd_report', compact('herd_report'));
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+  }
+
+  public function flock_report(Request $request)
+  {
+              
+    try
+    {
+      $sql_flock_report = "SELECT purpose,SUM(quantity) as quantity FROM `farm_store_history` WHERE created_by =".$request->user_id." AND subcategory_id =13 GROUP by purpose;";
+      $flock_report = DB::select($sql_flock_report); 
+      
+      //dd($flock_report);  
+
+     $pdf = PDF::loadView('reports.flock_report', compact('flock_report'));
+
+      return $pdf->setPaper('A4')->download('Flock Register.pdf');
+         
+      //return View('reports.flock_report', compact('flock_report'));
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
   }
 
   
