@@ -46,7 +46,7 @@ class EnterpriseController extends Controller
     $user = User::find(Auth::user()->id);
     $farm = Farm::where('name', $user->farm_name)->first();
 
-    $enterprise  = Enterprise::where('farm_id', $farm->id)->paginate(15);
+    $enterprise  = Enterprise::where('farm_id', $farm->id)->where('user_id',$request->user_id)->paginate(15);
 
     return response()->json(['enterprise' => $enterprise]);
   }
