@@ -23,8 +23,8 @@
           color: #3a8b38 !important;
         }
         .footer-logo {
-              border: 1px solid black;
-              
+              border: 1px solid;
+              border-color: #273133;
             }
         .sunfarm h2 {
           font-size: 16px;
@@ -175,7 +175,7 @@
         p{
             font-size: 14px;
             font-family:Volkswagen-Regular;
-            color:#61797d;
+            color:#000000;
         }
         }
         .invoice2{
@@ -270,7 +270,7 @@
         font-family:Volkswagen-Regular;
         font-size: 14px;
         p{
-        color: #61797d;
+        color: #000000;
         }
         span{
             color: #273133;
@@ -287,11 +287,17 @@
 </head>
 <body>
 <div class="container-xxl">
-<div class="text-center sunfarm py-5">
+<div class="sunfarm py-5">
     <h1>SUNSHINE FARM LTD</h1>
     <h2 class="mb-1">INCOME STATEMENT</h2>
-    <p class="mb-1" style="font-size: 14px !important;">For the year ended 31st December {{Carbon\Carbon::now()->format('Y')}}</p>
-    <p>Generated On {{Carbon\Carbon::now()->format('d M Y')}} </p>
+    <?php
+    $day = Carbon\Carbon::now()->format('j');
+    $symbol = Carbon\Carbon::now()->format('S');
+    $year = Carbon\Carbon::now()->format('F Y');
+    
+    ?>
+    <p class="mb-1" style="font-size: 14px !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}}</p>
+    <p>Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
 
 </div>
 <div class="table-responsive container-xxl">
@@ -311,18 +317,18 @@
             </tr>
             
             <tr class="dashed-border">
-                <td>Product Sales (Regular Income/Sales)</td>
-                <td class="text-end color-dark">{{$product_sale->product_sale}}</td>
+                <td>Product Sales</td>
+                <td class="text-end color-dark">{{($product_sale->product_sale) ? $product_sale->product_sale : '' }}</td>
                 <td class="text-end color-dark"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Costs of Goods Sold (Farm Inputs & Farm Services)</td>
-                <td class="text-end color-dark">{{$costs_goods_sold->costs_goods_sold}}</td>
+                <td>Costs of Goods Sold</td>
+                <td class="text-end color-dark">{{($costs_goods_sold->costs_goods_sold) ? $costs_goods_sold->costs_goods_sold : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Gross Profit/Income (Total)</td>
-                <td class="text-end color-dark">{{$gross_profit_income}}</td>
+                <td>Gross Profit/Income</td>
+                <td class="text-end color-dark">{{($gross_profit_income) ? $gross_profit_income : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
             
@@ -335,17 +341,17 @@
             </tr>
             <tr class="dashed-border">
                 <td>Gross Profit</td>
-                <td class="text-end color-dark">{{$gross_profit_income}}</td>
+                <td class="text-end color-dark">{{($gross_profit_income) ? $gross_profit_income : ''}}</td>
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Operating Expenses (Monthly Payments & Expenses)</td>
-                <td class="text-end color-dark ">{{ $operating_expenses->operating_expenses }} </td>
+                <td>Operating Expenses</td>
+                <td class="text-end color-dark ">{{ ($operating_expenses->operating_expenses) ? $operating_expenses->operating_expenses : '' }} </td>
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Operating Profit/Income (Total)</td>
-                <td class="text-end color-dark">{{ $operating_profit_income }}</td>
+                <td>Operating Profit/Income</td>
+                <td class="text-end color-dark">{{ ($operating_profit_income) ? $operating_profit_income : '' }}</td>
                 <td class="text-end"></td>
             </tr>
             
@@ -358,22 +364,22 @@
             </tr>
             <tr class="dashed-border">
                 <td>Operating Profit/Income   </td>
-                <td class="text-end color-dark ">{{ $operating_profit_income }} </td>
+                <td class="text-end color-dark ">{{ ($operating_profit_income) ? $operating_profit_income : '' }} </td>
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
                 <td>Non-Operating Income   </td>
-                <td class="text-end color-dark">{{$non_operating_income->non_operating_income}} </td>
+                <td class="text-end color-dark">{{($non_operating_income->non_operating_income) ? $non_operating_income->non_operating_income : ''}} </td>
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
                 <td>Non-Operating Expenses   </td>
-                <td class="text-end color-dark">{{$non_operating_expenses->non_operating_expenses}} </td>
+                <td class="text-end color-dark">{{($non_operating_expenses->non_operating_expenses) ? $non_operating_expenses->non_operating_expenses : ''}} </td>
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Net Profit/Income before Taxes (Total)  </td>
-                <td class="text-end color-dark">{{$net_profit_income_before_taxes}} </td>
+                <td>Net Profit/Income before Taxes  </td>
+                <td class="text-end color-dark">{{($net_profit_income_before_taxes) ? $net_profit_income_before_taxes : ''}} </td>
                 <td class="text-end"></td>
             </tr>
         </tbody>
@@ -386,12 +392,12 @@
            
             <tr class="dashed-border">
                 <td>Income Tax</td>
-                <td class="text-end color-dark">{{$income_tax }} </td>
+                <td class="text-end color-dark">{{($income_tax) ? $income_tax : '' }} </td>
                 <td class="text-end"></td>
             </tr>
             <tr class="footer-border ">
                 <td scope="col" class="font-dark">Net Profit/Income</td>
-                <td scope="col" class="text-end font-dark">{{$net_profit_income}}</td>
+                <td scope="col" class="text-end font-dark">{{($net_profit_income) ? $net_profit_income : ''}}</td>
                 <td scope="col" class="text-end"></td>
             </tr>
            
@@ -400,16 +406,16 @@
     <table class="table table-bordered border-dark invoice2 mb-0">
         <tbody class="footer-logo">  
           <tr>
-            <td>
+            <td style="border: 1px solid;border-color: #273133;">
               <?php
-              $image = public_path('src/imgs/logos/ShambaLogo.png');
+              $image = public_path('src/imgs/logos/shambapro.webp');
               ?>
-              <img src="{{ $image }}" alt="" style="margin-top:20px;margin-left: 20px;">
+              <img src="{{ $image }}" alt="" style="margin-top:10px;margin-left: 10px;">
               <br/>
               <a href="www.shambapro.com">www.shambapro.com</a>
             </td>
             <td>
-              <p class="py-3">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
+              <p class="py-4" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
             </td>
           </tr>
         </tbody>
