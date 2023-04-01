@@ -250,10 +250,17 @@
             <div class="col-1">
         <h1>SUNSHINE FARM LTD</h1>
         <h2 class="mb-1" style="font-size: 22px !important;">Flock Register</h2>
-        <p class="mb-1" style="font-size: 14px !important;">For the year ended 31st December {{Carbon\Carbon::now()->format('Y')}}</p>
+        <?php
+    $day = Carbon\Carbon::now()->format('j');
+    $symbol = Carbon\Carbon::now()->format('S');
+    $year = Carbon\Carbon::now()->format('F Y');
+    
+    ?>
+    <p class="mb-1" style="font-size: 14px !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}}</p>
+    <p>Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
     </div>
     <div class="col-2">
-        <p class=" text-dark mb-2">Generated On {{Carbon\Carbon::now()->format('d M Y')}}</p>
+        
     
     </div>
     </div>
@@ -280,16 +287,16 @@
       <table class="table table-bordered border-dark invoice2 mb-0">
         <tbody class="footer-logo">  
           <tr>
-            <td>
+            <td style="border: 1px solid;border-color: #273133;">
               <?php
-              $image = public_path('src/imgs/logos/ShambaLogo.png');
+              $image = public_path('src/imgs/logos/shambapro.webp');
               ?>
-              <img src="{{ $image }}" alt="" style="margin-top:20px;margin-left: 20px;">
+              <img src="{{ $image }}" alt="" style="margin-top:10px;margin-left: 10px;">
               <br/>
               <a href="www.shambapro.com">www.shambapro.com</a>
             </td>
             <td>
-              <p class="py-3">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
+              <p class="py-4" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
             </td>
           </tr>
         </tbody>

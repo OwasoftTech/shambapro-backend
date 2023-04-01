@@ -289,7 +289,7 @@
 <div class="container-xxl">
 <div class="sunfarm py-5">
     <h1>SUNSHINE FARM LTD</h1>
-    <h2 class="mb-1">INCOME STATEMENT</h2>
+    <h2 class="mb-1">Income Statement</h2>
     <?php
     $day = Carbon\Carbon::now()->format('j');
     $symbol = Carbon\Carbon::now()->format('S');

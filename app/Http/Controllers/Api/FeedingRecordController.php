@@ -665,7 +665,7 @@ class FeedingRecordController extends Controller
         'routine_scouting','weed_management','pesticide_application','fertilizer_application','manure_application','irrigation','other_farm_activities',  
         'agronomist_inspection','crop_produce_harvested','harvest_consumed_workers'));
 
-      return $pdf->setPaper('A4')->download('Production.pdf');
+      return $pdf->setPaper('A4')->download('Crop Production Report.pdf');
          
      /* return view('reports.productionstore', compact('user','enterprise','feed_record','grazing_record',
         'weaning_record','feeding_consumption_record','water_consumption_record','milk_record','milk_used',

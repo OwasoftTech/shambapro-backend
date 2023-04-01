@@ -193,7 +193,7 @@ class FarmCalenderController extends Controller
       $pdf = PDF::loadView('reports.staff', compact('alljobs','user','members_total','members_verysatisfied',
         'members_fairlysatisfied','members_toberepeated','members_tobereallocated'));
 
-      return $pdf->setPaper('A4')->download('Staff.pdf');
+      return $pdf->setPaper('A4')->download('Staff Performance Report.pdf');
          
       /*return view('reports.staff', compact('alljobs','user','members_total','members_verysatisfied',
         'members_fairlysatisfied','members_toberepeated','members_tobereallocated'));*/      

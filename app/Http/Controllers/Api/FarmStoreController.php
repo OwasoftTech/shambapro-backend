@@ -539,7 +539,7 @@ class FarmStoreController extends Controller
                                                                                                             
       $pdf = PDF::loadView('reports.farmstore', compact('farm_stock','farm_inputs','farm_machine','building_struct','farm_land','office_equip','user'));
 
-      return $pdf->setPaper('A4')->download('Inventory.pdf');
+      return $pdf->setPaper('A4')->download('Farm Inventory.pdf');
          
       // return view('reports.farmstore', compact('farm_stock','farm_inputs','farm_machine','building_struct','farm_land','office_equip','user'));      
       

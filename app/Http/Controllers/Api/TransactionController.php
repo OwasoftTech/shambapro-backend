@@ -312,7 +312,7 @@ class TransactionController extends Controller
       $pdf = PDF::loadView('reports.income_statement', compact('product_sale','costs_goods_sold','operating_expenses','non_operating_income','non_operating_expenses',
         'gross_profit_income','operating_profit_income','net_profit_income_before_taxes','income_tax','net_profit_income'));
 
-      return $pdf->setPaper('A4')->download('INCOME.pdf');
+      return $pdf->setPaper('A4')->download('INCOME STATEMENT.pdf');
          
       /*return View('reports.income_statement', compact('product_sale','costs_goods_sold','operating_expenses','non_operating_income','non_operating_expenses',
         'gross_profit_income','operating_profit_income','net_profit_income_before_taxes','income_tax','net_profit_income'));    */  
@@ -368,10 +368,10 @@ class TransactionController extends Controller
       $pdf = PDF::loadView('reports.balance_sheet', compact('current_assets','asset_purchases','asset_sales','long_term_assets','total_assets',
        'farm_input_service','monthly_payment','current_liabilities','long_term_liabilities','total_liabilities','equity'));
 
-      return $pdf->setPaper('A4')->download('INCOME.pdf');
+      return $pdf->setPaper('A4')->download('BALANCE SHEET.pdf');
          
       /*return View('reports.balance_sheet', compact('current_assets','asset_purchases','asset_sales','long_term_assets','total_assets',
-       'farm_input_service','monthly_payment','current_liabilities','long_term_liabilities','total_liabilities','equity'));*/           
+       'farm_input_service','monthly_payment','current_liabilities','long_term_liabilities','total_liabilities','equity')); */          
     } 
     catch (Exception $e) 
     {
@@ -467,7 +467,7 @@ class TransactionController extends Controller
       $pdf = PDF::loadView('reports.cash_flow', compact('cash_received_operation','cash_paidout_operation','operating_activities','cash_received_financing',
                   'cash_paidout_financing','financing_activities','cash_received_investment','cash_paidout_investment','investment_activities','net_cash_flow'));
 
-      return $pdf->setPaper('A4')->download('CashFlow.pdf');
+      return $pdf->setPaper('A4')->download('Cash Flow Statement.pdf');
          
      /* return View('reports.cash_flow', compact('cash_received_operation','cash_paidout_operation','operating_activities','cash_received_financing',
                   'cash_paidout_financing','financing_activities','cash_received_investment','cash_paidout_investment','investment_activities','net_cash_flow'));*/      

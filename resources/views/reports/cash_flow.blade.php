@@ -288,12 +288,17 @@
 </head>
 <body>
 <div class="container-xxl">
-<div class="text-center sunfarm py-5">
+<div class="sunfarm py-5">
     <h1>SUNSHINE FARM LTD</h1>
     <h2 class="mb-1">Cash Flow Statement</h2>
-    <h3 class="mb-1">FOR FY {{Carbon\Carbon::now()->format('Y')}}</h3>
+    <?php
+    $day = Carbon\Carbon::now()->format('j');
+    $symbol = Carbon\Carbon::now()->format('S');
+    $year = Carbon\Carbon::now()->format('F Y');
     
-    <p>Generated On {{Carbon\Carbon::now()->format('d M Y')}} </p>
+    ?>
+    <p class="mb-1" style="font-size: 14px !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}}</p>
+    <p>Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
 
 </div>
 <div class="table-responsive container-xxl">
@@ -313,13 +318,13 @@
             </tr>
             
             <tr class="dashed-border">
-                <td>Cash receipt (from customers)</td>
-                <td class="text-end color-dark">{{$cash_received_operation->product_sale}}</td>
+                <td>Cash receipt</td>
+                <td class="text-end color-dark">{{($cash_received_operation->product_sale) ? $cash_received_operation->product_sale : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
             <tr class="dashed-border">
                 <td>Cash Paid</td>
-                <td class="text-end color-dark">{{$cash_paidout_operation->product_sale}}</td>
+                <td class="text-end color-dark">{{($cash_paidout_operation->product_sale) ? $cash_paidout_operation->product_sale : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
         </tbody>
@@ -331,12 +336,12 @@
             </tr>
             <tr class="dashed-border">
                 <td>Cash receipt from sales</td>
-                <td class="text-end color-dark ">{{ $cash_received_investment->product_sale }} </td>
+                <td class="text-end color-dark ">{{ ($cash_received_investment->product_sale) ? $cash_received_investment->product_sale : '' }} </td>
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
                 <td>Equipment Cost   </td>
-                <td class="text-end color-dark">{{$cash_paidout_investment->product_sale}} </td>
+                <td class="text-end color-dark">{{($cash_paidout_investment->product_sale) ? $cash_paidout_investment->product_sale : ''}} </td>
                 <td class="text-end"></td>
             </tr>
         </tbody>
@@ -348,14 +353,14 @@
             </tr>
             <tr class="dashed-border">
                 <td>Loan Payment</td>
-                <td class="text-end color-dark">{{$financing_activities}}</td>
+                <td class="text-end color-dark">{{($financing_activities) ? $financing_activities : ''}}</td>
                 <td class="text-end"></td>
             </tr>
         </tbody>
         <tbody class="table-group-divider TableHeading">
             <tr class="dashed-border">
                 <td>Net Cash Flow</td>
-                <td class="text-end color-dark">{{$net_cash_flow}}</td>
+                <td class="text-end color-dark">{{($net_cash_flow) ? $net_cash_flow : ''}}</td>
                 <td class="text-end"></td>
             </tr>
         </tbody>
@@ -364,16 +369,16 @@
     <table class="table table-bordered border-dark invoice2 mb-0">
         <tbody class="footer-logo">  
           <tr>
-            <td>
+            <td style="border: 1px solid;border-color: #273133;">
               <?php
-              $image = public_path('src/imgs/logos/ShambaLogo.png');
+              $image = public_path('src/imgs/logos/shambapro.webp');
               ?>
-              <img src="{{ $image }}" alt="" style="margin-top:20px;margin-left: 20px;">
+              <img src="{{ $image }}" alt="" style="margin-top:10px;margin-left: 10px;">
               <br/>
               <a href="www.shambapro.com">www.shambapro.com</a>
             </td>
             <td>
-              <p class="py-3">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
+              <p class="py-4" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
             </td>
           </tr>
         </tbody>
