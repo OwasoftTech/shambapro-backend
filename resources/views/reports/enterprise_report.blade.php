@@ -318,7 +318,17 @@
             
             <tr class="dashed-border">
                 <td>Direct Income</td>
-                <td class="text-end color-dark">{{($direct_income->direct_income) ? $direct_income->direct_income : ''}}</td>
+                <td>
+                    @foreach($d_income as $income)
+                      {{$income->transaction_cat}}</br>
+                    @endforeach
+                </td>
+
+                <td class="text-end color-dark">
+                    @foreach($d_income as $income)
+                      {{$income->income}}</br>
+                    @endforeach
+                    {{($direct_income->direct_income) ? $direct_income->direct_income : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
             <tr class="dashed-border">
