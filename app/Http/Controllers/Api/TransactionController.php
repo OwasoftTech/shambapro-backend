@@ -384,8 +384,12 @@ class TransactionController extends Controller
   {
     try 
     {
-      
-      $direct_income = Transaction::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+      $sql_direct_income = 'select tc.transaction_cat, SUM(unit_price) as income from `transaction` as t 
+        left join `transaction_category` as tc on t.category_id = tc.id where t.user_id = '.$request->user_id.' and t.enterprise_id = '.$request->enterprise_id.' and t.type = 1 and t.category_id between 5 and 8 GROUP by tc.transaction_cat';
+      $d_income = DB::select($sql_direct_income);
+
+      $direct_income = Transaction::from('transaction as t')
+                                 ->where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
                                   ->where('type',1)->whereBetween('category_id', [5, 8])->select(DB::raw('SUM(unit_price) as direct_income'))->first();
 
       $direct_expenses = Transaction::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)->whereBetween('type', [2, 3])
@@ -395,7 +399,7 @@ class TransactionController extends Controller
 
       //dd($entreprise_profit_loss);
       
-      $pdf = PDF::loadView('reports.enterprise_report', compact('direct_income','direct_expenses','entreprise_profit_loss'));
+      $pdf = PDF::loadView('reports.enterprise_report', compact('direct_income','d_income','direct_expenses','entreprise_profit_loss'));
 
       return $pdf->setPaper('A4')->download('Enterprise.pdf');
          
