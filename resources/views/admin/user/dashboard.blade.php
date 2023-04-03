@@ -91,45 +91,8 @@
                             </div>
                         </div>
                     </div>
-                   
-<div class="card" style="margin-top: 40px;">
-              <div class="card-header">
-                <h3 class="card-title">Users List</h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Farm Name</th>
-                    <th>Email</th>
-                    <th>Phone No</th>
-                    <th>Role</th>
-                  </tr>
-                  </thead>
-                <tbody>
-                    @foreach($data as $user)
-                  <tr>
-                    
-                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->id}} </a></td>
-                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->name}} </a> </td>
-                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->farm_name}} </a></td>
-                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->email}} </a> </td>
-                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->phone_number}} </a></td>
-                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->role}}</a> </td>
-                  
-                  </tr>
-                    @endforeach
-                </tbody>
-                 
-                </table>
-              </div>
-              <!-- /.card-body -->
-        </div> 
 
-<div class="card">
+<div class="card" style="margin-top: 40px;">
 
     <div class="card-header">
         <h3 class="card-title">Users By Type</h3>
@@ -167,76 +130,49 @@
     </div>
 
 </div>                    
-
+                   
 <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Users List</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Farm Name</th>
+                    <th>Email</th>
+                    <th>Phone No</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                    
+                  </tr>
+                  </thead>
+                <tbody>
+                    @foreach($data as $user)
+                    <tr>
+                    
+                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->id}} </a></td>
+                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->name}} </a> </td>
+                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->farm_name}} </a></td>
+                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->email}} </a> </td>
+                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->phone_number}} </a></td>
+                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->role}}</a> </td>
 
-<div class="card-header">
-    <h3 class="card-title">Crop Enterprises</h3>
-</div>
-<div class="card-body"> 
-    <table id="example4" class="table table-bordered table-striped">
-      <thead>
-        <!-- <tr>
-          <th scope="col">#</th>
-          <th scope="col">Total</th>
-        </tr> -->
-      </thead>
-      <tbody>
-        <tr>
-          <th style="text-align: center;">Crop Enterprises</th>
-          <th style="text-align: center;">Number of Plants</th>
-          <th style="text-align: center;">Number of Trees</th>
-          
-        </tr>
-        
-        <tr>
-          <td style="color: green;text-align: center;">{{$cropenterprise}}</td>
-          <td style="color: green;text-align: center;">{{$totalplants}}</td>
-          <td style="color: green;text-align: center;">{{$totaltrees}}</td>
-        </tr>
-        
-        
-      </tbody>
-    </table>
-</div>            
-</div>
+                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/edit') }}"><i class="fa fa-edit"></i></span></a>
+                            <a style="color: green;" href="{{ url('admin/users/'.$user->id.'/delete') }}"><i class="fa fa-trash-o"></i></span></a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+                 
+                </table>
+              </div>
+              <!-- /.card-body -->
+        </div> 
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Livestock Enterprises</h3>
-    </div>
-                        
-<div class="card-body"> 
-    <table id="example5" class="table table-bordered table-striped">
-    <thead>
-    <!-- <tr>
-    <th scope="col">#</th>
-    <th scope="col">Total</th>
-    </tr> -->
-    </thead>
-    <tbody>
-    <tr>
-        <th style="text-align: center;">Livestock Enterprises</th>
-        <th style="text-align: center;">Number of Herds</th>
-        <th style="text-align: center;">Number of Animals </th>
-        <th style="text-align: center;">Number of Flocks </th>
-    </tr>
-    <tr>
-        <td style="color: green;text-align: center;">{{$livestockenterprise}}</td>
-        <td style="color: green;text-align: center;">{{$heards}}</td>
-        <td style="color: green;text-align: center;">{{$animals}}</td>
-        <td style="color: green;text-align: center;">{{$flocks}}</td>
-    </tr>
-    </tbody>
-    </table>
-</div>
-</div>    
-
-           
-    
-                      
-
-
-
+                    
 
 @endsection

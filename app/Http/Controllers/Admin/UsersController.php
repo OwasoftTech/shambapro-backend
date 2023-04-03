@@ -16,6 +16,7 @@ use App\Models\Flock;
 use Illuminate\Support\Facades\Schema;
 
 use App\Models\CropField;
+use App\Models\CropManagementRecord;
 
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
@@ -88,6 +89,33 @@ class UsersController extends Controller
 
      return view('admin.user.dashboard',['data' => $data,'animals'=>$animals,'enterprise'=>$enterprise,'users'=>$users,'cropfield'=>$cropfield,'livestockenterprise'=>$livestockenterprise,'cropenterprise'=>$cropenterprise,'totalplants'=>$totalplants,'totaltrees'=>$totaltrees,
         'flocks'=>$flocks,'heards'=>$heards,'farm_owners'=>$farm_owners,'farm_managers'=>$farm_managers,'farm_workers'=>$farm_workers,'farm_experts'=>$farm_experts,'store_managers'=>$store_managers,'farm_observers'=>$farm_observers]);
+
+    }
+
+    public function cropdashboard(IndexUser $request)
+    {
+  
+       $cropenterprise = Enterprise::where('enterprise_type','Crop')->first(); 
+       $details =  CropField::where('enterprise_id',$cropenterprise->id)->get();
+       $totalplants = CropField::where('plants_type','Plants')
+       ->count(); 
+       $totaltrees = CropField::where('plants_type','Trees')
+       ->count(); 
+      
+      return view('admin.user.cropdashboard',['cropenterprise'=>$cropenterprise,'totalplants'=>$totalplants,'totaltrees'=>$totaltrees,'details'=>$details]);
+
+    }
+
+    public function livestockdashboard(IndexUser $request)
+    {
+  
+       $livestockenterprise = Enterprise::where('enterprise_type','Livestock')
+       ->count();  
+        $flocks = Flock::count(); 
+       $heards = Heard::count(); 
+       $animals = Animals::count(); 
+      
+      return view('admin.user.livestockdashboard',['animals'=>$animals,'livestockenterprise'=>$livestockenterprise,'flocks'=>$flocks,'heards'=>$heards]);
 
     }
 
@@ -212,13 +240,16 @@ class UsersController extends Controller
 
         if ($request->ajax()) {
             return [
-                'redirect' => url('admin/users'),
+                'redirect' => url('admin/users/dashboard'),
                 'message' => trans('brackets/admin-ui::admin.operation.succeeded'),
             ];
         }
 
-        return redirect('admin/users');
+        return redirect('admin/users/dashboard');
     }
+
+    
+
 
     /**
      * Remove the specified resource from storage.
@@ -228,13 +259,9 @@ class UsersController extends Controller
      * @throws Exception
      * @return ResponseFactory|RedirectResponse|Response
      */
-    public function destroy(DestroyUser $request, User $user)
+    public function destroy(User $user)
     {
         $user->delete();
-
-        if ($request->ajax()) {
-            return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
-        }
 
         return redirect()->back();
     }

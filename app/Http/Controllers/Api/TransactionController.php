@@ -388,9 +388,13 @@ class TransactionController extends Controller
         left join `transaction_category` as tc on t.category_id = tc.id where t.user_id = '.$request->user_id.' and t.enterprise_id = '.$request->enterprise_id.' and t.type = 1 and t.category_id between 5 and 8 GROUP by tc.transaction_cat';
       $d_income = DB::select($sql_direct_income);
 
-      $direct_income = Transaction::from('transaction as t')
-                                 ->where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
+      $direct_income = Transaction::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)
                                   ->where('type',1)->whereBetween('category_id', [5, 8])->select(DB::raw('SUM(unit_price) as direct_income'))->first();
+
+      $sql_direct_expenses = 'select SUM(unit_price) as price,tc.transaction_cat as direct_expenses from `transaction` as t 
+                              left join `transaction_category` as tc on t.category_id = tc.id where t.user_id = '.$request->user_id.' 
+                              and t.enterprise_id = '.$request->enterprise_id.' and t.type between 2 and 3 GROUP by tc.transaction_cat'; 
+      $d_expense = DB::select($sql_direct_expenses);                                                   
 
       $direct_expenses = Transaction::where('user_id',$request->user_id)->where('enterprise_id',$request->enterprise_id)->whereBetween('type', [2, 3])
                         ->select(DB::raw('SUM(unit_price) as direct_expenses'))->first();
@@ -399,11 +403,11 @@ class TransactionController extends Controller
 
       //dd($entreprise_profit_loss);
       
-      $pdf = PDF::loadView('reports.enterprise_report', compact('direct_income','d_income','direct_expenses','entreprise_profit_loss'));
+      $pdf = PDF::loadView('reports.enterprise_report', compact('direct_income','d_income','direct_expenses','d_expense','entreprise_profit_loss'));
 
       return $pdf->setPaper('A4')->download('Enterprise.pdf');
          
-      //return View('reports.enterprise_report', compact('direct_income','direct_expenses','entreprise_profit_loss'));           
+      //return View('reports.enterprise_report', compact('direct_income','d_income','direct_expenses','d_expense','entreprise_profit_loss'));           
     } 
     catch (Exception $e) 
     {

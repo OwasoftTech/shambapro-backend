@@ -314,9 +314,10 @@
                 <th scope="col ">Entreprise Profit/Loss</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
             
-            <tr class="dashed-border">
+            <tr class="dashed-border" style="border-bottom: 1px solid;border-color: #273133;">
                 <td>Direct Income</td>
                 <td>
                     @foreach($d_income as $income)
@@ -325,19 +326,33 @@
                 </td>
 
                 <td class="text-end color-dark">
+                  @if(isset($d_income))  
                     @foreach($d_income as $income)
-                      {{$income->income}}</br>
+                      {{($income->income)? $income->income : ''}}</br>
                     @endforeach
+                  @endif  
                     {{($direct_income->direct_income) ? $direct_income->direct_income : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
-            <tr class="dashed-border">
+            <tr class="dashed-border" style="border-bottom: 1px solid;border-color: #273133;">
                 <td>Direct Expenses</td>
-                <td class="text-end color-dark">{{($direct_expenses->direct_expenses) ? $direct_expenses->direct_expenses : ''}}</td>
+                <td>
+                  @foreach($d_expense as $expense)
+                      {{$expense->direct_expenses}}</br>
+                    @endforeach
+                </td>  
+                <td class="text-end color-dark">
+                  @if(isset($d_expense))  
+                    @foreach($d_expense as $price)
+                      {{($price->price)? $price->price : ''}}</br>
+                    @endforeach
+                  @endif 
+                  {{($direct_expenses->direct_expenses) ? $direct_expenses->direct_expenses : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
-            <tr class="dashed-border">
+            <tr class="dashed-border" style="border-bottom: 1px solid;border-color: #273133;">
                 <td>Entreprise Profit/Loss</td>
+                <td></td>
                 <td class="text-end color-dark">{{($entreprise_profit_loss) ? $entreprise_profit_loss : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
