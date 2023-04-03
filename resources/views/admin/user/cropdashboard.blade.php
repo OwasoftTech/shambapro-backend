@@ -34,13 +34,18 @@
       <tbody>
         <tr>
           <th style="text-align: center;">Enterprise Name</th>
-          <td style="color: green;text-align: center;">{{$cropenterprise->enterprise_name}}</td>
-        </tr>
-        
-        <tr>
           <th style="text-align: center;">Enterprise Type</th>
+        </tr>
+        @if(isset($cropenterprise))
+        <tr>
+          <td style="color: green;text-align: center;">{{$cropenterprise->enterprise_name}}</td>
           <td style="color: green;text-align: center;">{{$cropenterprise->enterprise_type}}</td>
         </tr>
+        @else
+        <tr>
+          <td>No data found</td>
+        </tr>
+        @endif
         
         
       </tbody>
@@ -71,7 +76,8 @@
           <th style="text-align: center;">Field Size</th>
         </tr>
         
-        
+        @if(count($details) > 0)      
+          
           @foreach($details as $detail)
             <tr>
               <td style="text-align: center;">{{$detail->croping_system}}</td>
@@ -82,7 +88,12 @@
               <td style="text-align: center;">{{$detail->field_size}}</td>
           </tr>
           @endforeach
-       
+        @else
+            
+            <tr>
+              <td>No data found</td>
+            </tr>
+        @endif
         
         
       </tbody>

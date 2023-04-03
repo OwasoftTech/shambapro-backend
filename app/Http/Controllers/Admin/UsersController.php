@@ -96,13 +96,16 @@ class UsersController extends Controller
     {
   
        $cropenterprise = Enterprise::where('enterprise_type','Crop')->first(); 
-       $details =  CropField::where('enterprise_id',$cropenterprise->id)->get();
-       $totalplants = CropField::where('plants_type','Plants')
-       ->count(); 
-       $totaltrees = CropField::where('plants_type','Trees')
-       ->count(); 
-      
-      return view('admin.user.cropdashboard',['cropenterprise'=>$cropenterprise,'totalplants'=>$totalplants,'totaltrees'=>$totaltrees,'details'=>$details]);
+       
+       if($cropenterprise != null)
+       {
+           $details =  CropField::where('enterprise_id',$cropenterprise->id)->get();
+       }
+       else 
+       {
+            $details = [];
+        } 
+      return view('admin.user.cropdashboard',['cropenterprise'=>$cropenterprise,'details'=>$details]);
 
     }
 
