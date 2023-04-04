@@ -268,14 +268,14 @@
 </div>
 <div class="row-2 report-details">
     <div class="col-sm-3">
-        <p>Name:<span class="ps-1">{{ $user->name }}</span></p>
+        <p>Name:<span class="ps-1">{{ ($user->name) ? $user->name : '' }}</span></p>
     </div>
     <div class="col-sm-6">
         <p>Creation Date:<span class="ps-1">{{Carbon\Carbon::now()->format('d M Y')}}</span></p>
     </div>
 
     <div class="col-sm-3 text-sm-end">
-        <p>Category:<span class="ps-1">{{ $enterprise->enterprise_type }}</span></p>
+        <p>Category:<span class="ps-1">{{ ($enterprise->enterprise_type) ? $enterprise->enterprise_type : '' }}</span></p>
     </div>
     <!-- <div class="col-sm-3 text-sm-end">
         <p>Sub-Category:<span class="ps-1">Cattle(Diary)</span></p>
