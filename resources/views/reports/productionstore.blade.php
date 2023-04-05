@@ -250,7 +250,7 @@
     <div class="row-1">
         <div class="col-1">
     <h1>SUNSHINE FARM LTD</h1>
-    <h2 class="mb-1" style="font-size: 22px !important;">Crop Production Report</h2>
+    <h2 class="mb-1" style="font-size: 22px !important;">Production Report</h2>
     <?php
     $day = Carbon\Carbon::now()->format('j');
     $symbol = Carbon\Carbon::now()->format('S');
