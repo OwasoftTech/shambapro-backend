@@ -349,7 +349,9 @@ class FeedingRecordController extends Controller
       $current_start_date = Carbon::parse('first day of January '. $current_year)->startOfDay();
       $current_end_date = Carbon::parse('last day of December '. $current_year)->endOfDay();
 
-      $user = User::find($request->user_id);
+      $user = User::where('id',$request->user_id)->first();
+      if(isset($user) && $user != null)
+      {
       $enterprise = Enterprise::find($request->enterprise_id);
 
       $feed_record =  FeedingRecord::from('feeding_records as f')
@@ -673,8 +675,12 @@ class FeedingRecordController extends Controller
         'treatment_record','veterinary_record','service_register','calf_birth_register','piglet_birth_register','kid_birth_register','egg_record',
         'bird_record','production_record','meat_slaughter_record','wool_record','soil_test','land_preparation','soil_amendment','planting_record',
         'routine_scouting','weed_management','pesticide_application','fertilizer_application','manure_application','irrigation','other_farm_activities',  
-        'agronomist_inspection','crop_produce_harvested','harvest_consumed_workers')); */     
-      
+        'agronomist_inspection','crop_produce_harvested','harvest_consumed_workers')); */   
+          
+    }
+      else{
+          echo "User Not Found";
+        }  
     } 
     catch (Exception $e) 
     {

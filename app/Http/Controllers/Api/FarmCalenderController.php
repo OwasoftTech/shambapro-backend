@@ -171,32 +171,38 @@ class FarmCalenderController extends Controller
       $current_start_date = Carbon::parse('first day of January '. $current_year)->startOfDay();
       $current_end_date = Carbon::parse('last day of December '. $current_year)->endOfDay();
 
-      $user = User::find($request->user_id);
-      $farm = Farm::where('name', '=', $user->farm_name)->first();
+      $user = User::where('id',$request->user_id)->first();
+      if(isset($user) && $user != null)
+      {
+          $farm = Farm::where('name', '=', $user->farm_name)->first();
 
-      $alljobs = Jobs::with('assigned_member')->where('farm_id', $farm->id)
-        ->get();
-      
-      $members_total = Jobs::where('farm_id', $farm->id)
-                            ->select(DB::raw('count(*) as total'),'user_id')
-                            ->groupBy('user_id')
-                            ->get();
-                            
-      $members_verysatisfied = Jobs::where('farm_id', $farm->id)->where('action', 'Very Satisfied')
-                              ->groupBy('user_id')->select(DB::raw('count(*) as total'),'user_id')->get();
-      $members_fairlysatisfied = Jobs::where('farm_id', $farm->id)->where('action', 'Fairly Satisfied')
-                              ->groupBy('user_id')->select(DB::raw('count(*) as total'),'user_id')->get();
-      $members_toberepeated = Jobs::where('farm_id', $farm->id)->where('action', 'To Be Repeated')
-                              ->groupBy('user_id')->select(DB::raw('count(*) as total'),'user_id')->get();
-      $members_tobereallocated = Jobs::where('farm_id', $farm->id)->where('action', 'To Be Reallocated')
-                              ->groupBy('user_id')->select(DB::raw('count(*) as total'),'user_id')->get();                                                                                                      
-      $pdf = PDF::loadView('reports.staff', compact('alljobs','user','members_total','members_verysatisfied',
-        'members_fairlysatisfied','members_toberepeated','members_tobereallocated'));
+          $alljobs = Jobs::with('assigned_member')->where('farm_id', $farm->id)
+            ->get();
+          
+          $members_total = Jobs::where('farm_id', $farm->id)
+                                ->select(DB::raw('count(*) as total'),'user_id')
+                                ->groupBy('user_id')
+                                ->get();
+                                
+          $members_verysatisfied = Jobs::where('farm_id', $farm->id)->where('action', 'Very Satisfied')
+                                  ->groupBy('user_id')->select(DB::raw('count(*) as total'),'user_id')->get();
+          $members_fairlysatisfied = Jobs::where('farm_id', $farm->id)->where('action', 'Fairly Satisfied')
+                                  ->groupBy('user_id')->select(DB::raw('count(*) as total'),'user_id')->get();
+          $members_toberepeated = Jobs::where('farm_id', $farm->id)->where('action', 'To Be Repeated')
+                                  ->groupBy('user_id')->select(DB::raw('count(*) as total'),'user_id')->get();
+          $members_tobereallocated = Jobs::where('farm_id', $farm->id)->where('action', 'To Be Reallocated')
+                                  ->groupBy('user_id')->select(DB::raw('count(*) as total'),'user_id')->get();                                                                                                      
+          $pdf = PDF::loadView('reports.staff', compact('alljobs','user','members_total','members_verysatisfied',
+            'members_fairlysatisfied','members_toberepeated','members_tobereallocated'));
 
-      return $pdf->setPaper('A4')->download('Staff Performance Report.pdf');
-         
-      /*return view('reports.staff', compact('alljobs','user','members_total','members_verysatisfied',
-        'members_fairlysatisfied','members_toberepeated','members_tobereallocated'));*/      
+          return $pdf->setPaper('A4')->download('Staff Performance Report.pdf');
+             
+          /*return view('reports.staff', compact('alljobs','user','members_total','members_verysatisfied',
+            'members_fairlysatisfied','members_toberepeated','members_tobereallocated'));*/  
+      }
+      else{
+          echo "User Not Found";
+        }           
       
     } 
     catch (Exception $e) 

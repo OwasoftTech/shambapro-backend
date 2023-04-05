@@ -505,43 +505,47 @@ class FarmStoreController extends Controller
   {
     try 
     {
+      $user = User::where('id',$request->user_id)->first();
+      if(isset($user) && $user != null)
+      {
+          $current_year = Carbon::today()->format('Y');
+          $current_start_date = Carbon::parse('first day of January '. $current_year)->startOfDay();
+          $current_end_date = Carbon::parse('last day of December '. $current_year)->endOfDay();
 
-       $user = User::find($request->user_id);
-       //dd($user);
-      $current_year = Carbon::today()->format('Y');
-      $current_start_date = Carbon::parse('first day of January '. $current_year)->startOfDay();
-      $current_end_date = Carbon::parse('last day of December '. $current_year)->endOfDay();
+          $farm_stock = FarmStore::from('farm_store as fs')
+                        ->leftjoin('farm_store_category as fsc', 'fs.category_id',  'fsc.id')
+                        ->leftjoin('farm_store_subcategory as fssc', 'fs.subcategory_id',  'fssc.id')
+                        ->where('fs.type', 1)
+                        ->where('fs.user_id', $request->user_id)
+                        ->where('fs.status', 1)
+                        ->select(DB::raw('SUM(fs.quantity) as qunatity'),'fs.subcategory_id','fssc.farm_subcat','fsc.farm_cat')
+                        ->groupBy('fs.subcategory_id','fssc.farm_subcat','fsc.farm_cat')
+                        ->get();
+          $sql_farm_inputs = 'select SUM(fs.quantity) as qunatity,SUM(fs.remove_quantity) as remove_quantity, `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat` from `farm_store` as `fs` left join `farm_store_category` as `fsc` on `fs`.`category_id` = `fsc`.`id` left join `farm_store_subcategory` as `fssc` on `fs`.`subcategory_id` = `fssc`.`id` where `fs`.`type` = 2 and `fs`.`user_id` = '.$request->user_id.' and `fs`.`status` = 1 group by `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat`;'; 
+          $farm_inputs = DB::select($sql_farm_inputs);
 
-      $farm_stock = FarmStore::from('farm_store as fs')
-                    ->leftjoin('farm_store_category as fsc', 'fs.category_id',  'fsc.id')
-                    ->leftjoin('farm_store_subcategory as fssc', 'fs.subcategory_id',  'fssc.id')
-                    ->where('fs.type', 1)
-                    ->where('fs.user_id', $request->user_id)
-                    ->where('fs.status', 1)
-                    ->select(DB::raw('SUM(fs.quantity) as qunatity'),'fs.subcategory_id','fssc.farm_subcat','fsc.farm_cat')
-                    ->groupBy('fs.subcategory_id','fssc.farm_subcat','fsc.farm_cat')
-                    ->get();
-      $sql_farm_inputs = 'select SUM(fs.quantity) as qunatity,SUM(fs.remove_quantity) as remove_quantity, `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat` from `farm_store` as `fs` left join `farm_store_category` as `fsc` on `fs`.`category_id` = `fsc`.`id` left join `farm_store_subcategory` as `fssc` on `fs`.`subcategory_id` = `fssc`.`id` where `fs`.`type` = 2 and `fs`.`user_id` = '.$request->user_id.' and `fs`.`status` = 1 group by `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat`;'; 
-      $farm_inputs = DB::select($sql_farm_inputs);
+          $sql_farm_machine = 'select SUM(fs.quantity) as qunatity,SUM(fs.remove_quantity) as remove_quantity, `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat` from `farm_store` as `fs` left join `farm_store_category` as `fsc` on `fs`.`category_id` = `fsc`.`id` left join `farm_store_subcategory` as `fssc` on `fs`.`subcategory_id` = `fssc`.`id` where `fs`.`type` = 3 and `fs`.`user_id` = '.$request->user_id.' and `fs`.`status` = 1 group by `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat`;'; 
+          $farm_machine = DB::select($sql_farm_machine);
 
-      $sql_farm_machine = 'select SUM(fs.quantity) as qunatity,SUM(fs.remove_quantity) as remove_quantity, `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat` from `farm_store` as `fs` left join `farm_store_category` as `fsc` on `fs`.`category_id` = `fsc`.`id` left join `farm_store_subcategory` as `fssc` on `fs`.`subcategory_id` = `fssc`.`id` where `fs`.`type` = 3 and `fs`.`user_id` = '.$request->user_id.' and `fs`.`status` = 1 group by `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat`;'; 
-      $farm_machine = DB::select($sql_farm_machine);
+          $sql_building_struct = 'select SUM(fs.quantity) as qunatity,SUM(fs.remove_quantity) as remove_quantity, `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat` from `farm_store` as `fs` left join `farm_store_category` as `fsc` on `fs`.`category_id` = `fsc`.`id` left join `farm_store_subcategory` as `fssc` on `fs`.`subcategory_id` = `fssc`.`id` where `fs`.`type` = 4 and `fs`.`user_id` = '.$request->user_id.' and `fs`.`status` = 1 group by `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat`;'; 
+          $building_struct = DB::select($sql_building_struct);
 
-      $sql_building_struct = 'select SUM(fs.quantity) as qunatity,SUM(fs.remove_quantity) as remove_quantity, `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat` from `farm_store` as `fs` left join `farm_store_category` as `fsc` on `fs`.`category_id` = `fsc`.`id` left join `farm_store_subcategory` as `fssc` on `fs`.`subcategory_id` = `fssc`.`id` where `fs`.`type` = 4 and `fs`.`user_id` = '.$request->user_id.' and `fs`.`status` = 1 group by `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat`;'; 
-      $building_struct = DB::select($sql_building_struct);
+          $sql_farm_land = 'select SUM(fs.quantity) as qunatity,SUM(fs.remove_quantity) as remove_quantity, `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat` from `farm_store` as `fs` left join `farm_store_category` as `fsc` on `fs`.`category_id` = `fsc`.`id` left join `farm_store_subcategory` as `fssc` on `fs`.`subcategory_id` = `fssc`.`id` where `fs`.`type` = 5 and `fs`.`user_id` = '.$request->user_id.' and `fs`.`status` = 1 group by `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat`;'; 
+          $farm_land = DB::select($sql_farm_land);  
 
-      $sql_farm_land = 'select SUM(fs.quantity) as qunatity,SUM(fs.remove_quantity) as remove_quantity, `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat` from `farm_store` as `fs` left join `farm_store_category` as `fsc` on `fs`.`category_id` = `fsc`.`id` left join `farm_store_subcategory` as `fssc` on `fs`.`subcategory_id` = `fssc`.`id` where `fs`.`type` = 5 and `fs`.`user_id` = '.$request->user_id.' and `fs`.`status` = 1 group by `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat`;'; 
-      $farm_land = DB::select($sql_farm_land);  
+          $sql_office_equip = 'select SUM(fs.quantity) as qunatity,SUM(fs.remove_quantity) as remove_quantity, `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat` from `farm_store` as `fs` left join `farm_store_category` as `fsc` on `fs`.`category_id` = `fsc`.`id` left join `farm_store_subcategory` as `fssc` on `fs`.`subcategory_id` = `fssc`.`id` where `fs`.`type` = 6 and `fs`.`user_id` = '.$request->user_id.' and `fs`.`status` = 1 group by `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat`;'; 
+          $office_equip = DB::select($sql_office_equip);          
+          
+                                                                                                                
+          $pdf = PDF::loadView('reports.farmstore', compact('farm_stock','farm_inputs','farm_machine','building_struct','farm_land','office_equip','user'));
 
-      $sql_office_equip = 'select SUM(fs.quantity) as qunatity,SUM(fs.remove_quantity) as remove_quantity, `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat` from `farm_store` as `fs` left join `farm_store_category` as `fsc` on `fs`.`category_id` = `fsc`.`id` left join `farm_store_subcategory` as `fssc` on `fs`.`subcategory_id` = `fssc`.`id` where `fs`.`type` = 6 and `fs`.`user_id` = '.$request->user_id.' and `fs`.`status` = 1 group by `fs`.`subcategory_id`, `fssc`.`farm_subcat`, `fsc`.`farm_cat`;'; 
-      $office_equip = DB::select($sql_office_equip);          
-      
-                                                                                                            
-      $pdf = PDF::loadView('reports.farmstore', compact('farm_stock','farm_inputs','farm_machine','building_struct','farm_land','office_equip','user'));
-
-      return $pdf->setPaper('A4')->download('Farm Inventory.pdf');
-         
-      // return view('reports.farmstore', compact('farm_stock','farm_inputs','farm_machine','building_struct','farm_land','office_equip','user'));      
+          return $pdf->setPaper('A4')->download('Farm Inventory.pdf');
+             
+          // return view('reports.farmstore', compact('farm_stock','farm_inputs','farm_machine','building_struct','farm_land','office_equip','user')); 
+      }
+      else{
+          echo "User Not Found";
+        }         
       
     } 
     catch (Exception $e) 
@@ -556,17 +560,24 @@ class FarmStoreController extends Controller
               
     try
     {
-      $sql_heard_report = "SELECT purpose,SUM(quantity) as quantity FROM `farm_store_history` WHERE created_by =".$request->user_id."
-       AND subcategory_id =12 GROUP by purpose;";
-      $herd_report = DB::select($sql_heard_report); 
-      
-      //dd($herd_report);  
+      $user = User::where('id',$request->user_id)->first();
+      if(isset($user) && $user != null)
+      {
+        $sql_heard_report = "SELECT purpose,SUM(quantity) as quantity FROM `farm_store_history` WHERE created_by =".$request->user_id."
+         AND subcategory_id =12 GROUP by purpose;";
+        $herd_report = DB::select($sql_heard_report); 
+        
+        //dd($herd_report);  
 
-     $pdf = PDF::loadView('reports.herd_report', compact('herd_report'));
+       $pdf = PDF::loadView('reports.herd_report', compact('herd_report'));
 
-      return $pdf->setPaper('A4')->download('Herd Register.pdf');
-         
-      //return View('reports.herd_report', compact('herd_report'));
+        return $pdf->setPaper('A4')->download('Herd Register.pdf');
+           
+        //return View('reports.herd_report', compact('herd_report'));
+      }
+      else{
+          echo "User Not Found";
+        }   
     } 
     catch (Exception $e) 
     {
@@ -579,16 +590,23 @@ class FarmStoreController extends Controller
               
     try
     {
-      $sql_flock_report = "SELECT purpose,SUM(quantity) as quantity FROM `farm_store_history` WHERE created_by =".$request->user_id." AND subcategory_id =13 GROUP by purpose;";
-      $flock_report = DB::select($sql_flock_report); 
-      
-      //dd($flock_report);  
+      $user = User::where('id',$request->user_id)->first();
+      if(isset($user) && $user != null)
+      {
+        $sql_flock_report = "SELECT purpose,SUM(quantity) as quantity FROM `farm_store_history` WHERE created_by =".$request->user_id." AND subcategory_id =13 GROUP by purpose;";
+        $flock_report = DB::select($sql_flock_report); 
+        
+        //dd($flock_report);  
 
-     $pdf = PDF::loadView('reports.flock_report', compact('flock_report'));
+       $pdf = PDF::loadView('reports.flock_report', compact('flock_report'));
 
-      return $pdf->setPaper('A4')->download('Flock Register.pdf');
-         
-      //return View('reports.flock_report', compact('flock_report'));
+        return $pdf->setPaper('A4')->download('Flock Register.pdf');
+           
+        //return View('reports.flock_report', compact('flock_report'));
+      }
+      else{
+          echo "User Not Found";
+        }   
     } 
     catch (Exception $e) 
     {
