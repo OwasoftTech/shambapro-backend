@@ -249,14 +249,15 @@
     <div class="row pt-sm-5 pt-3 ">
         <div class="col-sm-6 text-start">
     <h1>SUNSHINE FARM LTD</h1>
+    <h2 class="mb-1" style="font-size: 22px !important;">Farm Inventory Report</h2>
     <?php
     $day = Carbon\Carbon::now()->format('j');
     $symbol = Carbon\Carbon::now()->format('S');
     $year = Carbon\Carbon::now()->format('F Y');
     
     ?>
-    <p class="mb-1" style="font-size: 14px !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}}</p>
-    <p>Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
+    <!-- <p class="mb-1" style="font-size: 14px !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}}</p> -->
+    <!-- <p>Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p> -->
 </div>
 <div class="col-sm-6 text-sm-end pt-sm-0 pt-3">
     
@@ -266,9 +267,8 @@
 </div>
 <div class="row report-details">
     <div class="col-sm-3">
-        <p>Name:<span class="ps-1">{{ $user->name }}</span></p>
-    </div>
-    <div class="col-sm-3">
+        <p>Name:<span class="ps-1">{{ ($user->name) ? $user->name : '' }}</span></p>
+    
         <p>Creation Date:<span class="ps-1">{{$day}}<sup>{{$symbol}}</sup> {{$year}}</span></p>
     </div>
     

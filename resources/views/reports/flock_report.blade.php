@@ -256,7 +256,7 @@
     $year = Carbon\Carbon::now()->format('F Y');
     
     ?>
-    <p class="mb-1" style="font-size: 14px !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}}</p>
+    <!-- <p class="mb-1" style="font-size: 14px !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}}</p> -->
     <p>Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
     </div>
     <div class="col-2">
@@ -275,12 +275,14 @@
             <th>Quantity</th>
           </thead>
           <tbody class="TableBody">
+            @if(isset($flock_report))
             @foreach($flock_report as $hr)
             <tr class="dashed-border">
               <td>{{ $hr->purpose }}</td>
               <td>{{ $hr->quantity }}</td>
             </tr>
             @endforeach
+            @endif
           </tbody>
         </table>
       </div>

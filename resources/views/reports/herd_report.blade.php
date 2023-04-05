@@ -256,7 +256,7 @@
     $year = Carbon\Carbon::now()->format('F Y');
     
     ?>
-    <p class="mb-1" style="font-size: 14px !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}}</p>
+    <!-- <p class="mb-1" style="font-size: 14px !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}}</p> -->
     <p>Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
     </div>
     <div class="col-2">
