@@ -118,6 +118,11 @@
           border-top: none !important;
           color: #61797d;
         }
+
+        .subheading{
+         padding-left: 5% !important;   
+        }    
+
         .TableBody .dashed-border {
           background-image: linear-gradient(to right, #61797d 44%, transparent 0%);
           background-position: bottom;
@@ -288,15 +293,15 @@
 <body>
 <div class="container-xxl">
 <div class="sunfarm py-5">
-    <h1 style="font-size: 18px !important;">SUNSHINE FARM LTD</h1>
-    <h2 class="mb-1" style="font-size: 24px !important;">Income Statement</h2>
+    <h1 style="font-size: 18px !important;padding-left: 10% !important;">SUNSHINE FARM LTD</h1>
+    <h2 class="mb-1" style="font-size: 24px !important;padding-left: 10% !important;">Income Statement</h2>
     <?php
     $day = Carbon\Carbon::now()->format('j');
     $symbol = Carbon\Carbon::now()->format('S');
     $year = Carbon\Carbon::now()->format('F Y');
     
     ?>
-    <p class="mb-1" style="font-size: 9px !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}} | Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
+    <p class="mb-1" style="font-size: 9px !important;padding-left: 10% !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}} | Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
     
 
 </div>
@@ -315,17 +320,17 @@
             </tr>
             
             <tr class="dashed-border">
-                <td>Product Sales</td>
+                <td class="subheading">Product Sales</td>
                 <td class="text-end color-dark">{{($product_sale->product_sale) ? $product_sale->product_sale : '' }}</td>
                 <td class="text-end color-dark"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Costs of Goods Sold</td>
+                <td class="subheading">Costs of Goods Sold</td>
                 <td class="text-end color-dark">{{($costs_goods_sold->costs_goods_sold) ? $costs_goods_sold->costs_goods_sold : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Gross Profit/Income</td>
+                <td class="subheading">Gross Profit/Income</td>
                 <td class="text-end color-dark">{{($gross_profit_income) ? $gross_profit_income : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
@@ -338,17 +343,17 @@
                 <th scope="col"></th>
             </tr>
             <tr class="dashed-border">
-                <td>Gross Profit</td>
+                <td class="subheading">Gross Profit</td>
                 <td class="text-end color-dark">{{($gross_profit_income) ? $gross_profit_income : ''}}</td>
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Operating Expenses</td>
+                <td class="subheading">Operating Expenses</td>
                 <td class="text-end color-dark ">{{ ($operating_expenses->operating_expenses) ? $operating_expenses->operating_expenses : '' }} </td>
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Operating Profit/Income</td>
+                <td class="subheading">Operating Profit/Income</td>
                 <td class="text-end color-dark">{{ ($operating_profit_income) ? $operating_profit_income : '' }}</td>
                 <td class="text-end"></td>
             </tr>
@@ -361,22 +366,22 @@
                 <th scope="col"></th>
             </tr>
             <tr class="dashed-border">
-                <td>Operating Profit/Income   </td>
+                <td class="subheading">Operating Profit/Income   </td>
                 <td class="text-end color-dark ">{{ ($operating_profit_income) ? $operating_profit_income : '' }} </td>
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Non-Operating Income   </td>
+                <td class="subheading">Non-Operating Income   </td>
                 <td class="text-end color-dark">{{($non_operating_income->non_operating_income) ? $non_operating_income->non_operating_income : ''}} </td>
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Non-Operating Expenses   </td>
+                <td class="subheading">Non-Operating Expenses   </td>
                 <td class="text-end color-dark">{{($non_operating_expenses->non_operating_expenses) ? $non_operating_expenses->non_operating_expenses : ''}} </td>
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Net Profit/Income before Taxes  </td>
+                <td class="subheading">Net Profit/Income before Taxes  </td>
                 <td class="text-end color-dark">{{($net_profit_income_before_taxes) ? $net_profit_income_before_taxes : ''}} </td>
                 <td class="text-end"></td>
             </tr>
@@ -389,7 +394,7 @@
             </tr>
            
             <tr class="dashed-border">
-                <td>Income Tax</td>
+                <td class="subheading">Income Tax</td>
                 <td class="text-end color-dark">{{($income_tax) ? $income_tax : '' }} </td>
                 <td class="text-end"></td>
             </tr>
@@ -408,12 +413,12 @@
               <?php
               $image = public_path('src/imgs/logos/shambapro.webp');
               ?>
-              <img src="{{ $image }}" alt="" style="margin-top:10px;margin-left: 10px;">
+              <img src="{{ $image }}" alt="" style="margin-top:5px;margin-left: 10px;">
               <br/>
               <a href="www.shambapro.com" style="font-size: 10px;margin-left: 15px;">www.shambapro.com</a>
             </td>
             <td>
-              <p class="py-4" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
+              <p class="py-2" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
             </td>
           </tr>
         </tbody>
