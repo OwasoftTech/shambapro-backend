@@ -314,7 +314,7 @@
         </tr>
         <tbody class="table-group-divider TableHeading">
             <tr class="dashed-border ">
-                <th scope="col ">Gross Profit/Income</th>
+                <th scope="col">Gross Profit/Income</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
@@ -330,7 +330,7 @@
                 <td class="text-end color-dark"></td>
             </tr>
             <tr class="dashed-border">
-                <td class="subheading">Gross Profit/Income</td>
+                <th scope="col">Gross Profit/Income</th>
                 <td class="text-end color-dark">{{($gross_profit_income) ? $gross_profit_income : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
@@ -353,7 +353,7 @@
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
-                <td class="subheading">Operating Profit/Income</td>
+                <th scope="col">Operating Profit/Income</th>
                 <td class="text-end color-dark">{{ ($operating_profit_income) ? $operating_profit_income : '' }}</td>
                 <td class="text-end"></td>
             </tr>
@@ -381,7 +381,7 @@
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
-                <td class="subheading">Net Profit/Income before Taxes  </td>
+                <th scope="col">Net Profit/Income before Taxes  </th>
                 <td class="text-end color-dark">{{($net_profit_income_before_taxes) ? $net_profit_income_before_taxes : ''}} </td>
                 <td class="text-end"></td>
             </tr>
@@ -399,7 +399,7 @@
                 <td class="text-end"></td>
             </tr>
             <tr class="footer-border ">
-                <td scope="col" class="font-dark">Net Profit/Income</td>
+                <th scope="col">Net Profit/Income</th>
                 <td scope="col" class="text-end font-dark">{{($net_profit_income) ? $net_profit_income : ''}}</td>
                 <td scope="col" class="text-end"></td>
             </tr>
