@@ -133,7 +133,7 @@
             }
 
             .TableHeader {
-              border: 1px solid black;
+              border: 2px solid #3a8b38;
             }
             .TableHeader tr {
               background-color: #F8F8F8;
@@ -149,8 +149,9 @@
               color: #61797D;
             }
             .TableBody .dashed-border {
-              border-bottom: 1px solid black !important;   
-              border-right: 1px solid black !important; 
+              border-bottom: 2px solid #3a8b38 !important;   
+              border-right: 2px solid #3a8b38 !important;
+              border-left: 2px solid #3a8b38 !important;
               /*background-image: linear-gradient(to right, #61797D 44%, transparent 0%);
               background-position: top;
               background-size: 8px 0.5px;
@@ -207,12 +208,12 @@
 
             th {
               text-align: inherit;
-              border-right: 1px solid black !important; 
+              border-right: 2px solid #3a8b38 !important; 
             }
 
             td {
               
-              border-right: 1px solid black !important; 
+              border-right: 2px solid #3a8b38 !important; 
             }
 
             thead,
@@ -245,20 +246,20 @@
     <title>ShambaPro</title>
 </head>
 <body >
-    <div class="container-xxl">
+    <div class="container-xxl" style="padding-right: 10% !important;padding-left: 10% !important">
 <div class="sunfarm py-4">
     <div class="row-1">
         <div class="col-1">
-    <h1>SUNSHINE FARM LTD</h1>
-    <h2 class="mb-1" style="font-size: 22px !important;">Production Report</h2>
+    <h1 style="font-size: 18px !important;text-transform: uppercase;">{{ $user->farm_name }} LTD</h1>
+    <h2 class="mb-1" style="font-size: 24px !important;">Production Report</h2>
     <?php
     $day = Carbon\Carbon::now()->format('j');
     $symbol = Carbon\Carbon::now()->format('S');
     $year = Carbon\Carbon::now()->format('F Y');
     
     ?>
-    <p class="mb-1" style="font-size: 14px !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}}</p>
-    <p>Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
+    <p class="mb-1" style="font-size: 9px !important;text-transform: uppercase;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}} | Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
+
 </div>
 <div class="col-2">
     
@@ -451,6 +452,9 @@
         </table>
     @endif     
 </div>
+<br/>
+<br/>
+
 <div class="table-responsive">
     @if(count($milk_record) > 0)
         <div class="text-center farmstock">
@@ -739,7 +743,10 @@
         </table>
     @endif     
 </div>
-
+<br/>
+<br/>
+<br/>
+<br/>
 <div class="table-responsive">
     @if(count($service_register) > 0)
         <div class="text-center farmstock">
@@ -1532,16 +1539,16 @@
               <?php
               $image = public_path('src/imgs/logos/shambapro.webp');
               ?>
-              <img src="{{ $image }}" alt="" style="margin-top:10px;margin-left: 10px;">
+              <img src="{{ $image }}" alt="" style="margin-top:5px;margin-left: 10px;">
               <br/>
-              <a href="www.shambapro.com">www.shambapro.com</a>
+              <a href="www.shambapro.com" style="font-size: 10px;margin-left: 15px;">www.shambapro.com</a>
             </td>
             <td>
-              <p class="py-4" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
+              <p class="py-2" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
             </td>
           </tr>
         </tbody>
-      </table>
+      </table> 
     </div>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </body>

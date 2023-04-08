@@ -313,12 +313,12 @@ class TransactionController extends Controller
       $net_profit_income = floatval(floatval($net_profit_income_before_taxes) - floatval($income_tax));              
 
      
-      $pdf = PDF::loadView('reports.income_statement', compact('product_sale','costs_goods_sold','operating_expenses','non_operating_income','non_operating_expenses',
+      $pdf = PDF::loadView('reports.income_statement', compact('product_sale','costs_goods_sold','operating_expenses','non_operating_income','non_operating_expenses','user',
         'gross_profit_income','operating_profit_income','net_profit_income_before_taxes','income_tax','net_profit_income'));
 
       return $pdf->setPaper('A4')->download('INCOME STATEMENT.pdf');
          
-      /*return View('reports.income_statement', compact('product_sale','costs_goods_sold','operating_expenses','non_operating_income','non_operating_expenses',
+     /* return View('reports.income_statement', compact('product_sale','costs_goods_sold','operating_expenses','non_operating_income','non_operating_expenses',
         'gross_profit_income','operating_profit_income','net_profit_income_before_taxes','income_tax','net_profit_income'));    */  
 
       }
@@ -378,7 +378,7 @@ class TransactionController extends Controller
                    'total_liabilities' => $total_liabilities,
                    'equity' => $equity,
                 ];*/
-          $pdf = PDF::loadView('reports.balance_sheet', compact('current_assets','asset_purchases','asset_sales','long_term_assets','total_assets',
+          $pdf = PDF::loadView('reports.balance_sheet', compact('current_assets','asset_purchases','asset_sales','long_term_assets','total_assets','user',
            'farm_input_service','monthly_payment','current_liabilities','long_term_liabilities','total_liabilities','equity'));
 
           return $pdf->setPaper('A4')->download('BALANCE SHEET.pdf');
@@ -424,7 +424,7 @@ class TransactionController extends Controller
 
           //dd($entreprise_profit_loss);
           
-          $pdf = PDF::loadView('reports.enterprise_report', compact('direct_income','d_income','direct_expenses','d_expense','entreprise_profit_loss'));
+          $pdf = PDF::loadView('reports.enterprise_report', compact('direct_income','d_income','direct_expenses','d_expense','entreprise_profit_loss','user'));
 
           return $pdf->setPaper('A4')->download('Enterprise.pdf');
              
@@ -500,12 +500,12 @@ class TransactionController extends Controller
           $net_cash_flow = floatval(floatval($operating_activities) - floatval($investment_activities));            
 
          
-          $pdf = PDF::loadView('reports.cash_flow', compact('cash_received_operation','cash_paidout_operation','operating_activities','cash_received_financing',
+          $pdf = PDF::loadView('reports.cash_flow', compact('cash_received_operation','cash_paidout_operation','operating_activities','cash_received_financing','user',
                       'cash_paidout_financing','financing_activities','cash_received_investment','cash_paidout_investment','investment_activities','net_cash_flow'));
 
           return $pdf->setPaper('A4')->download('Cash Flow Statement.pdf');
              
-         /* return View('reports.cash_flow', compact('cash_received_operation','cash_paidout_operation','operating_activities','cash_received_financing',
+          /*return View('reports.cash_flow', compact('cash_received_operation','cash_paidout_operation','operating_activities','cash_received_financing','user',
                       'cash_paidout_financing','financing_activities','cash_received_investment','cash_paidout_investment','investment_activities','net_cash_flow'));*/ 
       }
       else{

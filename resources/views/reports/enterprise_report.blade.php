@@ -17,6 +17,9 @@
           font-family: Volkswagen-Regular;
           src: url("../fonts/Volkswagen-Regular Regular.ttf");
         }
+        .subheading{
+         padding-left: 5% !important;   
+        } 
         .sunfarm h1 {
           font-size: 28px;
           font-family: Volkswagen-DemiBold;
@@ -288,19 +291,18 @@
 <body>
 <div class="container-xxl">
 <div class="sunfarm py-5">
-    <h1>SUNSHINE FARM LTD</h1>
-    <h2 class="mb-1">Enterprise Report</h2>
+    <h1 style="font-size: 18px !important;padding-left: 10% !important;text-transform: uppercase;">{{ $user->farm_name }} LTD</h1>
+    <h2 class="mb-1" style="font-size: 24px !important;padding-left: 10% !important;">Enterprise Report</h2>
     <?php
     $day = Carbon\Carbon::now()->format('j');
     $symbol = Carbon\Carbon::now()->format('S');
     $year = Carbon\Carbon::now()->format('F Y');
     
     ?>
-    <p class="mb-1" style="font-size: 14px !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}}</p>
-    <p>Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
+    <p class="mb-1" style="font-size: 9px !important;padding-left: 10% !important;text-transform: uppercase;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}} | Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
 
 </div>
-<div class="table-responsive container-xxl">
+<div class="table-responsive container-xxl" style="padding-right: 10% !important;padding-left: 10% !important">
     <table class="table table-borderless" rules="all" id="printTable">
         <thead>
             <tr>
@@ -318,7 +320,7 @@
             </tr>
             
             <tr class="dashed-border" style="border-bottom: 1px solid;border-color: #273133;">
-                <td>Direct Income</td>
+                <td class="subheading">Direct Income</td>
                 <td>
                     @foreach($d_income as $income)
                       {{$income->transaction_cat}}</br>
@@ -335,7 +337,7 @@
                 <td class="text-end color-dark"></td>
             </tr>
             <tr class="dashed-border" style="border-bottom: 1px solid;border-color: #273133;">
-                <td>Direct Expenses</td>
+                <td class="subheading">Direct Expenses</td>
                 <td>
                   @foreach($d_expense as $expense)
                       {{$expense->direct_expenses}}</br>
@@ -351,7 +353,7 @@
                 <td class="text-end color-dark"></td>
             </tr>
             <tr class="dashed-border" style="border-bottom: 1px solid;border-color: #273133;">
-                <td>Entreprise Profit/Loss</td>
+                <td class="subheading"><b>Entreprise Profit/Loss</b></td>
                 <td></td>
                 <td class="text-end color-dark">{{($entreprise_profit_loss) ? $entreprise_profit_loss : ''}}</td>
                 <td class="text-end color-dark"></td>
@@ -368,12 +370,12 @@
               <?php
               $image = public_path('src/imgs/logos/shambapro.webp');
               ?>
-              <img src="{{ $image }}" alt="" style="margin-top:10px;margin-left: 10px;">
+              <img src="{{ $image }}" alt="" style="margin-top:5px;margin-left: 10px;">
               <br/>
-              <a href="www.shambapro.com">www.shambapro.com</a>
+              <a href="www.shambapro.com" style="font-size: 10px;margin-left: 15px;">www.shambapro.com</a>
             </td>
             <td>
-              <p class="py-4" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
+              <p class="py-2" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
             </td>
           </tr>
         </tbody>

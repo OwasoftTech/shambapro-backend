@@ -293,7 +293,7 @@
 <body>
 <div class="container-xxl">
 <div class="sunfarm py-5">
-    <h1 style="font-size: 18px !important;padding-left: 10% !important;">SUNSHINE FARM LTD</h1>
+    <h1 style="font-size: 18px !important;padding-left: 10% !important;text-transform: uppercase;">{{ $user->farm_name }} LTD</h1>
     <h2 class="mb-1" style="font-size: 24px !important;padding-left: 10% !important;">Income Statement</h2>
     <?php
     $day = Carbon\Carbon::now()->format('j');
@@ -301,7 +301,7 @@
     $year = Carbon\Carbon::now()->format('F Y');
     
     ?>
-    <p class="mb-1" style="font-size: 9px !important;padding-left: 10% !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}} | Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
+    <p class="mb-1" style="font-size: 9px !important;padding-left: 10% !important;text-transform: uppercase;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}} | Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
     
 
 </div>

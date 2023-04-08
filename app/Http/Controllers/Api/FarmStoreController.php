@@ -569,7 +569,7 @@ class FarmStoreController extends Controller
         
         //dd($herd_report);  
 
-       $pdf = PDF::loadView('reports.herd_report', compact('herd_report'));
+       $pdf = PDF::loadView('reports.herd_report', compact('herd_report','user'));
 
         return $pdf->setPaper('A4')->download('Herd Register.pdf');
            
@@ -598,7 +598,7 @@ class FarmStoreController extends Controller
         
         //dd($flock_report);  
 
-       $pdf = PDF::loadView('reports.flock_report', compact('flock_report'));
+       $pdf = PDF::loadView('reports.flock_report', compact('flock_report','user'));
 
         return $pdf->setPaper('A4')->download('Flock Register.pdf');
            

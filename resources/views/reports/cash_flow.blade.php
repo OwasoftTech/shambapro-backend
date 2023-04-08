@@ -13,6 +13,9 @@
           font-family: Volkswagen-Medium;
           src: url("../fonts/Volkswagen-Medium Regular.ttf");
         }
+        .subheading{
+         padding-left: 5% !important;   
+        } 
         @font-face {
           font-family: Volkswagen-Regular;
           src: url("../fonts/Volkswagen-Regular Regular.ttf");
@@ -289,19 +292,18 @@
 <body>
 <div class="container-xxl">
 <div class="sunfarm py-5">
-    <h1>SUNSHINE FARM LTD</h1>
-    <h2 class="mb-1">Cash Flow Statement</h2>
+    <h1 style="font-size: 18px !important;padding-left: 10% !important;text-transform: uppercase;">{{ $user->farm_name }} LTD</h1>
+    <h2 class="mb-1" style="font-size: 24px !important;padding-left: 10% !important;">Cash Flow Statement</h2>
     <?php
     $day = Carbon\Carbon::now()->format('j');
     $symbol = Carbon\Carbon::now()->format('S');
     $year = Carbon\Carbon::now()->format('F Y');
     
     ?>
-    <p class="mb-1" style="font-size: 14px !important;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}}</p>
-    <p>Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
+    <p class="mb-1" style="font-size: 9px !important;padding-left: 10% !important;text-transform: uppercase;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}} | Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
 
 </div>
-<div class="table-responsive container-xxl">
+<div class="table-responsive container-xxl" style="padding-right: 10% !important;padding-left: 10% !important">
     <table class="table table-borderless" rules="all" id="printTable">
         <thead>
             <tr>
@@ -318,12 +320,12 @@
             </tr>
             
             <tr class="dashed-border">
-                <td>Cash receipt</td>
+                <td class="subheading">Cash receipt</td>
                 <td class="text-end color-dark">{{($cash_received_operation->product_sale) ? $cash_received_operation->product_sale : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Cash Paid</td>
+                <td class="subheading">Cash Paid</td>
                 <td class="text-end color-dark">{{($cash_paidout_operation->product_sale) ? $cash_paidout_operation->product_sale : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
@@ -335,12 +337,12 @@
                 <th scope="col"></th>
             </tr>
             <tr class="dashed-border">
-                <td>Cash receipt from sales</td>
+                <td class="subheading">Cash receipt from sales</td>
                 <td class="text-end color-dark ">{{ ($cash_received_investment->product_sale) ? $cash_received_investment->product_sale : '' }} </td>
                 <td class="text-end"></td>
             </tr>
             <tr class="dashed-border">
-                <td>Equipment Cost   </td>
+                <td class="subheading">Equipment Cost   </td>
                 <td class="text-end color-dark">{{($cash_paidout_investment->product_sale) ? $cash_paidout_investment->product_sale : ''}} </td>
                 <td class="text-end"></td>
             </tr>
@@ -352,14 +354,14 @@
                 <th scope="col"></th>
             </tr>
             <tr class="dashed-border">
-                <td>Loan Payment</td>
+                <td class="subheading">Loan Payment</td>
                 <td class="text-end color-dark">{{($financing_activities) ? $financing_activities : ''}}</td>
                 <td class="text-end"></td>
             </tr>
         </tbody>
         <tbody class="table-group-divider TableHeading">
             <tr class="dashed-border">
-                <td>Net Cash Flow</td>
+                <td class="subheading"><b>Net Cash Flow</b></td>
                 <td class="text-end color-dark">{{($net_cash_flow) ? $net_cash_flow : ''}}</td>
                 <td class="text-end"></td>
             </tr>
@@ -373,12 +375,12 @@
               <?php
               $image = public_path('src/imgs/logos/shambapro.webp');
               ?>
-              <img src="{{ $image }}" alt="" style="margin-top:10px;margin-left: 10px;">
+              <img src="{{ $image }}" alt="" style="margin-top:5px;margin-left: 10px;">
               <br/>
-              <a href="www.shambapro.com">www.shambapro.com</a>
+              <a href="www.shambapro.com" style="font-size: 10px;margin-left: 15px;">www.shambapro.com</a>
             </td>
             <td>
-              <p class="py-4" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
+              <p class="py-2" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
             </td>
           </tr>
         </tbody>
