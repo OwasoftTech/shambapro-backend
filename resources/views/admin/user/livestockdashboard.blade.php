@@ -23,7 +23,7 @@
         <h3 class="card-title">Livestock Enterprises</h3>
     </div>
                         
-<div class="card-body"> 
+    <div class="card-body"> 
     <table id="example5" class="table table-bordered table-striped">
     <thead>
     <!-- <tr>
@@ -46,10 +46,39 @@
     </tr>
     </tbody>
     </table>
-</div>
+    </div>
 </div>    
 
-           
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Livestock Enterprises Details</h3>
+    </div>
+                        
+    <div class="card-body"> 
+    <table id="example5" class="table table-bordered table-striped">
+    <thead>
+    <!-- <tr>
+    <th scope="col">#</th>
+    <th scope="col">Total</th>
+    </tr> -->
+    </thead>
+    <tbody>
+    <tr>
+        <th style="text-align: center;">Name</th>
+        <th style="text-align: center;">Livestock Type</th>
+        <th style="text-align: center;">Created Date </th>
+    </tr>
+    @foreach($details as $detail)
+    <tr>
+        <td style="color: green;text-align: center;">{{$detail->enterprise_name}}</td>
+        <td style="color: green;text-align: center;">{{$detail->livestock_type}}</td>
+        <td style="color: green;text-align: center;">{{ date('j F Y', strtotime($detail->created_at)) }}</td>
+    </tr>
+    @endforeach
+    </tbody>
+    </table>
+    </div>
+</div>           
     
                       
 

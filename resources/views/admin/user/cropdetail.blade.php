@@ -22,31 +22,48 @@
 
                     
 
+
+
 <div class="card">
 
 <div class="card-header">
-    <h3 class="card-title">Crop Enterprises</h3>
+    <h3 class="card-title">Crop Enterprises Detail</h3>
 </div>
 <div class="card-body"> 
     <table id="example4" class="table table-bordered table-striped">
       <thead>
+        <!-- <tr>
+          <th scope="col">#</th>
+          <th scope="col">Total</th>
+        </tr> -->
       </thead>
       <tbody>
         <tr>
-          <th style="text-align: center;">Enterprise Name</th>
-          <th style="text-align: center;">Enterprise Type</th>
+          <th>Crop Name</th>
+          <th>Cropping System</th>
+          <th>Cultivation System</th>
+          <th>Watering Type</th>
+          <th>Trees/Plants</th>
+          <th>Field Size</th>
         </tr>
-        @if(isset($cropenterprise))
-        @foreach($cropenterprise as $ce)
-        <tr>
-          <td style="color: green;text-align: center;"><a href="{{ url('admin/users/crop/detail/'.$ce->id) }}" style="color: green;"> {{$ce->enterprise_name}}</a></td>
-          <td style="color: green;text-align: center;"><a href="{{ url('admin/users/crop/detail/'.$ce->id) }}" style="color: green;">{{$ce->enterprise_type}}</a></td>
-        </tr>
-        @endforeach
+        
+        @if(count($details) > 0)      
+          
+          @foreach($details as $detail)
+            <tr>
+              <td>{{$detail->field_name}}</td>
+              <td>{{$detail->croping_system}}</td>
+              <td>{{$detail->cultivation_system}}</td>
+              <td>{{$detail->watering_system}}</td>
+              <td>{{number_format($detail->no_of_plants)}} ({{$detail->plants_type}})</td>
+              <td>{{number_format($detail->field_size)}}</td>
+          </tr>
+          @endforeach
         @else
-        <tr>
-          <td>No data found</td>
-        </tr>
+            
+            <tr>
+              <td>No data found</td>
+            </tr>
         @endif
         
         
@@ -54,7 +71,5 @@
     </table>
 </div>            
 </div>
-
-
 
 @endsection

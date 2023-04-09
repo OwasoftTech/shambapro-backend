@@ -1,52 +1,23 @@
 @extends('brackets/admin-ui::admin.layout.default')
 
-@section('title', trans('admin.user.actions.index'))
+<title>Dashboard</title> 
+
+<!-- App css -->
+   <!--  <link href="https://shambapro.lynked.com.ng/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://shambapro.lynked.com.ng/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://shambapro.lynked.com.ng/assets/css/app.min.css" rel="stylesheet" type="text/css" /> -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css')}}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css')}}">
 
 @section('body')
 
 <div class="container">
-    <h1>Enterprises</h1>
-    <table class="table table-bordered mt-5">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Livestock Type</th>
-                <th>Created Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if(!empty($enterprise) && $enterprise->count())
-                @foreach($enterprise as $key => $value)
-                    <tr>
-                        <td><a href="{{ url('admin/users/enterprise/detail/'.$value->id) }}" style="color: green;">{{ $value->enterprise_name }}</a></td>
-                        <td>
-                            {{ $value->enterprise_type }}
-                        </td>
-                        <td>
-                            {{ $value->livestock_type }}
-                        </td>
-                        <td>
-                            {{ date('j F Y', strtotime($value->created_at))}}
-                        </td>
-                    </tr>
-                @endforeach
-            @else
-                <tr>
-                    <td colspan="10">There are no data.</td>
-                </tr>
-            @endif
-        </tbody>
-    </table>
-         
-    {!! $enterprise->links() !!}
-</div>
-
-
-
-
-
-<!-- <div class="container">
     <h1>Heards </h1>
     <table class="table table-bordered mt-5">
         <thead>
@@ -77,7 +48,7 @@
         </tbody>
     </table>
          
-    {!! $heard->links() !!}
+    
 </div>
 
 
@@ -91,7 +62,7 @@
                 <th>Bread</th>
                 <th>Animal Sex</th>
                 <th>Color</th>
-                <th>Photo</th>
+                
                 <th>Date of Purchase</th>
 
 
@@ -109,8 +80,8 @@
                         </td>
                         <td>{{ $value->animal_sex }}</td>
                         <td>{{ $value->animal_color }}</td>
-                        <td><img src="{{url($value->photo)}}" height="50px"> </td>
-                        <td>{{ $value->date_of_purchase }}</td>
+                        
+                        <td>{{ date('j F Y', strtotime($value->date_of_purchase)) }}</td>
 
 
                         
@@ -124,8 +95,7 @@
         </tbody>
     </table>
          
-    {!! $animals->links() !!}
-</div> -->
-
+    
+</div>
 
 @endsection

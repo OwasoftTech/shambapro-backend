@@ -62,6 +62,7 @@ class AnimalController extends Controller
          'father_id' => $request->father_id,
          'mother_id' => $request->mother_id,
          'photo' => $photo,
+         'enterprise_id' => $request->enterprise_id,
          'quantity' => $request->quantity,
          'user_id' => Auth::user()->id,
          'created_at' => Carbon::now(),
@@ -73,6 +74,7 @@ class AnimalController extends Controller
 
    public function animalList(Request $request)
    {
+     
 
       $heard_id = $request->query('heard_id');
 
@@ -84,6 +86,7 @@ class AnimalController extends Controller
 
    public function remove_animal(Request $request)
    {
+
       try 
       {
         $animals = Animals::where('id', $request->animal_id)->first();

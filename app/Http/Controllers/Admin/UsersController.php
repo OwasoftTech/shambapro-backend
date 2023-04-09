@@ -92,21 +92,29 @@ class UsersController extends Controller
 
     }
 
+    public function enterprisedetail($id)
+    {
+        $animals =  Animals::where('enterprise_id',$id)->get();
+        $heard =  Heard::where('enterprise_id',$id)->get();
+        return view('admin.user.enterprisedetail',['animals'=>$animals,'heard'=>$heard]);
+        
+    }
+
     public function cropdashboard(IndexUser $request)
     {
   
-       $cropenterprise = Enterprise::where('enterprise_type','Crop')->first(); 
+       $cropenterprise = Enterprise::where('enterprise_type','Crop')->get(); 
        
-       if($cropenterprise != null)
-       {
-           $details =  CropField::where('enterprise_id',$cropenterprise->id)->get();
-       }
-       else 
-       {
-            $details = [];
-        } 
-      return view('admin.user.cropdashboard',['cropenterprise'=>$cropenterprise,'details'=>$details]);
+       
+      return view('admin.user.cropdashboard',['cropenterprise'=>$cropenterprise]);
 
+    }
+
+    public function cropdetail($id)
+    {
+        $details =  CropField::where('enterprise_id',$id)->get();
+        return view('admin.user.cropdetail',['details'=>$details]);
+        
     }
 
     public function livestockdashboard(IndexUser $request)
@@ -114,11 +122,13 @@ class UsersController extends Controller
   
        $livestockenterprise = Enterprise::where('enterprise_type','Livestock')
        ->count();  
+        $details = Enterprise::where('enterprise_type','Livestock')
+       ->get(); 
         $flocks = Flock::count(); 
        $heards = Heard::count(); 
        $animals = Animals::count(); 
       
-      return view('admin.user.livestockdashboard',['animals'=>$animals,'livestockenterprise'=>$livestockenterprise,'flocks'=>$flocks,'heards'=>$heards]);
+      return view('admin.user.livestockdashboard',['animals'=>$animals,'livestockenterprise'=>$livestockenterprise,'flocks'=>$flocks,'heards'=>$heards,'details'=>$details]);
 
     }
 
