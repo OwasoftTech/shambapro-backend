@@ -51,7 +51,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Livestock Enterprises Details</h3>
+        <h3 class="card-title">Livestock Enterprises</h3>
     </div>
                         
     <div class="card-body"> 
@@ -70,8 +70,8 @@
     </tr>
     @foreach($details as $detail)
     <tr>
-        <td style="color: green;text-align: center;">{{$detail->enterprise_name}}</td>
-        <td style="color: green;text-align: center;">{{$detail->livestock_type}}</td>
+        <td style="color: green;text-align: center;"><a href="{{ url('admin/users/livestock/detail/'.$detail->id) }}" style="color: green;">{{$detail->enterprise_name}}</a></td>
+        <td style="color: green;text-align: center;"><a href="{{ url('admin/users/livestock/detail/'.$detail->id) }}" style="color: green;">{{$detail->livestock_type}}</a></td>
         <td style="color: green;text-align: center;">{{ date('j F Y', strtotime($detail->created_at)) }}</td>
     </tr>
     @endforeach

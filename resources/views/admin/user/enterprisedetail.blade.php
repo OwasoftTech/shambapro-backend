@@ -98,4 +98,48 @@
     
 </div>
 
+<div class="container">
+    <h1>Flocks </h1>
+    <table class="table table-bordered mt-5">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Bread</th>
+                <th>No of Birds</th>
+                <th>Source of Birds</th>
+                <th>Hachting Date</th>
+
+
+                
+
+            </tr>
+        </thead>
+        <tbody>
+            @if(!empty($flocks) && $flocks->count())
+                @foreach($flocks as $key => $value)
+                    <tr>
+                        <td>{{ $value->flock_name }}</td>
+                        <td>
+                            {{ $value->bread }}
+                        </td>
+                        <td>{{ $value->number_of_birds }}</td>
+                        <td>{{ $value->source_of_birds }}</td>
+                        
+                        <td>{{ date('j F Y', strtotime($value->hachting_date)) }}</td>
+
+
+                        
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td colspan="10">There are no data.</td>
+                </tr>
+            @endif
+        </tbody>
+    </table>
+         
+    
+</div>
+
 @endsection

@@ -65,6 +65,7 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
              Route::get('/crop/detail/{id}','UsersController@cropdetail')->name('cropdetail');
              Route::get('/enterprise/detail/{id}','UsersController@enterprisedetail')->name('enterprisedetail');
             Route::get('/livestock/dashboard',                                'UsersController@livestockdashboard')->name('livestockdashboard');
+            Route::get('/livestock/detail/{id}','UsersController@livestockdetail')->name('livestockdetail');
         });
     });
 });

@@ -13,6 +13,8 @@ use App\Models\Animals;
 use App\Models\Enterprise;
 use App\Models\Heard;
 use App\Models\Flock;
+use App\Models\LiveStockProducts;
+use App\Models\LiveStockProductsHistory;
 use Illuminate\Support\Facades\Schema;
 
 use App\Models\CropField;
@@ -96,7 +98,8 @@ class UsersController extends Controller
     {
         $animals =  Animals::where('enterprise_id',$id)->get();
         $heard =  Heard::where('enterprise_id',$id)->get();
-        return view('admin.user.enterprisedetail',['animals'=>$animals,'heard'=>$heard]);
+        $flocks =  Flock::where('enterprise_id',$id)->get();
+        return view('admin.user.enterprisedetail',['animals'=>$animals,'heard'=>$heard,'flocks'=>$flocks]);
         
     }
 
@@ -129,7 +132,12 @@ class UsersController extends Controller
        $animals = Animals::count(); 
       
       return view('admin.user.livestockdashboard',['animals'=>$animals,'livestockenterprise'=>$livestockenterprise,'flocks'=>$flocks,'heards'=>$heards,'details'=>$details]);
+    }
 
+    public function livestockdetail($id)
+    {
+        $details =  LiveStockProducts::where('enterprise_id',$id)->get();
+        return view('admin.user.livestockdetail',['details'=>$details]);
     }
 
 
@@ -274,7 +282,18 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
+            CropField::where('user_id',$user->id)->delete(); 
+            CropManagementRecord::where('user_id',$user->id)->delete(); 
+            LiveStockProducts::where('user_id',$user->id)->delete();
+            LiveStockProductsHistory::where('createdby',$user->id)->delete();
+
+            Animals::where('user_id',$user->id)->delete(); 
+            Flock::where('user_id',$user->id)->delete(); 
+            Heard::where('user_id',$user->id)->delete();  
+
+            Enterprise::where('user_id',$user->id)->delete(); 
+            $user->delete();
+
 
         return redirect()->back();
     }
