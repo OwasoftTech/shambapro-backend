@@ -71,12 +71,12 @@ class UsersController extends Controller
        ->count(); 
        $flocks = Flock::count(); 
        $heards = Heard::count(); 
-       $farm_owners = User::where('role','Farm Owners')->count(); 
-       $farm_managers = User::where('role','Farm Managers')->count(); 
-       $farm_workers = User::where('role','Farm Workers')->count(); 
-       $farm_experts = User::where('role','Farm Experts')->count(); 
-       $store_managers = User::where('role','Store Managers')->count(); 
-       $farm_observers = User::where('role','Farm Observers')->count(); 
+       $farm_owners = User::where('role','LIKE','%Farm Owner%')->count(); 
+       $farm_managers = User::where('role','LIKE','%Farm Manager%')->count(); 
+       $farm_workers = User::where('role','LIKE','%Farm Worker%')->count(); 
+       $farm_experts = User::where('role','LIKE','%Farm Expert%')->count(); 
+       $store_managers = User::where('role','LIKE','%Store Manager%')->count(); 
+       $farm_observers = User::where('role','LIKE','%Farm Observer%')->count(); 
 
  
 

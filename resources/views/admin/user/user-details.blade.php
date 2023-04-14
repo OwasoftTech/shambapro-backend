@@ -19,7 +19,12 @@
             @if(!empty($enterprise) && $enterprise->count())
                 @foreach($enterprise as $key => $value)
                     <tr>
-                        <td><a href="{{ url('admin/users/enterprise/detail/'.$value->id) }}" style="color: green;">{{ $value->enterprise_name }}</a></td>
+                        <td><a href="@if($value->enterprise_type == 'Crop')
+                                    {{ url('admin/users/crop/detail/'.$value->id) }}
+                                    @else
+                                    {{ url('admin/users/enterprise/detail/'.$value->id) }}
+                                    @endif
+                            " style="color: green;">{{ $value->enterprise_name }}</a></td>
                         <td>
                             {{ $value->enterprise_type }}
                         </td>
