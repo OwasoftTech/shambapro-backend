@@ -91,46 +91,6 @@
                             </div>
                         </div>
                     </div>
-
-<div class="card" style="margin-top: 40px;">
-
-    <div class="card-header">
-        <h3 class="card-title">Users By Type</h3>
-      </div>
-                       
-    <div class="card-body">  
-    <table id="example3" class="table table-bordered table-striped">
-        <thead>
-        <!-- <tr>
-        <th scope="col">User Type</th>
-        <th scope="col">Total</th>
-        </tr> -->
-        </thead>
-        <tbody>
-        <tr>
-        <th style="text-align: center;">Users</th>
-        <th style="text-align: center;">Farm Owners</th>
-        <th style="text-align: center;">Farm Managers </th>
-        <th style="text-align: center;">Farm Workers </th>
-        <th style="text-align: center;">Farm Experts </th>
-        <th style="text-align: center;">Store Managers </th>
-        <th style="text-align: center;">Farm Observers </th>
-        </tr>
-        <tr>
-        <td style="color: green;text-align: center;">{{$users}}</td>
-        <td style="color: green;text-align: center;">{{$farm_owners}}</td>
-        <td style="color: green;text-align: center;">{{$farm_managers}}</td>
-        <td style="color: green;text-align: center;">{{$farm_workers}}</td>
-        <td style="color: green;text-align: center;">{{$farm_experts}}</td>
-        <td style="color: green;text-align: center;">{{$store_managers}}</td>
-        <td style="color: green;text-align: center;">{{$farm_observers}}</td>
-        </tr>
-        </tbody>
-    </table>
-    </div>
-
-</div>                    
-                   
 <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Users List</h3>
@@ -146,13 +106,11 @@
                     <th>Email</th>
                     <th>Phone No</th>
                     <th>Role</th>
-                    <th>Action</th>
-                    
                   </tr>
                   </thead>
                 <tbody>
                     @foreach($data as $user)
-                    <tr>
+                  <tr>
                     
                         <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->id}} </a></td>
                         <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->name}} </a> </td>
@@ -160,11 +118,8 @@
                         <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->email}} </a> </td>
                         <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->phone_number}} </a></td>
                         <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/details') }}">{{$user->role}}</a> </td>
-
-                        <td><a style="color: green;" href="{{ url('admin/users/'.$user->id.'/edit') }}"><i class="fa fa-edit"></i></span></a>
-                            <a style="color: green;" href="{{ url('admin/users/'.$user->id.'/delete') }}"><i class="fa fa-trash-o"></i></span></a>
-                        </td>
-                    </tr>
+                  
+                  </tr>
                     @endforeach
                 </tbody>
                  
@@ -173,6 +128,128 @@
               <!-- /.card-body -->
         </div> 
 
-                    
+<div class="card">
+
+    <div class="card-header">
+        <h3 class="card-title">Users By Type</h3>
+      </div>
+                       
+    <div class="card-body">  
+    <table id="example3" class="table table-bordered table-striped">
+        <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <th>Users</th>
+        <td>{{$users}}</td>
+        </tr>
+        <tr>
+        <th>Farm Owners</th>
+        <td>{{$farm_owners}}</td>
+        </tr>
+        <tr>
+        <th>Farm Managers </th>
+        <td>{{$farm_managers}}</td>
+        </tr>
+        <tr>
+        <th>Farm Workers </th>
+        <td>{{$farm_workers}}</td>
+        </tr>
+        <tr>
+        <th>Farm Experts </th>
+        <td>{{$farm_experts}}</td>
+        </tr>
+        <tr>
+        <th>Store Managers </th>
+        <td>{{$store_managers}}</td>
+        </tr>
+        <tr>
+        <th>Farm Observers </th>
+        <td>{{$farm_observers}}</td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+
+</div>                    
+
+<div class="card">
+
+<div class="card-header">
+    <h3 class="card-title">Crop Enterprises</h3>
+</div>
+<div class="card-body"> 
+    <table id="example4" class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Crop Enterprises</th>
+          <td>{{$cropenterprise}}</td>
+        </tr>
+        
+        <tr>
+          <th>Number of Plants</th>
+          <td>{{$totalplants}}</td>
+        </tr>
+        <tr>
+          <th>Number of Trees</th>
+          <td>{{$totaltrees}}</td>
+        </tr>
+        
+      </tbody>
+    </table>
+</div>            
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Livestock Enterprises</h3>
+    </div>
+                        
+<div class="card-body"> 
+    <table id="example5" class="table table-bordered table-striped">
+    <thead>
+    <tr>
+    <th scope="col">#</th>
+    <th scope="col">Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <th>Livestock Enterprises</th>
+    <td>{{$livestockenterprise}}</td>
+    </tr>
+    <tr>
+    <th>Number of Herds</th>
+    <td>{{$heards}}</td>
+    </tr>
+    <tr>
+    <th>Number of Animals </th>
+    <td>{{$animals}}</td>
+    </tr>
+    <tr>
+    <th>Number of Flocks </th>
+    <td>{{$flocks}}</td>
+    </tr>
+    </tbody>
+    </table>
+</div>
+</div>    
+
+           
+    
+                      
+
+
+
 
 @endsection

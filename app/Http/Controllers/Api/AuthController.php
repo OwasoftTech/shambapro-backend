@@ -127,4 +127,6 @@ class AuthController extends Controller
 
       return response()->json(['my_team' => $my_team]);
    }
+
+   
 }

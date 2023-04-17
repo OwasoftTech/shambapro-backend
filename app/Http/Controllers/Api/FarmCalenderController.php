@@ -9,14 +9,18 @@ use App\Models\Jobs;
 use App\Models\User;
 use App\Models\Farm;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use DB;
+use PDF;
+use File;
+
 
 
 class FarmCalenderController extends Controller
 {
   public function createJob(Request $request)
   {
-
-    $validator = Validator::make($request->all(), [
+   $validator = Validator::make($request->all(), [
       'user_id' => 'required',
       'task' => 'required',
       'reason' => 'required',
@@ -158,4 +162,86 @@ class FarmCalenderController extends Controller
 
     return response()->json($response);
   }
+
+  public function staff_report(Request $request)
+  {
+    try 
+    {
+      $current_year = Carbon::today()->format('Y');
+      $current_start_date = Carbon::parse('first day of January '. $current_year)->startOfDay();
+      $current_end_date = Carbon::parse('last day of December '. $current_year)->endOfDay();
+
+      $user = User::where('id',$request->user_id)->first();
+      if(isset($user) && $user != null)
+      {
+          $farm = Farm::where('name', '=', $user->farm_name)->first();
+
+          $alljobs = Jobs::with('assigned_member')->where('farm_id', $farm->id)
+            ->get();
+          
+          $members_total = Jobs::where('farm_id', $farm->id)
+                                ->select(DB::raw('count(*) as total'),'user_id')
+                                ->groupBy('user_id')
+                                ->get();
+                                
+          $members_verysatisfied = Jobs::where('farm_id', $farm->id)->where('action', 'Very Satisfied')
+                                  ->groupBy('user_id')->select(DB::raw('count(*) as total'),'user_id')->get();
+          $members_fairlysatisfied = Jobs::where('farm_id', $farm->id)->where('action', 'Fairly Satisfied')
+                                  ->groupBy('user_id')->select(DB::raw('count(*) as total'),'user_id')->get();
+          $members_toberepeated = Jobs::where('farm_id', $farm->id)->where('action', 'To Be Repeated')
+                                  ->groupBy('user_id')->select(DB::raw('count(*) as total'),'user_id')->get();
+          $members_tobereallocated = Jobs::where('farm_id', $farm->id)->where('action', 'To Be Reallocated')
+                                  ->groupBy('user_id')->select(DB::raw('count(*) as total'),'user_id')->get();                                                                                                      
+          $pdf = PDF::loadView('reports.staff', compact('alljobs','user','members_total','members_verysatisfied',
+            'members_fairlysatisfied','members_toberepeated','members_tobereallocated'));
+
+          return $pdf->setPaper('A4')->download('Staff Performance Report.pdf');
+             
+          /*return view('reports.staff', compact('alljobs','user','members_total','members_verysatisfied',
+            'members_fairlysatisfied','members_toberepeated','members_tobereallocated'));*/  
+      }
+      else{
+          echo "User Not Found";
+        }           
+      
+    } 
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
+
+  }
+
+
+  public function farmsetting(Request $request)
+   {
+      $validator = Validator::make($request->all(), [
+         'gender' => 'required',
+         'country' => 'required',
+         'currency' => 'required',
+      ]);
+
+      if ($validator->fails()) {
+         $errors = $validator->errors();
+         return response()->json(['error' => $errors->toJson()]);
+      }
+
+      $update = Farm::find($request->farm_id);
+      //dd($update);
+         $update->gender = $request->gender;
+         $update->address = $request->address;
+         $update->district = $request->district;
+         $update->country = $request->country;
+         $update->currency = $request->currency;
+         $update->depreciation_rate = $request->depreciation_rate;
+         $update->income_tax_rate = $request->income_tax_rate;
+         $update->partner_code = $request->partner_code;
+         $update->updated_at = Carbon::now();
+         $update->save();    
+     
+
+      return response()->json(['message' => 'Farm Setting Saved successfully']);
+      
+   }
+
 }

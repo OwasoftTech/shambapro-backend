@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style type="text/css">
             .row-1 {
               display: flex;
@@ -18,6 +18,10 @@
               padding-top: 30px;
               border-bottom: 1px solid black;
             }
+
+            .subheading{
+             padding-left: 5% !important;   
+            } 
 
             .footer-logo {
               border: 1px solid black;
@@ -77,12 +81,12 @@
             }
 
             .table-group-divider {
-              border-top: 2px solid #3A8B38 !important;
+              border-top: 1px solid #61797d !important;
             }
 
             .dashed-border {
-              border-bottom: 1px solid #3A8B38 !important;  
-              border-right: 1px solid #3A8B38 !important;  
+              border-bottom: 1px solid #61797d !important;  
+              border-right: 1px solid #61797d !important;  
 
               /*background-image: linear-gradient(to right, #61797D 44%, transparent 0%);
               background-position: bottom;
@@ -140,7 +144,7 @@
             }
 
             .TableBody {
-              border: 1px solid black;
+              border: 1px solid #3a8b38;
               border-top: 0px solid transparent !important;
             }
             .TableBody tr {
@@ -243,215 +247,57 @@
             }/*# sourceMappingURL=shamba.css.map */   
     </style>
     <title>ShambaPro</title>
-</head>
-<body >
-<div class="container-xxl" style="padding-right: 10% !important;padding-left: 10% !important">
-<div class="sunfarm py-4">
-    <div class="row pt-sm-5 pt-3 ">
-        <div class="col-sm-6 text-start">
+  </head>
+  <body>
+    <div class="container-xxl" style="padding-right: 10% !important;padding-left: 10% !important">
+      <div class="sunfarm py-4">
+        <div class="row-1">
+            <div class="col-1">
 
-     <h1 style="font-size: 18px !important;text-transform: uppercase;">{{ $user->farm_name }} LTD</h1>
-    <h2 class="mb-1" style="font-size: 24px !important;">Farm Inventory Report</h2>
+    <h1 style="font-size: 18px !important;text-transform: uppercase;">{{ $user->farm_name }} LTD</h1>
+    <h2 class="mb-1" style="font-size: 24px !important;">Herd Register</h2>
     <?php
     $day = Carbon\Carbon::now()->format('j');
     $symbol = Carbon\Carbon::now()->format('S');
     $year = Carbon\Carbon::now()->format('F Y');
     
     ?>
-    <!-- <p class="mb-1" style="font-size: 9px !important;text-transform: uppercase;">Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p> -->
-</div>
-<div class="col-sm-6 text-sm-end pt-sm-0 pt-3">
+    <p class="mb-1" style="font-size: 9px !important;text-transform: uppercase;">Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
+          
+        
+    </div>
+    <br/>
+
+    <div class="col-2">
     
-
-</div>
-</div>
-</div>
-<div class="row report-details">
-    <div class="col-sm-3">
-        <p>Name:<span class="ps-1">{{ ($user->name) ? $user->name : '' }}</span></p>
-    
-        <p>Creation Date:<span class="ps-1" style="font-size: 12px !important;text-transform: uppercase;">{{$day}}<sup>{{$symbol}}</sup> {{$year}}</span></p>
+        
     </div>
-    
-</div>
-@if(count($farm_stock) > 0)
-<div class="table-responsive border-top">
-    <div class="text-center farmstock">
-        FARM STOCK
     </div>
-    <table class="table table-bordered border-dark invoice2 mb-0">
-        <thead class="TableHeader">
-            <tr >
-                <th scope="col">Name</th>
-                <th scope="col">Type</th>
-                <th scope="col">Quantity</th>
-            </tr>
-        </thead>
-        <tbody class="TableBody">
-        @foreach($farm_stock as $fs)    
+    </div>
+    @if(count($herd_report) > 0)
+      <div class="table-responsive" >
+        <!-- <div class="text-center farmstock">
+            Herd Register
+        </div> -->
+        <table class="table table-bordered invoice2 mb-0" style="table-bordered:2px solid #3a8b38 !important">
+          <thead class="TableHeader">
+            <th>Herd Type</th>
+            <th>Quantity</th>
+          </thead>
+          
+          <tbody class="TableBody">
+            @foreach($herd_report as $hr)
             <tr class="dashed-border">
-                <td>{{ $fs->farm_subcat}}</td>
-                <td>{{ $fs->farm_cat}}</td>
-                <td>{{ $fs->qunatity}}</td>
-            </tr>
-        @endforeach    
-        </tbody>
-    </table>
-</div>
-@endif
-@if(count($farm_inputs) > 0)
-<div class="table-responsive">
-    <div class="text-center farmstock">
-        FARM INPUTS
-    </div>
-    <table class="table table-bordered border-dark invoice2 mb-0">
-        <thead class="TableHeader">
-            <tr >
-                
-                <th scope="col">Name</th>
-                <th scope="col">Total Quantity</th>
-                <th scope="col">Remaining Quantity</th>
-                <th scope="col">Used Quantity</th>
-            </tr>
-        </thead>
-
-        <tbody class="TableBody">
-            @foreach($farm_inputs as $fs) 
-            <tr class="dashed-border">
-                <td>{{ $fs->farm_subcat}}</td>
-                <td>{{ $fs->qunatity}}</td>
-                <td>{{ $fs->qunatity - $fs->remove_quantity}}</td>
-                <td>{{ $fs->remove_quantity}}</td>
+              <td>{{ $hr->purpose }}</td>
+              <td>{{ $hr->quantity }}</td>
             </tr>
             @endforeach
-            
-        </tbody>
-    </table>
-</div>
-@endif
-@if(count($farm_machine) > 0)
-<div class="table-responsive">
-    <div class="text-center farmstock">
-        Farm Machinery
-    </div>
-    <table class="table table-bordered border-dark invoice2 mb-0">
-        <thead class="TableHeader">
-            <tr >
-                <th scope="col">Name</th>
-                <th scope="col">Total Quantity</th>
-                <th scope="col">Sold</th>
-                <th scope="col">Remaining</th>
-            </tr>
-        </thead>
-
-        <tbody class="TableBody">
-            <tr class="dashed-border">
-            @foreach($farm_machine as $fs) 
-                <tr class="dashed-border">
-                    <td>{{ $fs->farm_subcat}}</td>
-                    <td>{{ $fs->qunatity}}</td>
-                    <td>{{ $fs->remove_quantity}}</td>
-                    <td>{{ $fs->qunatity - $fs->remove_quantity}}</td>
-                </tr>
-            @endforeach
-            </tr>
-        </tbody>
-    </table>
-</div>
-@endif
-@if(count($building_struct) > 0)
-<div class="table-responsive">
-    <div class="text-center farmstock">
-        Building & Structures
-    </div>
-    <table class="table table-bordered border-dark invoice2 mb-0">
-        <thead class="TableHeader">
-            <tr >
-                <th scope="col">Name</th>
-                <th scope="col">Total Quantity</th>
-                <th scope="col">In Use</th>
-                <th scope="col">Free Space</th>
-            </tr>
-        </thead>
-
-        <tbody class="TableBody">
-            
-            @foreach($building_struct as $fs) 
-                <tr class="dashed-border">
-                    <td>{{ $fs->farm_subcat}}</td>
-                    <td>{{ $fs->qunatity}}</td>
-                    <td>{{ $fs->qunatity - $fs->remove_quantity}}</td>
-                    <td>{{ $fs->remove_quantity}}</td>
-                </tr>
-            @endforeach
-            
-        </tbody>
-    </table>
-</div>
-@endif
-@if(count($farm_land) > 0)
-<div class="table-responsive">
-    <div class="text-center farmstock">
-        Farm Land
-    </div>
-    <table class="table table-bordered border-dark invoice2 mb-0">
-        <thead class="TableHeader">
-            <tr >
-                
-                <th scope="col">Name</th>
-                <th scope="col">Total Quantity</th>
-                <th scope="col">In Use</th>
-                <th scope="col">Free Space</th>
-            </tr>
-        </thead>
-
-        <tbody class="TableBody">
-            
-            @foreach($farm_land as $fs) 
-                <tr class="dashed-border">
-                    <td>{{ $fs->farm_subcat}}</td>
-                    <td>{{ $fs->qunatity}}</td>
-                    <td>{{ $fs->qunatity - $fs->remove_quantity}}</td>
-                    <td>{{ $fs->remove_quantity}}</td>
-                </tr>
-            @endforeach
-            
-        </tbody>
-    </table>
-</div>
-@endif
-@if(count($office_equip) > 0)
-<div class="table-responsive">
-    <div class="text-center farmstock">
-        Office Equipment
-    </div>
-    <table class="table table-bordered border-dark invoice2 mb-0">
-        <thead class="TableHeader">
-            <tr >
-                
-                <th scope="col">Name</th>
-                <th scope="col">Total Quantity</th>
-                <th scope="col">Sold</th>
-                <th scope="col">Remaining</th>
-            </tr>
-        </thead>
-
-        <tbody class="TableBody">
-            
-            @foreach($office_equip as $fs) 
-                <tr class="dashed-border">
-                    <td>{{ $fs->farm_subcat}}</td>
-                    <td>{{ $fs->qunatity}}</td>
-                    <td>{{ $fs->remove_quantity}}</td>
-                    <td>{{ $fs->qunatity - $fs->remove_quantity}}</td>
-                </tr>
-            @endforeach
-            
-        </tbody>
-    </table>
-</div>
-@endif
-<table class="table table-bordered border-dark invoice2 mb-0">
+          </tbody>
+          
+        </table>
+      </div>
+    @endif  
+      <table class="table table-bordered border-dark invoice2 mb-0">
         <tbody class="footer-logo">  
           <tr>
             <td style="border: 1px solid;border-color: #273133;">
@@ -468,10 +314,6 @@
           </tr>
         </tbody>
       </table>
-
-</div>    
-
-<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-<script src="./src/js/bootstrap.bundle.min.js"></script>
-</body>
+    </div>
+  </body>
 </html>

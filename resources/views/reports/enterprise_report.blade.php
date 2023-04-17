@@ -17,20 +17,23 @@
           font-family: Volkswagen-Regular;
           src: url("../fonts/Volkswagen-Regular Regular.ttf");
         }
+        .subheading{
+         padding-left: 5% !important;   
+        } 
         .sunfarm h1 {
           font-size: 28px;
           font-family: Volkswagen-DemiBold;
           color: #3a8b38 !important;
         }
-        .footer-logo {
-              border: 1px solid;
-              border-color: #273133;
-            }
         .sunfarm h2 {
           font-size: 16px;
           font-family: Volkswagen-Medium;
           color: #3a8b38 !important;
         }
+        .footer-logo {
+              border: 1px solid black;
+              
+            }
         .sunfarm h3 {
           font-size: 16px;
           font-family: Volkswagen-Regular;
@@ -118,11 +121,6 @@
           border-top: none !important;
           color: #61797d;
         }
-
-        .subheading{
-         padding-left: 5% !important;   
-        }    
-
         .TableBody .dashed-border {
           background-image: linear-gradient(to right, #61797d 44%, transparent 0%);
           background-position: bottom;
@@ -180,7 +178,7 @@
         p{
             font-size: 14px;
             font-family:Volkswagen-Regular;
-            color:#000000;
+            color:#61797d;
         }
         }
         .invoice2{
@@ -275,7 +273,7 @@
         font-family:Volkswagen-Regular;
         font-size: 14px;
         p{
-        color: #000000;
+        color: #61797d;
         }
         span{
             color: #273133;
@@ -293,8 +291,8 @@
 <body>
 <div class="container-xxl">
 <div class="sunfarm py-5">
-    <h1 style="font-size: 18px !important;padding-left: 10% !important;text-transform: uppercase;">{{ $user->farm_name }} LTD</h1>
-    <h2 class="mb-1" style="font-size: 24px !important;padding-left: 10% !important;">Income Statement</h2>
+    <h1 style="font-size: 18px !important;padding-left: 10% !important;text-transform: uppercase;"> LTD</h1>
+    <h2 class="mb-1" style="font-size: 24px !important;padding-left: 10% !important;">Enterprise Report</h2>
     <?php
     $day = Carbon\Carbon::now()->format('j');
     $symbol = Carbon\Carbon::now()->format('S');
@@ -302,111 +300,70 @@
     
     ?>
     <p class="mb-1" style="font-size: 9px !important;padding-left: 10% !important;text-transform: uppercase;">FOR THE YEAR ENDED 31<sup>st</sup> DECEMBER {{Carbon\Carbon::now()->format('Y')}} | Generated On {{$day}}<sup>{{$symbol}}</sup> {{$year}} </p>
-    
 
 </div>
 <div class="table-responsive container-xxl" style="padding-right: 10% !important;padding-left: 10% !important">
     <table class="table table-borderless" rules="all" id="printTable">
-        <tr>
-            <th scope="col"></th>
-            <th scope="col" class="text-end" style="min-width: 100px;">Current Period</th>
-            <!-- <th scope="col" class="text-end">YTD</th> -->
-        </tr>
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col" class="text-end" style="min-width: 100px;">Current Period</th>
+                <!-- <th scope="col" class="text-end">YTD</th> -->
+            </tr>
+        </thead>
         <tbody class="table-group-divider TableHeading">
             <tr class="dashed-border ">
-                <th scope="col">Gross Profit/Income</th>
+                <th scope="col ">Entreprise Profit/Loss</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
             
-            <tr class="dashed-border">
-                <td class="subheading">Product Sales</td>
-                <td class="text-end color-dark">{{($product_sale->product_sale) ? $product_sale->product_sale : '' }}</td>
+            <tr class="dashed-border" style="border-bottom: solid 2px #3a8b38;">
+                <td class="subheading">Direct Income</td>
+                <td>
+                    @foreach($d_income as $income)
+                      {{$income->transaction_cat}}</br>
+                    @endforeach
+                </td>
+
+                <td class="text-end color-dark">
+                  @if(isset($d_income))  
+                    @foreach($d_income as $income)
+                      {{($income->income)? $income->income : ''}}</br>
+                    @endforeach
+                  @endif  
+                    {{($direct_income->direct_income) ? $direct_income->direct_income : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
-            <tr class="dashed-border">
-                <td class="subheading">Costs of Goods Sold</td>
-                <td class="text-end color-dark">{{($costs_goods_sold->costs_goods_sold) ? $costs_goods_sold->costs_goods_sold : ''}}</td>
+            <tr class="dashed-border" style="border-bottom: solid 2px #3a8b38;">
+                <td class="subheading">Direct Expenses</td>
+                <td>
+                  @foreach($d_expense as $expense)
+                      {{$expense->direct_expenses}}</br>
+                    @endforeach
+                </td>  
+                <td class="text-end color-dark">
+                  @if(isset($d_expense))  
+                    @foreach($d_expense as $price)
+                      {{($price->price)? $price->price : ''}}</br>
+                    @endforeach
+                  @endif 
+                  {{($direct_expenses->direct_expenses) ? $direct_expenses->direct_expenses : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
-            <tr class="dashed-border">
-                <td class="subheading"><b> Gross Profit/Income</b></td>
-                <td class="text-end color-dark">{{($gross_profit_income) ? $gross_profit_income : ''}}</td>
+            <tr class="dashed-border" style="border-bottom: solid 2px #3a8b38;">
+                <td class="subheading"><b>Entreprise Profit/Loss</b></td>
+                <td></td>
+                <td class="text-end color-dark">{{($entreprise_profit_loss) ? $entreprise_profit_loss : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
             
         </tbody>
-        <tbody class="table-group-divider TableHeading">
-            <tr class="dashed-border ">
-                <th scope="col ">Operating Profit/Income</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-            </tr>
-            <tr class="dashed-border">
-                <td class="subheading">Gross Profit</td>
-                <td class="text-end color-dark">{{($gross_profit_income) ? $gross_profit_income : ''}}</td>
-                <td class="text-end"></td>
-            </tr>
-            <tr class="dashed-border">
-                <td class="subheading">Operating Expenses</td>
-                <td class="text-end color-dark ">{{ ($operating_expenses->operating_expenses) ? $operating_expenses->operating_expenses : '' }} </td>
-                <td class="text-end"></td>
-            </tr>
-            <tr class="dashed-border">
-                <td class="subheading"><b>Operating Profit/Income</b></td>
-                <td class="text-end color-dark">{{ ($operating_profit_income) ? $operating_profit_income : '' }}</td>
-                <td class="text-end"></td>
-            </tr>
-            
-        </tbody>
-        <tbody class="table-group-divider TableHeading">
-            <tr class="dashed-border ">
-                <th scope="col ">Net Profit/Income before Taxes</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-            </tr>
-            <tr class="dashed-border">
-                <td class="subheading">Operating Profit/Income   </td>
-                <td class="text-end color-dark ">{{ ($operating_profit_income) ? $operating_profit_income : '' }} </td>
-                <td class="text-end"></td>
-            </tr>
-            <tr class="dashed-border">
-                <td class="subheading">Non-Operating Income   </td>
-                <td class="text-end color-dark">{{($non_operating_income->non_operating_income) ? $non_operating_income->non_operating_income : ''}} </td>
-                <td class="text-end"></td>
-            </tr>
-            <tr class="dashed-border">
-                <td class="subheading">Non-Operating Expenses   </td>
-                <td class="text-end color-dark">{{($non_operating_expenses->non_operating_expenses) ? $non_operating_expenses->non_operating_expenses : ''}} </td>
-                <td class="text-end"></td>
-            </tr>
-            <tr class="dashed-border">
-                <td class="subheading"><b>Net Profit/Income before Taxes </b> </td>
-                <td class="text-end color-dark">{{($net_profit_income_before_taxes) ? $net_profit_income_before_taxes : ''}} </td>
-                <td class="text-end"></td>
-            </tr>
-        </tbody>
-        <tbody class="table-group-divider ">
-            <tr class="dashed-border transparentcolor">
-                <th scope="col ">a</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-            </tr>
-           
-            <tr class="dashed-border">
-                <td class="subheading">Income Tax</td>
-                <td class="text-end color-dark">{{($income_tax) ? $income_tax : '' }} </td>
-                <td class="text-end"></td>
-            </tr>
-            <tr class="footer-border ">
-                <td scope="col" class="font-dark subheading">Net Profit/Income</td>
-                <td scope="col" class="text-end font-dark">{{($net_profit_income) ? $net_profit_income : ''}}</td>
-                <td scope="col" class="text-end"></td>
-            </tr>
-           
-        </tbody>
+      
+       
     </table>
-    <table class="table table-bordered border-dark invoice2 mb-0">
+    <table class="table table-bordered border-dark invoice2 mb-0" style="margin-top: 35px;">
         <tbody class="footer-logo">  
           <tr>
             <td style="border: 1px solid;border-color: #273133;">

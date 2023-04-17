@@ -60,7 +60,12 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
             Route::get('/{user}/edit',                                  'UsersController@edit')->name('edit');
             Route::post('/bulk-destroy',                                'UsersController@bulkDestroy')->name('bulk-destroy');
             Route::post('/{user}',                                      'UsersController@update')->name('update');
-            Route::delete('/{user}',                                    'UsersController@destroy')->name('destroy');
+            Route::get('/{user}/delete',                                 'UsersController@destroy')->name('destroy');
+            Route::get('/crop/dashboard',                                'UsersController@cropdashboard')->name('cropdashboard');
+             Route::get('/crop/detail/{id}','UsersController@cropdetail')->name('cropdetail');
+             Route::get('/enterprise/detail/{id}','UsersController@enterprisedetail')->name('enterprisedetail');
+            Route::get('/livestock/dashboard',                                'UsersController@livestockdashboard')->name('livestockdashboard');
+            Route::get('/livestock/detail/{id}','UsersController@livestockdetail')->name('livestockdetail');
         });
     });
 });

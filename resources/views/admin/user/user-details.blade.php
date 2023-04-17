@@ -12,19 +12,27 @@
                 <th>Name</th>
                 <th>Type</th>
                 <th>Livestock Type</th>
-
+                <th>Created Date</th>
             </tr>
         </thead>
         <tbody>
             @if(!empty($enterprise) && $enterprise->count())
                 @foreach($enterprise as $key => $value)
                     <tr>
-                        <td>{{ $value->enterprise_name }}</td>
+                        <td><a href="@if($value->enterprise_type == 'Crop')
+                                    {{ url('admin/users/crop/detail/'.$value->id) }}
+                                    @else
+                                    {{ url('admin/users/enterprise/detail/'.$value->id) }}
+                                    @endif
+                            " style="color: green;">{{ $value->enterprise_name }}</a></td>
                         <td>
                             {{ $value->enterprise_type }}
                         </td>
                         <td>
                             {{ $value->livestock_type }}
+                        </td>
+                        <td>
+                            {{ date('j F Y', strtotime($value->created_at))}}
                         </td>
                     </tr>
                 @endforeach
@@ -43,7 +51,7 @@
 
 
 
-<div class="container">
+<!-- <div class="container">
     <h1>Heards </h1>
     <table class="table table-bordered mt-5">
         <thead>
@@ -122,7 +130,7 @@
     </table>
          
     {!! $animals->links() !!}
-</div>
+</div> -->
 
 
 @endsection

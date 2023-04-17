@@ -17,4 +17,11 @@ class Jobs extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function get_user($userid)
+    {
+
+		$user = User::where('id', $userid)->first();
+		return $user;
+	}
 }
