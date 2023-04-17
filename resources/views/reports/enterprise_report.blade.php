@@ -291,7 +291,7 @@
 <body>
 <div class="container-xxl">
 <div class="sunfarm py-5">
-    <h1 style="font-size: 18px !important;padding-left: 10% !important;text-transform: uppercase;">{{ $user->farm_name }} LTD</h1>
+    <h1 style="font-size: 18px !important;padding-left: 10% !important;text-transform: uppercase;"> LTD</h1>
     <h2 class="mb-1" style="font-size: 24px !important;padding-left: 10% !important;">Enterprise Report</h2>
     <?php
     $day = Carbon\Carbon::now()->format('j');
@@ -319,7 +319,7 @@
                 <th scope="col"></th>
             </tr>
             
-            <tr class="dashed-border" style="border-bottom: 1px solid;border-color: #273133;">
+            <tr class="dashed-border" style="border-bottom: solid 2px #3a8b38;">
                 <td class="subheading">Direct Income</td>
                 <td>
                     @foreach($d_income as $income)
@@ -336,7 +336,7 @@
                     {{($direct_income->direct_income) ? $direct_income->direct_income : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
-            <tr class="dashed-border" style="border-bottom: 1px solid;border-color: #273133;">
+            <tr class="dashed-border" style="border-bottom: solid 2px #3a8b38;">
                 <td class="subheading">Direct Expenses</td>
                 <td>
                   @foreach($d_expense as $expense)
@@ -352,7 +352,7 @@
                   {{($direct_expenses->direct_expenses) ? $direct_expenses->direct_expenses : ''}}</td>
                 <td class="text-end color-dark"></td>
             </tr>
-            <tr class="dashed-border" style="border-bottom: 1px solid;border-color: #273133;">
+            <tr class="dashed-border" style="border-bottom: solid 2px #3a8b38;">
                 <td class="subheading"><b>Entreprise Profit/Loss</b></td>
                 <td></td>
                 <td class="text-end color-dark">{{($entreprise_profit_loss) ? $entreprise_profit_loss : ''}}</td>
@@ -363,7 +363,7 @@
       
        
     </table>
-    <table class="table table-bordered border-dark invoice2 mb-0">
+    <table class="table table-bordered border-dark invoice2 mb-0" style="margin-top: 35px;">
         <tbody class="footer-logo">  
           <tr>
             <td style="border: 1px solid;border-color: #273133;">
@@ -375,7 +375,7 @@
               <a href="www.shambapro.com" style="font-size: 10px;margin-left: 15px;">www.shambapro.com</a>
             </td>
             <td>
-              <p class="py-2" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
+              <p class="py-2" style="color: #273133;padding-left: 2% !important;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
             </td>
           </tr>
         </tbody>

@@ -399,7 +399,7 @@
                 <td class="text-end"></td>
             </tr>
             <tr class="footer-border ">
-                <td scope="col" class="font-dark">Net Profit/Income</td>
+                <td scope="col" class="font-dark subheading">Net Profit/Income</td>
                 <td scope="col" class="text-end font-dark">{{($net_profit_income) ? $net_profit_income : ''}}</td>
                 <td scope="col" class="text-end"></td>
             </tr>
@@ -418,7 +418,7 @@
               <a href="www.shambapro.com" style="font-size: 10px;margin-left: 15px;">www.shambapro.com</a>
             </td>
             <td>
-              <p class="py-2" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
+              <p class="py-2" style="color: #273133;padding-left: 2% !important;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
             </td>
           </tr>
         </tbody>

@@ -272,7 +272,7 @@
         <p>Name:<span class="ps-1">{{ ($user->name) ? $user->name : '' }}</span></p>
     </div>
     <div class="col-sm-6">
-        <p>Creation Date:<span class="ps-1">{{Carbon\Carbon::now()->format('d M Y')}}</span></p>
+        <p>Creation Date: <span class="ps-1" style="font-size: 12px !important;text-transform: uppercase;">{{$day}}<sup>{{$symbol}}</sup> {{$year}}</span></p>
     </div>
 
     <div class="col-sm-3 text-sm-end">
@@ -1544,7 +1544,7 @@
               <a href="www.shambapro.com" style="font-size: 10px;margin-left: 15px;">www.shambapro.com</a>
             </td>
             <td>
-              <p class="py-2" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
+              <p class="py-2" style="color: #273133;padding-left: 2% !important;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
             </td>
           </tr>
         </tbody>

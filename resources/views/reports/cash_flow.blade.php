@@ -359,7 +359,7 @@
                 <td class="text-end"></td>
             </tr>
         </tbody>
-        <tbody class="table-group-divider TableHeading">
+        <tbody class="table-group-divider TableHeading" style="border-bottom: solid 2px #3a8b38;">
             <tr class="dashed-border">
                 <td class="subheading"><b>Net Cash Flow</b></td>
                 <td class="text-end color-dark">{{($net_cash_flow) ? $net_cash_flow : ''}}</td>
@@ -380,7 +380,7 @@
               <a href="www.shambapro.com" style="font-size: 10px;margin-left: 15px;">www.shambapro.com</a>
             </td>
             <td>
-              <p class="py-2" style="color: #273133;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
+              <p class="py-2" style="color: #273133;padding-left: 2% !important;">The data presented in this report is the sole property of the farm owner and is not to be shared or distributed to third parties without their written permission. For inquiries, please write to <a href="mailto:hello@shambapro.com"> hello@shambapro.com</a></p>
             </td>
           </tr>
         </tbody>
