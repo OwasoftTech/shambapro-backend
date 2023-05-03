@@ -17,6 +17,7 @@ class AnimalController extends Controller
 {
    public function create(Request $request)
    {
+      dd('test');
       $validator = Validator::make($request->all(), [
          
          'bread_type' => 'required',
