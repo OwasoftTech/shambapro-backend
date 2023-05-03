@@ -17,7 +17,7 @@ class AnimalController extends Controller
 {
    public function create(Request $request)
    {
-      dd('test');
+
       $validator = Validator::make($request->all(), [
          
          'bread_type' => 'required',
@@ -76,8 +76,8 @@ class AnimalController extends Controller
       }  
     catch (Exception $e) 
     {
-      return response()->json(['response' => ['status' => false, 'message' => 'Record Not Added.Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
-      // return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+      //return response()->json(['response' => ['status' => false, 'message' => 'Record Not Added.Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+       return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
     }  
    }
 
