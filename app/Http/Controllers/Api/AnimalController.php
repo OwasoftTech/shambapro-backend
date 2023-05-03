@@ -37,6 +37,9 @@ class AnimalController extends Controller
          return response()->json(['error' => $errors->toJson()]);
       }
 
+      try 
+    {
+
       $photo = '';
 
       if ($request->hasfile('photo')) {
@@ -69,6 +72,12 @@ class AnimalController extends Controller
       ]);
 
       return response()->json(['message' => 'Created successfully']);
+      }  
+    catch (Exception $e) 
+    {
+      return response()->json(['response' => ['status' => false, 'message' => 'Record Not Added.Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+      // return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
    }
 
 
