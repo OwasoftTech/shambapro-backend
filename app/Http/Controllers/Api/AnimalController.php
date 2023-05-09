@@ -88,7 +88,7 @@ class AnimalController extends Controller
 
       $heard_id = $request->query('heard_id');
 
-      $animals = Animals::where('heard_id', $heard_id)->where('status',1)->get();
+      $animals = Animals::where('heard_id', $heard_id)->where('status',1)->where('user_id',auth()->user()->id)->get();
 
 
       return response()->json(['animals' => $animals]);
