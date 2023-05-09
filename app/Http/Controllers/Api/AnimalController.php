@@ -67,7 +67,6 @@ class AnimalController extends Controller
          'mother_id' => $request->mother_id,
          'photo' => $photo,
          'enterprise_id' => $request->enterprise_id,
-         'quantity' => $request->quantity,
          'user_id' => Auth::user()->id,
          'created_at' => Carbon::now(),
       ]);
@@ -100,12 +99,12 @@ class AnimalController extends Controller
       try 
       {
         $animals = Animals::where('id', $request->animal_id)->first();
-        $new_quantity = $animals->quantity - $request->quantity;
+        /*$new_quantity = $animals->quantity - $request->quantity;
         $animals->remove_date = $request->remove_date;
         $animals->quantity = $new_quantity;
         $animals->purpose = $request->purpose;
-        $animals->updated_at = Carbon::now();
-        $animals->save();
+        $animals->updated_at = Carbon::now();*/
+        $animals->delete();
 
         return response()->json(['response' => ['status' => true, 'message' => 'Qunatity remove successfully']], 
         JsonResponse::HTTP_OK);
