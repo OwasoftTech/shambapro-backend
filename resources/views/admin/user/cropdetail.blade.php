@@ -56,7 +56,7 @@
               <td>{{$detail->cultivation_system}}</td>
               <td>{{$detail->watering_system}}</td>
               <td>{{number_format($detail->no_of_plants)}} ({{$detail->plants_type}})</td>
-              <td>{{number_format($detail->field_size)}}</td>
+              <td>{{$detail->field_size}}</td>
           </tr>
           @endforeach
         @else
