@@ -30,7 +30,7 @@ use File;
 class FeedingRecordController extends Controller
 {
 
-  public function get_feed_type()
+  public function get_feed_type(Request $request)
   {
     try 
     {
