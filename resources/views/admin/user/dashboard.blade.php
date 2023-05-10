@@ -23,7 +23,7 @@
                                 <div class="float-left" dir="ltr">
                                     <img src="https://cdn-icons-png.flaticon.com/512/187/187039.png" height="50px">
                                 </div>
-                                <div class="text-right">
+                                <div class="mr-5">
                                     <h3 class="mb-1"> {{$users}} </h3>
                                     <p class="text-muted mb-1">Farms</p>
                                 </div>
@@ -34,7 +34,7 @@
                                 <div class="float-left" dir="ltr">
                                     <img src="https://cdn-icons-png.flaticon.com/512/284/284493.png" height="50px">
                                 </div>
-                                <div class="text-right">
+                                <div class="mr-5">
                                     <h3 class="mb-1"> {{$enterprise}} </h3>
                                     <p class="text-muted mb-1">Farms Entreprises</p>
                                 </div>
@@ -47,7 +47,7 @@
                                 <div class="float-left" dir="ltr">
                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROuriCYajzCJzMk5BP1EvMgSwX3egQDzb0qL75QAzIhq_QUi7qnVVVafaIwIZTEb_dY38&usqp=CAU" height="50px">
                                 </div>
-                                <div class="text-right">
+                                <div class="mr-5">
                                     <h3 class="mb-1"> {{$cropenterprise}} </h3>
                                     <p class="text-muted mb-1">Crop Entreprises</p>
                                 </div>
@@ -59,7 +59,7 @@
                                 <div class="float-left" dir="ltr">
                                    <img src="https://cdn3.iconfinder.com/data/icons/agriculture-outline/160/farm-2-512.png" height="50px">
                                 </div>
-                                <div class="text-right">
+                                <div class="mr-5">
                                     <h3 class="mb-1"> {{$cropfield}} </h3>
                                     <p class="text-muted mb-1">Cropfield</p>
                                 </div>
@@ -71,7 +71,7 @@
                                 <div class="float-left" dir="ltr">
                                    <img src="https://icon-library.com/images/icon-agriculture/icon-agriculture-15.jpg" height="50px">
                                 </div>
-                                <div class="text-right">
+                                <div class="mr-5">
                                     <h3 class="mb-1"> {{$livestockenterprise}} </h3>
                                     <p class="text-muted mb-1">Livestock Enterprises</p>
                                 </div>
@@ -84,7 +84,7 @@
                                 <div class="float-left" dir="ltr">
                                     <img src="https://www.freeiconspng.com/thumbs/animal-icon-png/animal-icons-set-png-4.png" height="50px">
                                 </div>
-                                <div class="text-right">
+                                <div class="mr-5">
                                     <h3 class="mb-1"> {{$animals}} </h3>
                                     <p class="text-muted mb-1"> Animals</p>
                                 </div>
