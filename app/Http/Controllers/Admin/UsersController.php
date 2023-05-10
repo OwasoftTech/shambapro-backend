@@ -45,7 +45,7 @@ class UsersController extends Controller
     public function dashboard(IndexUser $request){
 
         // create and AdminListing instance for a specific model and
-        $data = AdminListing::create(User::class)->processRequestAndGet(
+        /*$data = AdminListing::create(User::class)->processRequestAndGet(
             // pass the request with params
             $request,
 
@@ -54,12 +54,13 @@ class UsersController extends Controller
 
             // set columns to searchIn
             ['id', 'name', 'farm_name', 'email', 'role']
-        );
+        );*/
         
        $cropfield = CropField::count(); 
        $enterprise = Enterprise::count(); 
 
-       $animals = Animals::count();      
+       $animals = Animals::count(); 
+       $data = User::get();     
        $users = User::count();      
        $livestockenterprise = Enterprise::where('enterprise_type','Livestock')
        ->count(); 
