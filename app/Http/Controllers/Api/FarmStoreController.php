@@ -441,7 +441,7 @@ class FarmStoreController extends Controller
                     'fssc.farm_subcat as subcategoryName',
                     'fs.*'
                     )  
-                    ->first();
+                    ->get();
                   foreach ($details as $key => $value) 
                   {
                     $hist = FarmStoreHistory::where('farm_store_id',$value->id)->get(); 
