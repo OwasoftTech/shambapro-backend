@@ -357,7 +357,10 @@ class FarmStoreController extends Controller
         
           $history = new FarmStoreHistory;
           $history->farm_store_id = $request->farm_store_id;
+          $history->type = $request->type_id;
+          $history->category_id = $request->category_id;
           $history->subcategory_id = $request->subcategory_id;
+          $history->user_id = $request->user_id;
           $history->date = $request->date;
           $history->name = $request->name;
           $history->quantity = $request->quantity;
@@ -399,7 +402,10 @@ class FarmStoreController extends Controller
         
           $history = new FarmStoreHistory;
           $history->farm_store_id = $request->farm_store_id;
+          $history->type = $request->type_id;
+          $history->category_id = $request->category_id;
           $history->subcategory_id = $request->subcategory_id;
+          $history->user_id = $request->user_id;
           $history->date = $request->date;
           $history->name = $request->name;
           $history->quantity = $request->quantity;
@@ -424,36 +430,13 @@ class FarmStoreController extends Controller
   {
     try
     {
-      //$history='';
-      $details['farm_detail'] = FarmStore::from('farm_store as fs')
-                    //->join('farm_store_history as fsh', 'fs.id',  'fsh.farm_store_id')
-                    ->leftjoin('farm_store_type as fst', 'fs.type',  'fst.id')
-                    ->leftjoin('farm_store_category as fsc', 'fs.category_id',  'fsc.id')
-                    ->leftjoin('farm_store_subcategory as fssc', 'fs.subcategory_id',  'fssc.id')
-                    ->where('fs.type', $request->type_id)
-                    ->where('fs.category_id', $request->category_id)
-                    ->where('fs.subcategory_id', $request->subcategory_id)
-                    ->where('fs.user_id', $request->user_id)
-                    ->where('fs.status', 1)
-                    ->select(
-                    'fst.farm_type as farmtype',
-                    'fsc.farm_cat as categoryName',  
-                    'fssc.farm_subcat as subcategoryName',
-                    'fs.*'
-                    )  
-                    ->first();
-                  foreach ($details as $key => $value) 
-                  {
-                    $hist = FarmStoreHistory::where('farm_store_id',$value->id)->get(); 
-                    $details['history'] = $hist;
-                    //array_push($history, $hist);
-                  }              
-                    
+      $history= FarmStoreHistory::where('type', $request->type_id)
+                ->where('category_id', $request->category_id)
+                ->where('subcategory_id', $request->subcategory_id)
+                ->where('user_id', $request->user_id)
+                ->get();
       
-
-      
-
-      return response()->json(['response' => ['status' => true, 'data' => $details]], JsonResponse::HTTP_OK);
+      return response()->json(['response' => ['status' => true, 'data' => $history]], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
     {
