@@ -182,8 +182,8 @@ class FarmStoreController extends Controller
                       ->where('fs.user_id', Auth::user()->id)
                       ->where('fs.status', 1)
                       ->select(
-                      'fsc.farm_cat as categoryName',
                       'fst.farm_type as farmType',
+                      'fsc.farm_cat as categoryName',
                       'fs.*'
                       )  
                       ->get(); 
