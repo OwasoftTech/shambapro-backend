@@ -107,7 +107,14 @@ class UsersController extends Controller
     public function cropdashboard(IndexUser $request)
     {
   
-       $cropenterprise = Enterprise::where('enterprise_type','Crop')->get(); 
+       $cropenterprise = Enterprise::from('enterprise as e')
+                        ->leftjoin('farms as f', 'f.id', 'e.farm_id')
+                        ->where('enterprise_type','Crop')
+                        ->select(
+                         'f.name as farm_name','e.enterprise_name as enterprise_name','e.created_at as created_at',
+                         'e.id as id'   
+                        )   
+                        ->get(); 
        
        
       return view('admin.user.cropdashboard',['cropenterprise'=>$cropenterprise]);
@@ -126,8 +133,14 @@ class UsersController extends Controller
   
        $livestockenterprise = Enterprise::where('enterprise_type','Livestock')
        ->count();  
-        $details = Enterprise::where('enterprise_type','Livestock')
-       ->get(); 
+        $details = Enterprise::from('enterprise as e')
+                   ->leftjoin('farms as f', 'f.id', 'e.farm_id') 
+                   ->where('enterprise_type','Livestock')
+                   ->select(
+                     'f.name as farm_name','e.enterprise_name as enterprise_name','e.created_at as created_at',
+                     'e.id as id','e.livestock_type as livestock_type'   
+                    ) 
+                   ->get(); 
         $flocks = Flock::count(); 
        $heards = Heard::count(); 
        $animals = Animals::count(); 

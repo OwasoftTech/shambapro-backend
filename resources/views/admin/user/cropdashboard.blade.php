@@ -33,15 +33,20 @@
       </thead>
       <tbody>
         <tr>
-          <th style="text-align: center;">Enterprise Name</th>
-          <th style="text-align: center;">Enterprise Type</th>
+          <th style="text-align: left;">#</th>
+          <th style="text-align: left;">Enterprise Name</th>
+          <th style="text-align: left;">Farm Name</th>
+          <th style="text-align: left;">Created At</th>
         </tr>
         @if(isset($cropenterprise))
-        @foreach($cropenterprise as $ce)
+        @foreach($cropenterprise as $k => $ce)
         <tr>
-          <td style="color: green;text-align: center;"><a href="{{ url('admin/users/crop/detail/'.$ce->id) }}" style="color: green;"> {{$ce->enterprise_name}}</a></td>
-          <td style="color: green;text-align: center;"><a href="{{ url('admin/users/crop/detail/'.$ce->id) }}" style="color: green;">{{$ce->enterprise_type}}</a></td>
+          <td style="color: green;text-align: left;"> {{ $k+1 }} </td>
+          <td style="color: green;text-align: left;"><a href="{{ url('admin/users/crop/detail/'.$ce->id) }}" style="color: green;"> {{$ce->enterprise_name}}</a></td>
+          <td style="color: green;text-align: left;"><a href="{{ url('admin/users/crop/detail/'.$ce->id) }}" style="color: green;">{{$ce->farm_name}}</a></td>
+          <td style="color: green;text-align: left;"><a href="{{ url('admin/users/crop/detail/'.$ce->id) }}" style="color: green;">{{ date('j F Y', strtotime($ce->created_at)) }}</a></td>
         </tr>
+        <?php $k++;?>
         @endforeach
         @else
         <tr>

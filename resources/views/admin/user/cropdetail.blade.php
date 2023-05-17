@@ -39,6 +39,7 @@
       </thead>
       <tbody>
         <tr>
+          <th>#</th>
           <th>Crop Name</th>
           <th>Cropping System</th>
           <th>Cultivation System</th>
@@ -49,8 +50,9 @@
         
         @if(count($details) > 0)      
           
-          @foreach($details as $detail)
+          @foreach($details as $k => $detail)
             <tr>
+              <td> {{ $k+1 }} </td>
               <td>{{$detail->field_name}}</td>
               <td>{{$detail->croping_system}}</td>
               <td>{{$detail->cultivation_system}}</td>
@@ -58,6 +60,7 @@
               <td>{{number_format($detail->no_of_plants)}} ({{$detail->plants_type}})</td>
               <td>{{$detail->field_size}}</td>
           </tr>
+          <?php $k++;?>
           @endforeach
         @else
             

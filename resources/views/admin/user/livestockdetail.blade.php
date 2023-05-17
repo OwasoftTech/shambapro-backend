@@ -39,6 +39,7 @@
       </thead>
       <tbody>
         <tr>
+          <th>#</th>
           <th>Livestock Name</th>
           <th>Quantity</th>
           <th>Price</th>
@@ -48,14 +49,16 @@
         
         @if(count($details) > 0)      
           
-          @foreach($details as $detail)
+          @foreach($details as $k => $detail)
             <tr>
+              <td> {{ $k+1 }} </td>
               <td>{{$detail->name}}</td>
               <td>{{$detail->quantity}}</td>
               <td>{{$detail->price}}</td>
               <td>{{$detail->source}}</td>
               <td>{{ date('j F Y', strtotime($detail->created_at)) }}</td>
           </tr>
+          <?php $k++;?>
           @endforeach
         @else
             
