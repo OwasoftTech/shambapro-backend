@@ -11,7 +11,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use App\Models\FarmStoreHistory
+use App\Models\FarmStoreHistory;
 
 
 class FlockController extends Controller
