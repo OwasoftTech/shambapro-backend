@@ -94,29 +94,5 @@ class AnimalController extends Controller
       return response()->json(['animals' => $animals]);
    }
 
-   public function remove_animal(Request $request)
-   {
 
-      try 
-      {
-        $animals = Animals::where('id', $request->animal_id)->first();
-        /*$new_quantity = $animals->quantity - $request->quantity;
-        $animals->quantity = $new_quantity;*/
-        $animals->status = 0;
-        $animals->remove_date = $request->remove_date;
-        $animals->purpose = $request->purpose;
-        $animals->updated_at = Carbon::now();
-        $animals->save();
-
-        return response()->json(['response' => ['status' => true, 'message' => 'Qunatity remove successfully']], 
-        JsonResponse::HTTP_OK);
-      }  
-      catch (Exception $e) 
-      {
-       return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]],
-       JsonResponse::HTTP_BAD_REQUEST);
-      
-      } 
-      
-   }
 }

@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\FarmStoreHistory
 
 
 class FlockController extends Controller
@@ -44,12 +45,25 @@ class FlockController extends Controller
       $obj->save();
 
 
-    $history = new FlockHistory;
-    $history->flockId = $obj->id;
-    $history->number_of_birds = $request->number_of_birds;
-    $history->createdby = Auth::user()->id;
-    $history->created_at = Carbon::now();
-    $history->save();
+    // $history = new FlockHistory;
+    // $history->flockId = $obj->id;
+    // $history->number_of_birds = $request->number_of_birds;
+    // $history->createdby = Auth::user()->id;
+    // $history->created_at = Carbon::now();
+    // $history->save();
+
+    $history = new FarmStoreHistory;
+          $history->flock_id = $obj->id;
+          $history->subcategory_id = 13;
+          $history->date = $request->hachting_date;
+          $history->name = $request->flock_name;
+          $history->quantity =  $request->number_of_birds;
+          $history->price = $request->price;
+          $history->value = $request->value;
+          $history->purpose = $request->purpose;
+          $history->created_by = Auth::user()->id;
+          $history->created_at = Carbon::now();
+          $history->save();
 
     return response()->json(['message' => 'Created successfully']);
 
@@ -117,11 +131,15 @@ class FlockController extends Controller
   {
     try
     {
-        $flock = Flock::where('id', $request->flock_id)->first();
-        $new_quantity = $flock->number_of_birds - $request->number_of_birds;
-        $flock->remove_date = $request->remove_date;
-        $flock->number_of_birds = $new_quantity;
-        $flock->purpose = $request->purpose; 
+        $flock = FarmStoreHistory::where('created_by', auth()->user()->id)->where('subcategory_id',13)->where('flock_id', $request->flock_id)->first();
+        //dd($flock);
+        $new_quantity = $flock->quantity - $request->quantity;
+        $flock->date = $request->remove_date;
+        $flock->name = $request->flock_name;
+        $flock->price = $request->price;
+        $flock->value = $request->value;
+        $flock->purpose = $request->purpose;
+        $flock->quantity = $new_quantity;
         $flock->updated_at = Carbon::now();
         $flock->save();
         
