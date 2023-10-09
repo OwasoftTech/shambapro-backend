@@ -33,16 +33,16 @@
     </thead>
     <tbody>
     <tr>
-        <th style="text-align: center;">Livestock Enterprises</th>
-        <th style="text-align: center;">Number of Herds</th>
-        <th style="text-align: center;">Number of Animals </th>
-        <th style="text-align: center;">Number of Flocks </th>
+        <th style="text-align: left;">Livestock Enterprises</th>
+        <th style="text-align: left;">Number of Herds</th>
+        <th style="text-align: left;">Number of Animals </th>
+        <th style="text-align: left;">Number of Flocks </th>
     </tr>
     <tr>
-        <td style="color: green;text-align: center;">{{$livestockenterprise}}</td>
-        <td style="color: green;text-align: center;">{{$heards}}</td>
-        <td style="color: green;text-align: center;">{{$animals}}</td>
-        <td style="color: green;text-align: center;">{{$flocks}}</td>
+        <td style="color: green;text-align: left;">{{$livestockenterprise}}</td>
+        <td style="color: green;text-align: left;">{{$heards}}</td>
+        <td style="color: green;text-align: left;">{{$animals}}</td>
+        <td style="color: green;text-align: left;">{{$flocks}}</td>
     </tr>
     </tbody>
     </table>
@@ -64,16 +64,21 @@
     </thead>
     <tbody>
     <tr>
-        <th style="text-align: center;">Name</th>
-        <th style="text-align: center;">Livestock Type</th>
-        <th style="text-align: center;">Created Date </th>
+        <th style="text-align: left;">#</th>
+        <th style="text-align: left;">Name</th>
+        <th style="text-align: left;">Livestock Type</th>
+        <th style="text-align: left;">Fram Name</th>
+        <th style="text-align: left;">Created Date </th>
     </tr>
-    @foreach($details as $detail)
+    @foreach($details as $k => $detail)
     <tr>
-        <td style="color: green;text-align: center;"><a href="{{ url('admin/users/livestock/detail/'.$detail->id) }}" style="color: green;">{{$detail->enterprise_name}}</a></td>
-        <td style="color: green;text-align: center;"><a href="{{ url('admin/users/livestock/detail/'.$detail->id) }}" style="color: green;">{{$detail->livestock_type}}</a></td>
-        <td style="color: green;text-align: center;">{{ date('j F Y', strtotime($detail->created_at)) }}</td>
+        <td style="color: green;text-align: left;"> {{ $k+1 }} </td>
+        <td style="color: green;text-align: left;"><a href="{{ url('admin/users/livestock/detail/'.$detail->id) }}" style="color: green;">{{$detail->enterprise_name}}</a></td>
+        <td style="color: green;text-align: left;"><a href="{{ url('admin/users/livestock/detail/'.$detail->id) }}" style="color: green;">{{$detail->livestock_type}}</a></td>
+        <td style="color: green;text-align: left;"><a href="{{ url('admin/users/livestock/detail/'.$detail->id) }}" style="color: green;">{{$detail->farm_name}}</a></td>
+        <td style="color: green;text-align: left;">{{ date('j F Y', strtotime($detail->created_at)) }}</td>
     </tr>
+    <?php $k++;?>
     @endforeach
     </tbody>
     </table>

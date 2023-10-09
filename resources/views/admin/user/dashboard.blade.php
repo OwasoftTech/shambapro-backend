@@ -16,16 +16,16 @@
   <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css')}}">
 
 @section('body')
-<div class="row">
+                    <div class="row">
 
                         <div class="col-xl-3 col-md-6">
                             <div class="card-box">
                                 <div class="float-left" dir="ltr">
                                     <img src="https://cdn-icons-png.flaticon.com/512/187/187039.png" height="50px">
                                 </div>
-                                <div class="text-right">
-                                    <h3 class="mb-1"> {{$users}} </h3>
-                                    <p class="text-muted mb-1">Farms</p>
+                                <div class="text-left">
+                                    <h3 class="mb-1" style="margin-left: 5rem !important"> {{$users}} </h3>
+                                    <p class="text-muted mb-1" style="margin-left: 5rem !important">Farms</p>
                                 </div>
                             </div>
                         </div>
@@ -34,22 +34,22 @@
                                 <div class="float-left" dir="ltr">
                                     <img src="https://cdn-icons-png.flaticon.com/512/284/284493.png" height="50px">
                                 </div>
-                                <div class="text-right">
-                                    <h3 class="mb-1"> {{$enterprise}} </h3>
-                                    <p class="text-muted mb-1">Farms Entreprises</p>
+                                <div class="text-left">
+                                    <h3 class="mb-1" style="margin-left: 5rem !important"> {{$enterprise}} </h3>
+                                    <p class="text-muted mb-1" style="margin-left: 5rem !important">Farms Entreprises</p>
                                 </div>
                             </div>
                         </div>
                       
 
-                         <div class="col-xl-3 col-md-6">
+                        <div class="col-xl-3 col-md-6">
                             <div class="card-box">
                                 <div class="float-left" dir="ltr">
                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROuriCYajzCJzMk5BP1EvMgSwX3egQDzb0qL75QAzIhq_QUi7qnVVVafaIwIZTEb_dY38&usqp=CAU" height="50px">
                                 </div>
-                                <div class="text-right">
-                                    <h3 class="mb-1"> {{$cropenterprise}} </h3>
-                                    <p class="text-muted mb-1">Crop Entreprises</p>
+                                <div class="text-left">
+                                    <h3 class="mb-1" style="margin-left: 5rem !important"> {{$cropenterprise}} </h3>
+                                    <p class="text-muted mb-1" style="margin-left: 5rem !important">Crop Entreprises</p>
                                 </div>
                             </div>
                         </div>
@@ -59,9 +59,9 @@
                                 <div class="float-left" dir="ltr">
                                    <img src="https://cdn3.iconfinder.com/data/icons/agriculture-outline/160/farm-2-512.png" height="50px">
                                 </div>
-                                <div class="text-right">
-                                    <h3 class="mb-1"> {{$cropfield}} </h3>
-                                    <p class="text-muted mb-1">Cropfield</p>
+                                <div class="text-left">
+                                    <h3 class="mb-1" style="margin-left: 5rem !important"> {{$cropfield}} </h3>
+                                    <p class="text-muted mb-1" style="margin-left: 5rem !important">Cropfield</p>
                                 </div>
                             </div>
                         </div>
@@ -71,9 +71,9 @@
                                 <div class="float-left" dir="ltr">
                                    <img src="https://icon-library.com/images/icon-agriculture/icon-agriculture-15.jpg" height="50px">
                                 </div>
-                                <div class="text-right">
-                                    <h3 class="mb-1"> {{$livestockenterprise}} </h3>
-                                    <p class="text-muted mb-1">Livestock Enterprises</p>
+                                <div class="text-left">
+                                    <h3 class="mb-1" style="margin-left: 5rem !important"> {{$livestockenterprise}} </h3>
+                                    <p class="text-muted mb-1" style="margin-left: 5rem !important">Livestock Enterprises</p>
                                 </div>
                             </div>
                         </div>
@@ -84,9 +84,9 @@
                                 <div class="float-left" dir="ltr">
                                     <img src="https://www.freeiconspng.com/thumbs/animal-icon-png/animal-icons-set-png-4.png" height="50px">
                                 </div>
-                                <div class="text-right">
-                                    <h3 class="mb-1"> {{$animals}} </h3>
-                                    <p class="text-muted mb-1"> Animals</p>
+                                <div class="text-left">
+                                    <h3 class="mb-1" style="margin-left: 5rem !important"> {{$animals}} </h3>
+                                    <p class="text-muted mb-1" style="margin-left: 5rem !important"> Animals</p>
                                 </div>
                             </div>
                         </div>

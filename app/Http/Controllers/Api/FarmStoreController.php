@@ -125,7 +125,7 @@ class FarmStoreController extends Controller
         $obj->created_at = Carbon::now();
         $obj->save();
 
-        if($type->id == 2)
+        /*if($type->id == 2)
         {
           $history = new FarmStoreHistory;
           $history->farm_store_id = $obj->id;
@@ -133,7 +133,7 @@ class FarmStoreController extends Controller
           $history->created_by = Auth::user()->id;
           $history->created_at = Carbon::now();
           $history->save();
-        }  
+        } */ 
         
       return response()->json(['response' => ['status' => true, 'message' => 'Record Added successfully']], 
         JsonResponse::HTTP_OK);
@@ -182,8 +182,8 @@ class FarmStoreController extends Controller
                       ->where('fs.user_id', Auth::user()->id)
                       ->where('fs.status', 1)
                       ->select(
-                      'fsc.farm_cat as categoryName',
                       'fst.farm_type as farmType',
+                      'fsc.farm_cat as categoryName',
                       'fs.*'
                       )  
                       ->get(); 
@@ -357,6 +357,9 @@ class FarmStoreController extends Controller
         
           $history = new FarmStoreHistory;
           $history->farm_store_id = $request->farm_store_id;
+          $history->type = $request->type_id;
+          $history->category_id = $request->category_id;
+          $history->subcategory_id = $request->subcategory_id;
           $history->date = $request->date;
           $history->name = $request->name;
           $history->quantity = $request->quantity;
@@ -398,6 +401,8 @@ class FarmStoreController extends Controller
         
           $history = new FarmStoreHistory;
           $history->farm_store_id = $request->farm_store_id;
+          $history->type = $request->type_id;
+          $history->category_id = $request->category_id;
           $history->subcategory_id = $request->subcategory_id;
           $history->date = $request->date;
           $history->name = $request->name;
@@ -423,8 +428,8 @@ class FarmStoreController extends Controller
   {
     try
     {
-      $history=[];
-      $details = FarmStore::from('farm_store as fs')
+      //$history='';
+      $details['farm_detail'] = FarmStore::from('farm_store as fs')
                     //->join('farm_store_history as fsh', 'fs.id',  'fsh.farm_store_id')
                     ->leftjoin('farm_store_type as fst', 'fs.type',  'fst.id')
                     ->leftjoin('farm_store_category as fsc', 'fs.category_id',  'fsc.id')
@@ -440,21 +445,19 @@ class FarmStoreController extends Controller
                     'fssc.farm_subcat as subcategoryName',
                     'fs.*'
                     )  
-                    ->get();
+                    ->first();
                   foreach ($details as $key => $value) 
                   {
                     $hist = FarmStoreHistory::where('farm_store_id',$value->id)->get(); 
-                    array_push($history, $hist);
+                    $details['history'] = $hist;
+                    //array_push($history, $hist);
                   }              
                     
       
 
-      $data = [
-              'details' => $details,
-              'history' => $history
-            ];
+      
 
-      return response()->json(['response' => ['status' => true, 'data' => $data]], JsonResponse::HTTP_OK);
+      return response()->json(['response' => ['status' => true, 'data' => $details]], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
     {

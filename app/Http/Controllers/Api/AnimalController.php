@@ -17,6 +17,7 @@ class AnimalController extends Controller
 {
    public function create(Request $request)
    {
+
       $validator = Validator::make($request->all(), [
          
          'bread_type' => 'required',
@@ -36,6 +37,9 @@ class AnimalController extends Controller
          $errors = $validator->errors();
          return response()->json(['error' => $errors->toJson()]);
       }
+
+      try 
+    {
 
       $photo = '';
 
@@ -63,12 +67,18 @@ class AnimalController extends Controller
          'mother_id' => $request->mother_id,
          'photo' => $photo,
          'enterprise_id' => $request->enterprise_id,
-         'quantity' => $request->quantity,
+         'status' => 1,
          'user_id' => Auth::user()->id,
          'created_at' => Carbon::now(),
       ]);
 
       return response()->json(['message' => 'Created successfully']);
+      }  
+    catch (Exception $e) 
+    {
+      //return response()->json(['response' => ['status' => false, 'message' => 'Record Not Added.Something went wrong!']], JsonResponse::HTTP_BAD_REQUEST);
+       return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]], JsonResponse::HTTP_BAD_REQUEST);
+    }  
    }
 
 
@@ -78,34 +88,11 @@ class AnimalController extends Controller
 
       $heard_id = $request->query('heard_id');
 
-      $animals = Animals::where('heard_id', $heard_id)->get();
+      $animals = Animals::where('heard_id', $heard_id)->where('status',1)->where('user_id',auth()->user()->id)->get();
 
 
       return response()->json(['animals' => $animals]);
    }
 
-   public function remove_animal(Request $request)
-   {
 
-      try 
-      {
-        $animals = Animals::where('id', $request->animal_id)->first();
-        $new_quantity = $animals->quantity - $request->quantity;
-        $animals->remove_date = $request->remove_date;
-        $animals->quantity = $new_quantity;
-        $animals->purpose = $request->purpose;
-        $animals->updated_at = Carbon::now();
-        $animals->save();
-
-        return response()->json(['response' => ['status' => true, 'message' => 'Qunatity remove successfully']], 
-        JsonResponse::HTTP_OK);
-      }  
-      catch (Exception $e) 
-      {
-       return response()->json(['response' => ['status' => false, 'message' => $e->getMessage()]],
-       JsonResponse::HTTP_BAD_REQUEST);
-      
-      } 
-      
-   }
 }

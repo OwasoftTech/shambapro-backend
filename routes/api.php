@@ -69,7 +69,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('/add-heard', [HeardController::class, 'create']);
     Route::post('/add-animal', [AnimalController::class, 'create']);
-    Route::post('/remove-animal', [AnimalController::class, 'remove_animal']);
+    Route::post('/remove-animal', [HeardController::class, 'remove_animal']);
 
     Route::post('/add-flock', [FlockController::class, 'create']);
 

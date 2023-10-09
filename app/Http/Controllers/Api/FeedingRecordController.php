@@ -30,11 +30,12 @@ use File;
 class FeedingRecordController extends Controller
 {
 
-  public function get_feed_type()
+  public function get_feed_type(Request $request)
   {
     try 
     {
-      $t_type =  FarmStore::where('category_id',17)->where('subcategory_id',1)->get();
+      $t_type =  FarmStore::where('category_id',17)->where('subcategory_id',1)
+                  ->where('enterprise_id',$request->enterprise_id)->get();
       return response()->json(['response' => ['status' => true, 'data' => $t_type]], JsonResponse::HTTP_OK);
     } 
     catch (Exception $e) 
