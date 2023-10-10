@@ -60,8 +60,12 @@ class HeardController extends Controller
 
   public function heardList(Request $request)
   {
-    $heard = Heard::where('enterprise_id', $request->query('enterprise_id'))
-      ->get();
+    $heard = Heard::from('heard as hd')
+              ->leftjoin('farm_store_history as fsh', 'hd.id',  'fsh.heard_id')
+              ->select('fsh.quantity as qunatity','hd.*')
+                ->where('enterprise_id', $request->query('enterprise_id'))
+                ->where('user_id', $request->query('user_id'))
+                ->get();
     return response()->json(['heard' => $heard]);
   }
   public function remove_animal(Request $request)
