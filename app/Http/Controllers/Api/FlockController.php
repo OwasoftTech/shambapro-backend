@@ -76,8 +76,8 @@ class FlockController extends Controller
     $flocks =  Flock::from('flock as fk')
               ->leftjoin('farm_store_history as fsh', 'fk.id',  'fsh.flock_id')
               ->select('fsh.quantity as qunatity','fk.*') 
-              ->where('enterprise_id', $request->query('enterprise_id'))
-              ->where('user_id', $request->query('user_id'))
+              ->where('fk.enterprise_id', $request->query('enterprise_id'))
+              ->where('fk.user_id', $request->query('user_id'))
       ->paginate(15);
 
     return response()->json(['flocks' => $flocks]);
